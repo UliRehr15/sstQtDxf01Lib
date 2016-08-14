@@ -1,28 +1,24 @@
-TEMPLATE	= lib
-CONFIG		+= warn_on
-CONFIG    -= qt
-CONFIG    -= windows
+#-------------------------------------------------
+#
+# Project created by QtCreator 2016-07-05T06:04:05
+#
+#-------------------------------------------------
 
-# CONFIG    -= debug  # ist RELEASE aktiv
-CONFIG    -= release  # ist DEBUG aktiv
+QT       -= gui
 
-CONFIG    += staticlib
+TARGET = sstQtDxf01Lib
+TEMPLATE = lib
+CONFIG += staticlib
 
-INCLUDEPATH = ./Header
+SOURCES += \
+    sstQtDxf01Lib.cpp
 
-# SOURCES		+= str1_lib1.cpp
-HEADERS		+= ./Header/sstTemplateLib.h
-HEADERS		+= sstTemplateLibInt.h
-SOURCES		+= sstTemplateLib.cpp
+HEADERS += \
+    sstQtDxf01Lib.h
 
-OTHER_FILES += readme.txt
+OTHER_FILES += README.md
 
-debug{
-  TARGET		= sstTemplateLib_d
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
 }
-release{
-  TARGET		= sstTemplateLib_r
-}
-
-DESTDIR     = ../libs
-
