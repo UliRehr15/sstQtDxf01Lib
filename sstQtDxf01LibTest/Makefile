@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
+INCPATH       = -I. -I../../sstQt01Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /home/uli-le/Qt/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = sstQtDxf01LibTest1.0.0
 DISTDIR = /home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest/.tmp/sstQtDxf01LibTest1.0.0
 LINK          = g++
 LFLAGS        = -m32 -Wl,-rpath,/home/uli-le/Qt/5.5/gcc -Wl,-rpath,/home/uli-le/Qt/5.5/gcc/lib
-LIBS          = $(SUBLIBS) ../../libs/libsst_dxf02_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) ../../libs/libsstQt01Lib_d.a ../../libs/libsst_dxf02_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -192,7 +192,8 @@ DIST          = ../../../Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/lex.prf \
 		sstQtDxf01LibTest.pro shapeitem.h \
-		sortingbox.h shapeitem.cpp \
+		sortingbox.h \
+		sstQtDxf01LibTest.h shapeitem.cpp \
 		sortingbox.cpp \
 		sstQtDxf01LibTest.cpp
 QMAKE_TARGET  = sstQtDxf01LibTest
@@ -519,7 +520,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents tooltips.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents shapeitem.h sortingbox.h $(DISTDIR)/
+	$(COPY_FILE) --parents shapeitem.h sortingbox.h sstQtDxf01LibTest.h $(DISTDIR)/
 	$(COPY_FILE) --parents shapeitem.cpp sortingbox.cpp sstQtDxf01LibTest.cpp $(DISTDIR)/
 
 
@@ -655,12 +656,17 @@ moc_sortingbox.cpp: ../../../Qt/5.5/gcc/include/QtWidgets/QWidget \
 		../../../Qt/5.5/gcc/include/QtCore/qfiledevice.h \
 		../../../Qt/5.5/gcc/include/QtGui/qvector2d.h \
 		../../../Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
+		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sstQt01Lib/Header/sstQt01Lib.h \
+		sstQtDxf01LibTest.h \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \
 		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
 		../../../Qt/5.5/gcc/include/QtCore/QPoint \
 		sortingbox.h
-	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
+	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1123,7 +1129,10 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \
 		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../../Qt/5.5/gcc/include/QtCore/QPoint
+		../../../Qt/5.5/gcc/include/QtCore/QPoint \
+		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sstQt01Lib/Header/sstQt01Lib.h \
+		sstQtDxf01LibTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shapeitem.o shapeitem.cpp
 
 sortingbox.o: sortingbox.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
@@ -1570,6 +1579,9 @@ sortingbox.o: sortingbox.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sstQt01Lib/Header/sstQt01Lib.h \
+		sstQtDxf01LibTest.h \
 		sortingbox.h \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \
@@ -2019,6 +2031,11 @@ sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../../Qt/5.5/gcc/include/QtWidgets
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
+		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sstQt01Lib/Header/sstQt01Lib.h \
+		sstQtDxf01LibTest.h \
 		sortingbox.h \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \

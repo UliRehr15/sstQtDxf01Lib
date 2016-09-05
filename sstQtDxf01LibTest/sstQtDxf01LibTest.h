@@ -22,25 +22,20 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01LibTest.cpp    14.08.16  Re.    14.08.16  Re.
+// sstQtDxf01LibTest.h   02.09.16  Re.   02.09.16  Re.
+//
+// Datastructures and Prototypes for system "sstQtDxf01LibTest"
+//
 
-#include <QtWidgets>
+#ifndef   _SST_QT_DXF01_LIB_TEST_HEADER
+#define   _SST_QT_DXF01_LIB_TEST_HEADER
 
-#include <sstStr01Lib.h>
-#include <sstMisc01Lib.h>
-#include <sstRec04Lib.h>
-#include <sstQt01Lib.h>
+// Defines ---------------------------------------------------------------------
 
-#include "sstQtDxf01LibTest.h"
-#include "sortingbox.h"
+// forward declaration ---------------------------------------------------------
 
-int main(int argc, char *argv[])
-{
-    Q_INIT_RESOURCE(tooltips);
+// Structures and Classes ------------------------------------------------------
 
-    QApplication app(argc, argv);
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    SortingBox sortingBox;
-    sortingBox.show();
-    return app.exec();
-}
+#endif
+
+// --------------------------------------------------------------- File End ----

@@ -3,11 +3,13 @@ QT += widgets
 # CONFIG       -= debug  # RELEASE ist aktiv
 CONFIG       -= release  # DEBUG ist aktiv
 
+INCLUDEPATH +=  ../../sstQt01Lib/Header
 INCLUDEPATH +=  ../../sst_str01_lib/Header
 INCLUDEPATH +=  ../../sst_misc01_lib/Header
 INCLUDEPATH +=  ../../sst_rec04_lib/Header
 
 debug{
+  LIBS        += ../../libs/libsstQt01Lib_d.a
   LIBS        += ../../libs/libsst_dxf02_lib_d.a
   LIBS        += ../../libs/libsst_rec04_lib_d.a
   LIBS        += ../../libs/libsst_misc01_lib_d.a
@@ -31,11 +33,16 @@ release{
 
 
 HEADERS       = shapeitem.h \
-                sortingbox.h
+                sortingbox.h \
+                sstQtDxf01LibTest.h
+
+
 SOURCES       = \
                 shapeitem.cpp \
                 sortingbox.cpp \
     sstQtDxf01LibTest.cpp
+#    sstQt01PathStorage.cpp
+
 RESOURCES     = tooltips.qrc
 
 # install

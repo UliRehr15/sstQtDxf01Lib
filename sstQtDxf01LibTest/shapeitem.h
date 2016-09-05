@@ -31,6 +31,14 @@
 #include <QPainterPath>
 #include <QPoint>
 
+#include <sstStr01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstQt01Lib.h>
+
+#include "sstQtDxf01LibTest.h"
+
+
 //! [0]
 class ShapeItem
 {
@@ -51,73 +59,73 @@ private:
     QColor myColor;
     QString myToolTip;
 };
+////==============================================================================
+///**
+//* @brief Definition Class sstQt01PathElementCsvCls
+//*
+//* template for sst base class <BR>
+//*
+//* Changed: 10.08.16  Re.
+//*
+//* @ingroup sstQtDxf01Lib
+//*
+//* @author Re.
+//*
+//* @date 10.08.16
+//*/
+//// ----------------------------------------------------------------------------
+//class sstQt01PathElementCsvCls
+//{
+//  public:   // Public functions
+//     sstQt01PathElementCsvCls();  // Constructor
+//    //~sstTestBaseCls();  // Destructor
+//     //==============================================================================
+//     /**
+//     * @brief // Shortstory <BR>
+//     * iStat = oTestBase.Func_1(iKey);
+//     *
+//     * @param iKey [in] For the moment 0
+//     *
+//     * @return Errorstate
+//     *
+//     * @retval   = 0: OK
+//     * @retval   < 0: Unspecified Error
+//     */
+//     // ----------------------------------------------------------------------------
+//    // int Func_1(int iKey);
+//     int ReadFromCsv(int iKey, std::string oCsvStr, std::string *oErrStr);
+//     int WriteToCsv(int iKey, std::string *oCsvStr, std::string *oErrStr);
+//     // void setAll(int iType,int iXX, int iYY, int iColR, int iColG, int iColB );
+//     void setAll(int iType,int iXX, int iYY, QColor oCol);
 
-//==============================================================================
-/**
-* @brief Definition Class sstQtDxf01ShapeItemCsvCls
-*
-* template for sst base class <BR>
-*
-* Changed: 10.08.16  Re.
-*
-* @ingroup sstQtDxf01Lib
-*
-* @author Re.
-*
-* @date 10.08.16
-*/
-// ----------------------------------------------------------------------------
-class sstQtDxf01ShapeItemCsvCls
-{
-  public:   // Public functions
-     sstQtDxf01ShapeItemCsvCls();  // Constructor
-    //~sstTestBaseCls();  // Destructor
-     //==============================================================================
-     /**
-     * @brief // Shortstory <BR>
-     * iStat = oTestBase.Func_1(iKey);
-     *
-     * @param iKey [in] For the moment 0
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-    // int Func_1(int iKey);
-     int ReadFromCsv(int iKey, std::string oCsvStr, std::string *oErrStr);
-     int WriteToCsv(int iKey, std::string *oCsvStr, std::string *oErrStr);
-     void setAll(int iTmpType,int iTmpXX, int iTmpYY, int iTmpColR, int iTmpColG, int iTmpColB );
+//// ----------------------------------------------------------------------------
+//     int getIType() const;
+//     void setIType(int value);
 
-// ----------------------------------------------------------------------------
-     int getIType() const;
-     void setIType(int value);
+//     int getIXX() const;
+//     void setIXX(int value);
 
-     int getIXX() const;
-     void setIXX(int value);
+//     int getIYY() const;
+//     void setIYY(int value);
 
-     int getIYY() const;
-     void setIYY(int value);
+//     int getIColR() const;
+//     void setIColR(int value);
 
-     int getIColR() const;
-     void setIColR(int value);
+//     int getIColG() const;
+//     void setIColG(int value);
 
-     int getIColG() const;
-     void setIColG(int value);
+//     int getIColB() const;
+//     void setIColB(int value);
 
-     int getIColB() const;
-     void setIColB(int value);
-
-private:  // Private functions
-     int iType;        /**< Shape Item Type */
-     int iXX;          /**< Coordinate X */
-     int iYY;          /**< Coordinate Y */
-     int iColR;        /**< Color Red */
-     int iColG;        /**< Color Green */
-     int iColB;        /**< Color Blue */
-};
-//-----------------------------------------------------------------------------
+//private:  // Private functions
+//     int iType;        /**< Shape Item Type */
+//     int iXX;          /**< Coordinate X */
+//     int iYY;          /**< Coordinate Y */
+//     int iColR;        /**< Color Red */
+//     int iColG;        /**< Color Green */
+//     int iColB;        /**< Color Blue */
+//};
+////-----------------------------------------------------------------------------
 
 //! [0]
 

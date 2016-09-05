@@ -29,6 +29,12 @@
 
 #include <QWidget>
 
+#include <sstStr01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstQt01Lib.h>
+
+#include "sstQtDxf01LibTest.h"
 #include "shapeitem.h"
 
 QT_BEGIN_NAMESPACE
@@ -67,6 +73,10 @@ private:
                          const QPoint &pos, const QColor &color);
     int itemAt(const QPoint &pos);
     void moveItemTo(const QPoint &pos);
+    int ItemsLoadFromFile (int iKey, sstMisc01AscFilCls *oPainterCsvFile);
+    int ItemsLoadFromFile2 (int iKey, sstMisc01AscFilCls *oPainterCsvFile);
+    int ItemsLoadFromFile3 (int iKey);
+    int ItemsCreate (int iKey);
     QPoint initialItemPosition(const QPainterPath &path);
     QPoint randomItemPosition();
     QColor initialItemColor();
@@ -87,6 +97,7 @@ private:
     QToolButton *newCircleButton;
     QToolButton *newSquareButton;
     QToolButton *newTriangleButton;
+    sstQt01PathStorageCls *oPathStorage;
 };
 //! [2]
 
