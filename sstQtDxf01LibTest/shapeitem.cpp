@@ -22,14 +22,25 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01LibTest.cpp    14.08.16  Re.    14.08.16  Re.
+// shapeitem.cpp    14.08.16  Re.    14.08.16  Re.
 
 #include <QtWidgets>
 
 #include <assert.h>
 
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
 #include <sstStr01Lib.h>
 #include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstDxf03Lib.h>
+#include <sstQt01Lib.h>
+#include <sstQtDxf01Lib.h>
 
 #include "shapeitem.h"
 

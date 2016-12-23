@@ -4,17 +4,37 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+TEMPLATE	= lib
+CONFIG		+= warn_on
+CONFIG    += qt
+CONFIG += c++11
+
+
+# CONFIG    -= debug  # ist RELEASE aktiv
+CONFIG    -= release  # ist DEBUG aktiv
+
 
 TARGET = sstQtDxf01Lib
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += \
-    sstQtDxf01Lib.cpp
+INCLUDEPATH +=  ../dxflib/Header
+INCLUDEPATH +=  ../sstLibreCAD2Lib/Header
+INCLUDEPATH +=  ../sst_dxf03_lib/Header
+INCLUDEPATH +=  ../sstQt01Lib/Header
+INCLUDEPATH +=  ../sst_rec04_lib/Header
+INCLUDEPATH +=  ../sst_misc01_lib/Header
+INCLUDEPATH +=  ../sst_str01_lib/Header
+INCLUDEPATH +=  ./Header
 
-HEADERS += \
-    sstQtDxf01Lib.h
+
+SOURCES += \
+#    sstQtDxf01Lib.cpp  \
+    sstQtDxf01PathStorage.cpp
+#    sstQtDxf01PathElement.cpp
+
+
+HEADERS += ./Header/sstQtDxf01Lib.h
 
 OTHER_FILES += README.md
 
@@ -22,3 +42,13 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+debug{
+  TARGET		= sstQtDxf01Lib_d
+}
+release{
+  TARGET		= sstQtDxf01Lib_r
+}
+
+
+DESTDIR     = ../libs

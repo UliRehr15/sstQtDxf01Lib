@@ -26,10 +26,19 @@
 
 #include <QtWidgets>
 
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
 #include <sstStr01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
+#include <sstDxf03Lib.h>
 #include <sstQt01Lib.h>
+#include <sstQtDxf01Lib.h>
 
 #include "sstQtDxf01LibTest.h"
 #include "sortingbox.h"

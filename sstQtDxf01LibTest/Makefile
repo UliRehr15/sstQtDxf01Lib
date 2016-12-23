@@ -14,8 +14,8 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../sstQt01Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
+CXXFLAGS      = -m32 -pipe -g -std=c++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+INCPATH       = -I. -I../../dxflib/Header -I../../sstLibreCAD2Lib/Header -I../../sst_dxf03_lib/Header -I../../sstQt01Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /home/uli-le/Qt/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = sstQtDxf01LibTest1.0.0
 DISTDIR = /home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest/.tmp/sstQtDxf01LibTest1.0.0
 LINK          = g++
 LFLAGS        = -m32 -Wl,-rpath,/home/uli-le/Qt/5.5/gcc -Wl,-rpath,/home/uli-le/Qt/5.5/gcc/lib
-LIBS          = $(SUBLIBS) ../../libs/libsstQt01Lib_d.a ../../libs/libsst_dxf02_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) ../../libs/libsstQtDxf01Lib_d.a ../../libs/libsstQt01Lib_d.a ../../libs/libsst_dxf03_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libsstLibreCAD2Lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -180,6 +180,7 @@ DIST          = ../../../Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/default_pre.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/resolve_config.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/default_post.prf \
+		../../../Qt/5.5/gcc/mkspecs/features/c++11.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/warn_on.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/qt.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/resources.prf \
@@ -349,6 +350,7 @@ Makefile: sstQtDxf01LibTest.pro ../../../Qt/5.5/gcc/mkspecs/linux-g++-32/qmake.c
 		../../../Qt/5.5/gcc/mkspecs/features/default_pre.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/resolve_config.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/default_post.prf \
+		../../../Qt/5.5/gcc/mkspecs/features/c++11.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/warn_on.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/qt.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/resources.prf \
@@ -489,6 +491,7 @@ Makefile: sstQtDxf01LibTest.pro ../../../Qt/5.5/gcc/mkspecs/linux-g++-32/qmake.c
 ../../../Qt/5.5/gcc/mkspecs/features/default_pre.prf:
 ../../../Qt/5.5/gcc/mkspecs/features/resolve_config.prf:
 ../../../Qt/5.5/gcc/mkspecs/features/default_post.prf:
+../../../Qt/5.5/gcc/mkspecs/features/c++11.prf:
 ../../../Qt/5.5/gcc/mkspecs/features/warn_on.prf:
 ../../../Qt/5.5/gcc/mkspecs/features/qt.prf:
 ../../../Qt/5.5/gcc/mkspecs/features/resources.prf:
@@ -656,17 +659,31 @@ moc_sortingbox.cpp: ../../../Qt/5.5/gcc/include/QtWidgets/QWidget \
 		../../../Qt/5.5/gcc/include/QtCore/qfiledevice.h \
 		../../../Qt/5.5/gcc/include/QtGui/qvector2d.h \
 		../../../Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
+		../../dxflib/Header/dl_dxf.h \
+		../../dxflib/Header/dl_global.h \
+		../../dxflib/Header/dl_attributes.h \
+		../../dxflib/Header/dl_codes.h \
+		../../dxflib/Header/dl_entities.h \
+		../../dxflib/Header/dl_writer_ascii.h \
+		../../dxflib/Header/dl_writer.h \
+		../../dxflib/Header/dl_creationadapter.h \
+		../../dxflib/Header/dl_creationinterface.h \
+		../../dxflib/Header/dl_extrusion.h \
+		../../sstLibreCAD2Lib/Header/rs_vector.h \
+		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \
 		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
 		../../../Qt/5.5/gcc/include/QtCore/QPoint \
 		sortingbox.h
-	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
+	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/dxflib/Header -I/home/uli-le/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli-le/Entwicklung/sst_dxf03_lib/Header -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Entwicklung/sstQtDxf01Lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1124,14 +1141,28 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
+		../../dxflib/Header/dl_dxf.h \
+		../../dxflib/Header/dl_global.h \
+		../../dxflib/Header/dl_attributes.h \
+		../../dxflib/Header/dl_codes.h \
+		../../dxflib/Header/dl_entities.h \
+		../../dxflib/Header/dl_writer_ascii.h \
+		../../dxflib/Header/dl_writer.h \
+		../../dxflib/Header/dl_creationadapter.h \
+		../../dxflib/Header/dl_creationinterface.h \
+		../../dxflib/Header/dl_extrusion.h \
+		../../sstLibreCAD2Lib/Header/rs_vector.h \
+		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
+		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../Header/sstQtDxf01Lib.h \
 		shapeitem.h \
 		../../../Qt/5.5/gcc/include/QtGui/QColor \
 		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
 		../../../Qt/5.5/gcc/include/QtCore/QPoint \
-		../../sst_rec04_lib/Header/sstRec04Lib.h \
-		../../sstQt01Lib/Header/sstQt01Lib.h \
 		sstQtDxf01LibTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shapeitem.o shapeitem.cpp
 
@@ -1577,10 +1608,24 @@ sortingbox.o: sortingbox.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
+		../../dxflib/Header/dl_dxf.h \
+		../../dxflib/Header/dl_global.h \
+		../../dxflib/Header/dl_attributes.h \
+		../../dxflib/Header/dl_codes.h \
+		../../dxflib/Header/dl_entities.h \
+		../../dxflib/Header/dl_writer_ascii.h \
+		../../dxflib/Header/dl_writer.h \
+		../../dxflib/Header/dl_creationadapter.h \
+		../../dxflib/Header/dl_creationinterface.h \
+		../../dxflib/Header/dl_extrusion.h \
+		../../sstLibreCAD2Lib/Header/rs_vector.h \
+		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h \
 		sortingbox.h \
 		shapeitem.h \
@@ -2031,10 +2076,24 @@ sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../../Qt/5.5/gcc/include/QtWidgets
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
+		../../dxflib/Header/dl_dxf.h \
+		../../dxflib/Header/dl_global.h \
+		../../dxflib/Header/dl_attributes.h \
+		../../dxflib/Header/dl_codes.h \
+		../../dxflib/Header/dl_entities.h \
+		../../dxflib/Header/dl_writer_ascii.h \
+		../../dxflib/Header/dl_writer.h \
+		../../dxflib/Header/dl_creationadapter.h \
+		../../dxflib/Header/dl_creationinterface.h \
+		../../dxflib/Header/dl_extrusion.h \
+		../../sstLibreCAD2Lib/Header/rs_vector.h \
+		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
+		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h \
 		sortingbox.h \
 		shapeitem.h \

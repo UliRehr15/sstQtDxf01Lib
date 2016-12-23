@@ -24,9 +24,32 @@
 **********************************************************************/
 // sstQtDxf01Lib.cpp    14.08.16  Re.    14.08.16  Re.
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
+#include <string>
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
+#include <QColor>
+#include <QPainterPath>
+#include <QPoint>
+
+#include <sstStr01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstQt01Lib.h>
+#include <sstDxf03Lib.h>
+
 #include "sstQtDxf01Lib.h"
 
 
-SstQtDxf01Lib::SstQtDxf01Lib()
-{
-}
+//SstQtDxf01Lib::SstQtDxf01Lib()
+//{
+//}

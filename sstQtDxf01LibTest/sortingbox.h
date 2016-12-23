@@ -29,10 +29,17 @@
 
 #include <QWidget>
 
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
 #include <sstStr01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
+#include <sstDxf03Lib.h>
 #include <sstQt01Lib.h>
+#include <sstQtDxf01Lib.h>
 
 #include "sstQtDxf01LibTest.h"
 #include "shapeitem.h"
@@ -43,7 +50,8 @@ class QPoint;
 class QToolButton;
 QT_END_NAMESPACE
 
-//! [0]
+class sstQtDxf01LibPathCls;
+
 class SortingBox : public QWidget
 {
     Q_OBJECT
@@ -64,28 +72,23 @@ private slots:
     void createNewCircle();
     void createNewSquare();
     void createNewTriangle();
-//! [0]
 
-//! [1]
 private:
     int updateButtonGeometry(QToolButton *button, int x, int y);
     void createShapeItem(const QPainterPath &path, const QString &toolTip,
                          const QPoint &pos, const QColor &color);
     int itemAt(const QPoint &pos);
     void moveItemTo(const QPoint &pos);
-    int ItemsLoadFromFile (int iKey, sstMisc01AscFilCls *oPainterCsvFile);
-    int ItemsLoadFromFile2 (int iKey, sstMisc01AscFilCls *oPainterCsvFile);
-    int ItemsLoadFromFile3 (int iKey);
+    int ItemsLoadFromFile (int iKey);
+    int ItemsLoadFromDxfDb (int iKey,sstQtDxf01LibPathCls *poDxfPath);
     int ItemsCreate (int iKey);
     QPoint initialItemPosition(const QPainterPath &path);
     QPoint randomItemPosition();
     QColor initialItemColor();
     QColor randomItemColor();
     QToolButton *createToolButton(const QString &toolTip, const QIcon &icon,
-//! [1]
                                   const char *member);
 
-//! [2]
     QList<ShapeItem> shapeItems;
     QPainterPath circlePath;
     QPainterPath squarePath;
@@ -98,7 +101,51 @@ private:
     QToolButton *newSquareButton;
     QToolButton *newTriangleButton;
     sstQt01PathStorageCls *oPathStorage;
+    sstMisc01PrtFilCls *oPrt;
 };
-//! [2]
+
+//==============================================================================
+/**
+* @brief // sstQtDxf01LibPathCls <BR>
+*
+* template for sst base class <BR>
+*
+* Changed: 09.07.15  Re.
+*
+* @ingroup sstTemplateLib
+*
+* @author Re.
+*
+* @date 09.07.15
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01LibPathCls
+{
+  public:   // Public functions
+  sstQtDxf01LibPathCls(sstDxf03DbCls *poDxfDb);  // Constructor
+    //~sstTestBaseCls();  // Destructor
+     //==============================================================================
+     /**
+     * @brief // read object from dxf db into PainterPath <BR>
+     * iStat = oPathDxfDbConvert.ReadNextPath ( iKey, &dMainRecNo, &poPath, &poColor);
+     *
+     * @param iKey [in] For the moment 0
+     * @param dMainRecNo [in out] actual record number in dxf-db main table
+     * @param poPath     [in out] return filled path
+     * @param poColor    [in out] return color of path
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+  int ReadNextPath(int iKey,dREC04RECNUMTYP *dMainRecNo, QPainterPath *poPath,  QColor *poColor);
+// ----------------------------------------------------------------------------
+  private:  // Private functions
+  sstDxf03DbCls *poDxfDb;  /**< Adress of Dxf Database */
+};
+//-----------------------------------------------------------------------------
+
 
 #endif
