@@ -18,6 +18,8 @@ TARGET = sstQtDxf01Lib
 TEMPLATE = lib
 CONFIG += staticlib
 
+QT += widgets
+
 INCLUDEPATH +=  ../dxflib/Header
 INCLUDEPATH +=  ../sstLibreCAD2Lib/Header
 INCLUDEPATH +=  ../sst_dxf03_lib/Header

@@ -102,11 +102,12 @@ class sstQtDxf01PathStorageCls
      int WrtPath2Dxf(int iKey,  QPainterPath oPath, QColor oColor);
      //==============================================================================
      /**
-     * @brief // read next QPainterPath object from sst table object.  <BR>
+     * @brief // read next QPainterPath object from sst dxf database.  <BR>
      *
-     * @param iKey   [in] For the moment 0
-     * @param oPath  [out] QPainterPath object
-     * @param oColor [out] Color of Path
+     * @param iKey       [in] For the moment 0
+     * @param dMainRecNo [in][out] main record number in sst dxf database
+     * @param poPath     [out] QPainterPath object
+     * @param poColor    [out] Color of Path
      *
      * @return Errorstate
      *
@@ -114,7 +115,7 @@ class sstQtDxf01PathStorageCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int ReadNextPath(int iKey,  QPainterPath *oPath, QColor *oColor);
+     int ReadNextPath(int iKey, dREC04RECNUMTYP *dMainRecNo,  QPainterPath *poPath, QColor *poColor);
      //==============================================================================
      /**
      * @brief // transform coordinates of HatchEdge from device to world coordinate system  <BR>
@@ -236,8 +237,8 @@ class sstQtDxf01PathStorageCls
   private:  // Private functions
      sstRec04Cls *poShapeItemRecTable;  /**< painter path element table */
      dREC04RECNUMTYP dActualReadPos;    /**< actual read position in table */
-     sstDxf03DbCls *poDxfDb;
-     sstMisc01PrtFilCls oPrt;
+     sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
+     sstMisc01PrtFilCls oPrt;           /**< protocol file */
 };
 //==============================================================================
 

@@ -48,12 +48,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = shapeitem.cpp \
-		sortingbox.cpp \
+SOURCES       = sortingbox.cpp \
 		sstQtDxf01LibTest.cpp qrc_tooltips.cpp \
 		moc_sortingbox.cpp
-OBJECTS       = shapeitem.o \
-		sortingbox.o \
+OBJECTS       = sortingbox.o \
 		sstQtDxf01LibTest.o \
 		qrc_tooltips.o \
 		moc_sortingbox.o
@@ -192,10 +190,8 @@ DIST          = ../../../Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/exceptions.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/yacc.prf \
 		../../../Qt/5.5/gcc/mkspecs/features/lex.prf \
-		sstQtDxf01LibTest.pro shapeitem.h \
-		sortingbox.h \
-		sstQtDxf01LibTest.h shapeitem.cpp \
-		sortingbox.cpp \
+		sstQtDxf01LibTest.pro sortingbox.h \
+		sstQtDxf01LibTest.h sortingbox.cpp \
 		sstQtDxf01LibTest.cpp
 QMAKE_TARGET  = sstQtDxf01LibTest
 DESTDIR       = #avoid trailing-slash linebreak
@@ -523,8 +519,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents tooltips.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents shapeitem.h sortingbox.h sstQtDxf01LibTest.h $(DISTDIR)/
-	$(COPY_FILE) --parents shapeitem.cpp sortingbox.cpp sstQtDxf01LibTest.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents sortingbox.h sstQtDxf01LibTest.h $(DISTDIR)/
+	$(COPY_FILE) --parents sortingbox.cpp sstQtDxf01LibTest.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -676,116 +672,27 @@ moc_sortingbox.cpp: ../../../Qt/5.5/gcc/include/QtWidgets/QWidget \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
-		../Header/sstQtDxf01Lib.h \
-		sstQtDxf01LibTest.h \
-		shapeitem.h \
-		../../../Qt/5.5/gcc/include/QtGui/QColor \
-		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../../Qt/5.5/gcc/include/QtCore/QPoint \
-		sortingbox.h
-	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/dxflib/Header -I/home/uli-le/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli-le/Entwicklung/sst_dxf03_lib/Header -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Entwicklung/sstQtDxf01Lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
-
-compiler_moc_source_make_all:
-compiler_moc_source_clean:
-compiler_uic_make_all:
-compiler_uic_clean:
-compiler_yacc_decl_make_all:
-compiler_yacc_decl_clean:
-compiler_yacc_impl_make_all:
-compiler_yacc_impl_clean:
-compiler_lex_make_all:
-compiler_lex_clean:
-compiler_clean: compiler_rcc_clean compiler_moc_header_clean 
-
-####### Compile
-
-shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
+		../../../Qt/5.5/gcc/include/QtWidgets/QDialog \
+		../../../Qt/5.5/gcc/include/QtWidgets/qdialog.h \
+		../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/QtWidgetsDepends \
 		../../../Qt/5.5/gcc/include/QtCore/QtCore \
 		../../../Qt/5.5/gcc/include/QtCore/QtCoreDepends \
 		../../../Qt/5.5/gcc/include/QtCore/qabstractanimation.h \
-		../../../Qt/5.5/gcc/include/QtCore/qobject.h \
-		../../../Qt/5.5/gcc/include/QtCore/qobjectdefs.h \
-		../../../Qt/5.5/gcc/include/QtCore/qnamespace.h \
-		../../../Qt/5.5/gcc/include/QtCore/qglobal.h \
-		../../../Qt/5.5/gcc/include/QtCore/qconfig.h \
-		../../../Qt/5.5/gcc/include/QtCore/qfeatures.h \
-		../../../Qt/5.5/gcc/include/QtCore/qsystemdetection.h \
-		../../../Qt/5.5/gcc/include/QtCore/qprocessordetection.h \
-		../../../Qt/5.5/gcc/include/QtCore/qcompilerdetection.h \
-		../../../Qt/5.5/gcc/include/QtCore/qtypeinfo.h \
-		../../../Qt/5.5/gcc/include/QtCore/qtypetraits.h \
-		../../../Qt/5.5/gcc/include/QtCore/qsysinfo.h \
-		../../../Qt/5.5/gcc/include/QtCore/qlogging.h \
-		../../../Qt/5.5/gcc/include/QtCore/qflags.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic.h \
-		../../../Qt/5.5/gcc/include/QtCore/qbasicatomic.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_bootstrap.h \
-		../../../Qt/5.5/gcc/include/QtCore/qgenericatomic.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_cxx11.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_gcc.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_msvc.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_armv7.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_armv6.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_armv5.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_ia64.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_mips.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_x86.h \
-		../../../Qt/5.5/gcc/include/QtCore/qatomic_unix.h \
-		../../../Qt/5.5/gcc/include/QtCore/qglobalstatic.h \
-		../../../Qt/5.5/gcc/include/QtCore/qmutex.h \
-		../../../Qt/5.5/gcc/include/QtCore/qnumeric.h \
-		../../../Qt/5.5/gcc/include/QtCore/qobjectdefs_impl.h \
-		../../../Qt/5.5/gcc/include/QtCore/qstring.h \
-		../../../Qt/5.5/gcc/include/QtCore/qchar.h \
-		../../../Qt/5.5/gcc/include/QtCore/qbytearray.h \
-		../../../Qt/5.5/gcc/include/QtCore/qrefcount.h \
-		../../../Qt/5.5/gcc/include/QtCore/qarraydata.h \
-		../../../Qt/5.5/gcc/include/QtCore/qstringbuilder.h \
-		../../../Qt/5.5/gcc/include/QtCore/qlist.h \
-		../../../Qt/5.5/gcc/include/QtCore/qalgorithms.h \
-		../../../Qt/5.5/gcc/include/QtCore/qiterator.h \
-		../../../Qt/5.5/gcc/include/QtCore/qbytearraylist.h \
-		../../../Qt/5.5/gcc/include/QtCore/qstringlist.h \
-		../../../Qt/5.5/gcc/include/QtCore/qregexp.h \
-		../../../Qt/5.5/gcc/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.5/gcc/include/QtCore/qcoreevent.h \
-		../../../Qt/5.5/gcc/include/QtCore/qscopedpointer.h \
-		../../../Qt/5.5/gcc/include/QtCore/qmetatype.h \
-		../../../Qt/5.5/gcc/include/QtCore/qvarlengtharray.h \
-		../../../Qt/5.5/gcc/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.5/gcc/include/QtCore/qisenum.h \
-		../../../Qt/5.5/gcc/include/QtCore/qobject_impl.h \
 		../../../Qt/5.5/gcc/include/QtCore/qanimationgroup.h \
 		../../../Qt/5.5/gcc/include/QtCore/qparallelanimationgroup.h \
 		../../../Qt/5.5/gcc/include/QtCore/qpauseanimation.h \
 		../../../Qt/5.5/gcc/include/QtCore/qpropertyanimation.h \
 		../../../Qt/5.5/gcc/include/QtCore/qvariantanimation.h \
 		../../../Qt/5.5/gcc/include/QtCore/qeasingcurve.h \
-		../../../Qt/5.5/gcc/include/QtCore/qvector.h \
-		../../../Qt/5.5/gcc/include/QtCore/qpoint.h \
-		../../../Qt/5.5/gcc/include/QtCore/qvariant.h \
-		../../../Qt/5.5/gcc/include/QtCore/qmap.h \
-		../../../Qt/5.5/gcc/include/QtCore/qpair.h \
-		../../../Qt/5.5/gcc/include/QtCore/qdebug.h \
-		../../../Qt/5.5/gcc/include/QtCore/qhash.h \
-		../../../Qt/5.5/gcc/include/QtCore/qtextstream.h \
-		../../../Qt/5.5/gcc/include/QtCore/qiodevice.h \
-		../../../Qt/5.5/gcc/include/QtCore/qlocale.h \
-		../../../Qt/5.5/gcc/include/QtCore/qshareddata.h \
-		../../../Qt/5.5/gcc/include/QtCore/qset.h \
-		../../../Qt/5.5/gcc/include/QtCore/qcontiguouscache.h \
 		../../../Qt/5.5/gcc/include/QtCore/qsequentialanimationgroup.h \
 		../../../Qt/5.5/gcc/include/QtCore/qtextcodec.h \
 		../../../Qt/5.5/gcc/include/QtCore/qendian.h \
 		../../../Qt/5.5/gcc/include/QtCore/qlibraryinfo.h \
 		../../../Qt/5.5/gcc/include/QtCore/qdatetime.h \
 		../../../Qt/5.5/gcc/include/QtCore/qbuffer.h \
-		../../../Qt/5.5/gcc/include/QtCore/qdatastream.h \
 		../../../Qt/5.5/gcc/include/QtCore/qdir.h \
 		../../../Qt/5.5/gcc/include/QtCore/qfileinfo.h \
-		../../../Qt/5.5/gcc/include/QtCore/qfile.h \
-		../../../Qt/5.5/gcc/include/QtCore/qfiledevice.h \
 		../../../Qt/5.5/gcc/include/QtCore/qdiriterator.h \
 		../../../Qt/5.5/gcc/include/QtCore/qfileselector.h \
 		../../../Qt/5.5/gcc/include/QtCore/QObject \
@@ -802,8 +709,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtCore/qtemporarydir.h \
 		../../../Qt/5.5/gcc/include/QtCore/QScopedPointer \
 		../../../Qt/5.5/gcc/include/QtCore/qtemporaryfile.h \
-		../../../Qt/5.5/gcc/include/QtCore/qurl.h \
-		../../../Qt/5.5/gcc/include/QtCore/qurlquery.h \
 		../../../Qt/5.5/gcc/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.5/gcc/include/QtCore/qabstractproxymodel.h \
 		../../../Qt/5.5/gcc/include/QtCore/qidentityproxymodel.h \
@@ -824,8 +729,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtCore/qmimedata.h \
 		../../../Qt/5.5/gcc/include/QtCore/qobjectcleanuphandler.h \
 		../../../Qt/5.5/gcc/include/QtCore/qpointer.h \
-		../../../Qt/5.5/gcc/include/QtCore/qsharedpointer.h \
-		../../../Qt/5.5/gcc/include/QtCore/qsharedpointer_impl.h \
 		../../../Qt/5.5/gcc/include/QtCore/qsharedmemory.h \
 		../../../Qt/5.5/gcc/include/QtCore/qsignalmapper.h \
 		../../../Qt/5.5/gcc/include/QtCore/qsocketnotifier.h \
@@ -871,13 +774,9 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtCore/qcommandlineparser.h \
 		../../../Qt/5.5/gcc/include/QtCore/qcryptographichash.h \
 		../../../Qt/5.5/gcc/include/QtCore/qelapsedtimer.h \
-		../../../Qt/5.5/gcc/include/QtCore/qline.h \
 		../../../Qt/5.5/gcc/include/QtCore/qlinkedlist.h \
-		../../../Qt/5.5/gcc/include/QtCore/qmargins.h \
 		../../../Qt/5.5/gcc/include/QtCore/qmessageauthenticationcode.h \
 		../../../Qt/5.5/gcc/include/QtCore/qqueue.h \
-		../../../Qt/5.5/gcc/include/QtCore/qrect.h \
-		../../../Qt/5.5/gcc/include/QtCore/qsize.h \
 		../../../Qt/5.5/gcc/include/QtCore/qregularexpression.h \
 		../../../Qt/5.5/gcc/include/QtCore/qscopedvaluerollback.h \
 		../../../Qt/5.5/gcc/include/QtCore/qstack.h \
@@ -889,27 +788,10 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtGui/QtGui \
 		../../../Qt/5.5/gcc/include/QtGui/QtGuiDepends \
 		../../../Qt/5.5/gcc/include/QtGui/qaccessible.h \
-		../../../Qt/5.5/gcc/include/QtGui/qcolor.h \
-		../../../Qt/5.5/gcc/include/QtGui/qrgb.h \
-		../../../Qt/5.5/gcc/include/QtGui/qevent.h \
-		../../../Qt/5.5/gcc/include/QtGui/qwindowdefs.h \
-		../../../Qt/5.5/gcc/include/QtGui/qwindowdefs_win.h \
-		../../../Qt/5.5/gcc/include/QtGui/qregion.h \
-		../../../Qt/5.5/gcc/include/QtGui/qkeysequence.h \
-		../../../Qt/5.5/gcc/include/QtGui/qvector2d.h \
-		../../../Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
 		../../../Qt/5.5/gcc/include/QtGui/qaccessiblebridge.h \
 		../../../Qt/5.5/gcc/include/QtGui/qaccessibleobject.h \
 		../../../Qt/5.5/gcc/include/QtGui/qaccessibleplugin.h \
 		../../../Qt/5.5/gcc/include/QtGui/qbitmap.h \
-		../../../Qt/5.5/gcc/include/QtGui/qpixmap.h \
-		../../../Qt/5.5/gcc/include/QtGui/qpaintdevice.h \
-		../../../Qt/5.5/gcc/include/QtGui/qimage.h \
-		../../../Qt/5.5/gcc/include/QtGui/qtransform.h \
-		../../../Qt/5.5/gcc/include/QtGui/qmatrix.h \
-		../../../Qt/5.5/gcc/include/QtGui/qpolygon.h \
-		../../../Qt/5.5/gcc/include/QtGui/qpainterpath.h \
-		../../../Qt/5.5/gcc/include/QtGui/qpixelformat.h \
 		../../../Qt/5.5/gcc/include/QtGui/qicon.h \
 		../../../Qt/5.5/gcc/include/QtGui/qiconengine.h \
 		../../../Qt/5.5/gcc/include/QtGui/qiconengineplugin.h \
@@ -921,10 +803,7 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtGui/qpictureformatplugin.h \
 		../../../Qt/5.5/gcc/include/QtGui/qpixmapcache.h \
 		../../../Qt/5.5/gcc/include/QtGui/qstandarditemmodel.h \
-		../../../Qt/5.5/gcc/include/QtGui/qbrush.h \
-		../../../Qt/5.5/gcc/include/QtGui/qfont.h \
 		../../../Qt/5.5/gcc/include/QtGui/qclipboard.h \
-		../../../Qt/5.5/gcc/include/QtGui/qcursor.h \
 		../../../Qt/5.5/gcc/include/QtGui/qdrag.h \
 		../../../Qt/5.5/gcc/include/QtGui/qgenericplugin.h \
 		../../../Qt/5.5/gcc/include/QtGui/qgenericpluginfactory.h \
@@ -951,7 +830,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtGui/QPaintDevice \
 		../../../Qt/5.5/gcc/include/QtGui/QOpenGLContext \
 		../../../Qt/5.5/gcc/include/QtGui/QImage \
-		../../../Qt/5.5/gcc/include/QtGui/qpalette.h \
 		../../../Qt/5.5/gcc/include/QtGui/qrasterwindow.h \
 		../../../Qt/5.5/gcc/include/QtGui/qscreen.h \
 		../../../Qt/5.5/gcc/include/QtCore/QList \
@@ -984,8 +862,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtGui/qpainter.h \
 		../../../Qt/5.5/gcc/include/QtGui/qtextoption.h \
 		../../../Qt/5.5/gcc/include/QtGui/qpen.h \
-		../../../Qt/5.5/gcc/include/QtGui/qfontinfo.h \
-		../../../Qt/5.5/gcc/include/QtGui/qfontmetrics.h \
 		../../../Qt/5.5/gcc/include/QtGui/qpdfwriter.h \
 		../../../Qt/5.5/gcc/include/QtGui/qabstracttextdocumentlayout.h \
 		../../../Qt/5.5/gcc/include/QtGui/qtextlayout.h \
@@ -1007,9 +883,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtGui/qtguiversion.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qaccessiblewidget.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qcolordialog.h \
-		../../../Qt/5.5/gcc/include/QtWidgets/qdialog.h \
-		../../../Qt/5.5/gcc/include/QtWidgets/qwidget.h \
-		../../../Qt/5.5/gcc/include/QtWidgets/qsizepolicy.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qerrormessage.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qfiledialog.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qfilesystemmodel.h \
@@ -1076,7 +949,6 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/qgesture.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qgesturerecognizer.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qopenglwidget.h \
-		../../../Qt/5.5/gcc/include/QtWidgets/QWidget \
 		../../../Qt/5.5/gcc/include/QtWidgets/qshortcut.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qstackedlayout.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtooltip.h \
@@ -1141,30 +1013,26 @@ shapeitem.o: shapeitem.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
-		../../dxflib/Header/dl_dxf.h \
-		../../dxflib/Header/dl_global.h \
-		../../dxflib/Header/dl_attributes.h \
-		../../dxflib/Header/dl_codes.h \
-		../../dxflib/Header/dl_entities.h \
-		../../dxflib/Header/dl_writer_ascii.h \
-		../../dxflib/Header/dl_writer.h \
-		../../dxflib/Header/dl_creationadapter.h \
-		../../dxflib/Header/dl_creationinterface.h \
-		../../dxflib/Header/dl_extrusion.h \
-		../../sstLibreCAD2Lib/Header/rs_vector.h \
-		../../sstLibreCAD2Lib/Header/rs.h \
-		../../sst_str01_lib/Header/sstStr01Lib.h \
-		../../sst_misc01_lib/Header/sstMisc01Lib.h \
-		../../sst_rec04_lib/Header/sstRec04Lib.h \
-		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
-		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../../../Qt/5.5/gcc/include/QtCore/QAbstractTableModel \
+		../../../Qt/5.5/gcc/include/QtWidgets/QTableView \
 		../Header/sstQtDxf01Lib.h \
-		shapeitem.h \
-		../../../Qt/5.5/gcc/include/QtGui/QColor \
-		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../../Qt/5.5/gcc/include/QtCore/QPoint \
-		sstQtDxf01LibTest.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shapeitem.o shapeitem.cpp
+		sstQtDxf01LibTest.h \
+		sortingbox.h
+	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/dxflib/Header -I/home/uli-le/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli-le/Entwicklung/sst_dxf03_lib/Header -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Entwicklung/sstQtDxf01Lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sortingbox.h -o moc_sortingbox.cpp
+
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_uic_make_all:
+compiler_uic_clean:
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean 
+
+####### Compile
 
 sortingbox.o: sortingbox.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../../Qt/5.5/gcc/include/QtWidgets/QtWidgetsDepends \
@@ -1625,13 +1493,12 @@ sortingbox.o: sortingbox.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../../../Qt/5.5/gcc/include/QtWidgets/QDialog \
+		../../../Qt/5.5/gcc/include/QtCore/QAbstractTableModel \
+		../../../Qt/5.5/gcc/include/QtWidgets/QTableView \
 		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h \
-		sortingbox.h \
-		shapeitem.h \
-		../../../Qt/5.5/gcc/include/QtGui/QColor \
-		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../../Qt/5.5/gcc/include/QtCore/QPoint
+		sortingbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sortingbox.o sortingbox.cpp
 
 sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
@@ -2093,13 +1960,12 @@ sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../../Qt/5.5/gcc/include/QtWidgets
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../../../Qt/5.5/gcc/include/QtWidgets/QDialog \
+		../../../Qt/5.5/gcc/include/QtCore/QAbstractTableModel \
+		../../../Qt/5.5/gcc/include/QtWidgets/QTableView \
 		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h \
-		sortingbox.h \
-		shapeitem.h \
-		../../../Qt/5.5/gcc/include/QtGui/QColor \
-		../../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../../Qt/5.5/gcc/include/QtCore/QPoint
+		sortingbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01LibTest.o sstQtDxf01LibTest.cpp
 
 qrc_tooltips.o: qrc_tooltips.cpp 

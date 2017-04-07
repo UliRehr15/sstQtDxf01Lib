@@ -12,10 +12,11 @@ Structure of coding projects should be:
    [sst_str01_lib]  <BR>
    [sst_misc01_lib]  <BR>
    [sst_rec04_lib]  <BR>
-   [sst_dxf02_lib]  <BR>
+   [sst_dxf03_lib]  <BR>
    [sstQt01Lib]  <BR>
 
-05.07.16: Version 1.0:  github project created. <BR>
-14.08.16: Version 1.1:  qt example widgets/tooltips with storing path geometry in csv file. <BR>
-05.09.16: Version 1.2:  qt example widgets/tooltips with loading path geometry from csv file. <BR>
-23.12.16: Version 1.3:  qt example widgets/tooltips: Reading/Writing Hatches to Dxf-Format. <BR>
+05.07.16: Version 1.0: github project created. <BR>
+14.08.16: Version 1.1: qt example widgets/tooltips with storing path geometry in csv file. <BR>
+05.09.16: Version 1.2: qt example widgets/tooltips with loading path geometry from csv file. <BR>
+23.12.16: Version 1.3: qt example widgets/tooltips: Reading/Writing Hatches to Dxf-Format. <BR>
+07.04.17: Version 1.4: New function ReadNextPath for PathStorageCls Class. <BR>

@@ -42,7 +42,7 @@
 #include <sstQtDxf01Lib.h>
 
 #include "sstQtDxf01LibTest.h"
-#include "shapeitem.h"
+// #include "shapeitem.h"
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -80,7 +80,8 @@ private:
     int itemAt(const QPoint &pos);
     void moveItemTo(const QPoint &pos);
     int ItemsLoadFromFile (int iKey);
-    int ItemsLoadFromDxfDb (int iKey,sstQtDxf01LibPathCls *poDxfPath);
+    // int ItemsLoadFromDxfDb (int iKey,sstQtDxf01LibPathCls *poDxfPath);
+    int ItemsLoadFromDxfDb (int iKey,sstQtDxf01PathStorageCls *poDxfPath);
     int ItemsCreate (int iKey);
     QPoint initialItemPosition(const QPainterPath &path);
     QPoint randomItemPosition();
@@ -89,13 +90,13 @@ private:
     QToolButton *createToolButton(const QString &toolTip, const QIcon &icon,
                                   const char *member);
 
-    QList<ShapeItem> shapeItems;
+    QList<sstQt01ShapeItem> shapeItems;
     QPainterPath circlePath;
     QPainterPath squarePath;
     QPainterPath trianglePath;
 
     QPoint previousPosition;
-    ShapeItem *itemInMotion;
+    sstQt01ShapeItem *itemInMotion;
 
     QToolButton *newCircleButton;
     QToolButton *newSquareButton;
@@ -119,32 +120,32 @@ private:
 * @date 09.07.15
 */
 // ----------------------------------------------------------------------------
-class sstQtDxf01LibPathCls
-{
-  public:   // Public functions
-  sstQtDxf01LibPathCls(sstDxf03DbCls *poDxfDb);  // Constructor
-    //~sstTestBaseCls();  // Destructor
-     //==============================================================================
-     /**
-     * @brief // read object from dxf db into PainterPath <BR>
-     * iStat = oPathDxfDbConvert.ReadNextPath ( iKey, &dMainRecNo, &poPath, &poColor);
-     *
-     * @param iKey [in] For the moment 0
-     * @param dMainRecNo [in out] actual record number in dxf-db main table
-     * @param poPath     [in out] return filled path
-     * @param poColor    [in out] return color of path
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-  int ReadNextPath(int iKey,dREC04RECNUMTYP *dMainRecNo, QPainterPath *poPath,  QColor *poColor);
-// ----------------------------------------------------------------------------
-  private:  // Private functions
-  sstDxf03DbCls *poDxfDb;  /**< Adress of Dxf Database */
-};
+//class sstQtDxf01LibPathCls
+//{
+//  public:   // Public functions
+//  sstQtDxf01LibPathCls(sstDxf03DbCls *poDxfDb);  // Constructor
+//    //~sstTestBaseCls();  // Destructor
+//     //==============================================================================
+//     /**
+//     * @brief // read object from dxf db into PainterPath <BR>
+//     * iStat = oPathDxfDbConvert.ReadNextPath ( iKey, &dMainRecNo, &poPath, &poColor);
+//     *
+//     * @param iKey [in] For the moment 0
+//     * @param dMainRecNo [in out] actual record number in dxf-db main table
+//     * @param poPath     [in out] return filled path
+//     * @param poColor    [in out] return color of path
+//     *
+//     * @return Errorstate
+//     *
+//     * @retval   = 0: OK
+//     * @retval   < 0: Unspecified Error
+//     */
+//     // ----------------------------------------------------------------------------
+//  int ReadNextPath(int iKey,dREC04RECNUMTYP *dMainRecNo, QPainterPath *poPath,  QColor *poColor);
+//// ----------------------------------------------------------------------------
+//  private:  // Private functions
+//  sstDxf03DbCls *poDxfDb;  /**< Adress of Dxf Database */
+//};
 //-----------------------------------------------------------------------------
 
 
