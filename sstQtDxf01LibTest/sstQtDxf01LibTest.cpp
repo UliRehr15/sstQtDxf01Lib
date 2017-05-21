@@ -24,6 +24,9 @@
 **********************************************************************/
 // sstQtDxf01LibTest.cpp    14.08.16  Re.    14.08.16  Re.
 
+#include <assert.h>
+
+#include <QApplication>
 #include <QtWidgets>
 
 #include <list>
@@ -41,15 +44,137 @@
 #include <sstQtDxf01Lib.h>
 
 #include "sstQtDxf01LibTest.h"
-#include "sortingbox.h"
 
+//==============================================================================
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(tooltips);
-
     QApplication app(argc, argv);
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    SortingBox sortingBox;
-    sortingBox.show();
+    Dialog dialog;
+    dialog.show();
+
     return app.exec();
 }
+//==============================================================================
+Dialog::Dialog()
+{
+
+  // open protocol system
+  this->poPrt = new sstMisc01PrtFilCls;
+  this->poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01LibTest.log");
+
+  // open new sst dxf database
+  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sst Dxf database
+  poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
+  int iStat = poDxfPathConvert->LoadDxfFile(0,"sstQtDxf01LibTest.dxf");
+  assert(iStat == 0);
+
+  this->poPathStorage = new sstQt01PathStorageCls;
+
+  // fill Path Storage from dxf database
+  iStat = poDxfPathConvert->WritAlltoPathStorage( 0, this->poPathStorage);
+  assert(iStat == 0);
+
+  this->poPathWidget = new sstQt01PathPaintWidgetCls(this->poPrt, this->poPathStorage);
+
+  delete poDxfPathConvert;
+
+  createMenu();
+    createHorizontalGroupBox();
+    createGridGroupBox();
+    createFormGroupBox();
+
+    bigEditor = new QTextEdit;
+    bigEditor->setPlainText(tr("This widget takes up all the remaining space "
+                               "in the top-level layout."));
+
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                     | QDialogButtonBox::Cancel);
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->setMenuBar(menuBar);
+    // mainLayout->addWidget(horizontalGroupBox);
+    // mainLayout->addWidget(gridGroupBox);
+    // mainLayout->addWidget(formGroupBox);
+    mainLayout->addWidget(this->poPathWidget);
+    mainLayout->addWidget(bigEditor);
+    mainLayout->addWidget(buttonBox);
+    setLayout(mainLayout);
+
+    setWindowTitle(tr("Basic Layouts"));
+}
+//==============================================================================
+Dialog::~Dialog()
+{
+  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sst Dxf database
+  poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
+
+  int iStat = poDxfPathConvert->WriteAllPath2Dxf(0,this->poPathStorage);
+  assert(iStat == 0);
+
+  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  assert(iStat == 0);
+
+  delete this->poPathWidget;
+  delete this->poPathStorage;
+  this->poPrt->SST_PrtZu(1);
+  delete this->poPrt;
+}
+//==============================================================================
+void Dialog::createMenu()
+{
+    menuBar = new QMenuBar;
+
+    fileMenu = new QMenu(tr("&File"), this);
+    exitAction = fileMenu->addAction(tr("E&xit"));
+    menuBar->addMenu(fileMenu);
+
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(accept()));
+}
+//==============================================================================
+void Dialog::createHorizontalGroupBox()
+{
+    horizontalGroupBox = new QGroupBox(tr("Horizontal layout"));
+    QHBoxLayout *layout = new QHBoxLayout;
+
+    for (int i = 0; i < NumButtons; ++i) {
+        buttons[i] = new QPushButton(tr("Button %1").arg(i + 1));
+        layout->addWidget(buttons[i]);
+    }
+    horizontalGroupBox->setLayout(layout);
+}
+//==============================================================================
+void Dialog::createGridGroupBox()
+{
+    gridGroupBox = new QGroupBox(tr("Grid layout"));
+    QGridLayout *layout = new QGridLayout;
+
+    for (int i = 0; i < NumGridRows; ++i) {
+        labels[i] = new QLabel(tr("Line %1:").arg(i + 1));
+        lineEdits[i] = new QLineEdit;
+        layout->addWidget(labels[i], i + 1, 0);
+        layout->addWidget(lineEdits[i], i + 1, 1);
+    }
+
+    smallEditor = new QTextEdit;
+    smallEditor->setPlainText(tr("This widget takes up about two thirds of the "
+                                 "grid layout."));
+    layout->addWidget(smallEditor, 0, 2, 4, 1);
+
+    layout->setColumnStretch(1, 10);
+    layout->setColumnStretch(2, 20);
+    gridGroupBox->setLayout(layout);
+}
+//==============================================================================
+void Dialog::createFormGroupBox()
+{
+    formGroupBox = new QGroupBox(tr("Form layout"));
+    QFormLayout *layout = new QFormLayout;
+    layout->addRow(new QLabel(tr("Line 1:")), new QLineEdit);
+    layout->addRow(new QLabel(tr("Line 2, long text:")), new QComboBox);
+    layout->addRow(new QLabel(tr("Line 3:")), new QSpinBox);
+    formGroupBox->setLayout(layout);
+}
+//==============================================================================

@@ -36,6 +36,70 @@
 
 // Structures and Classes ------------------------------------------------------
 
+#include <QDialog>
+
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
+#include <sstStr01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstDxf03Lib.h>
+#include <sstQt01Lib.h>
+#include <sstQtDxf01Lib.h>
+
+QT_BEGIN_NAMESPACE
+class QAction;
+class QDialogButtonBox;
+class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QMenu;
+class QMenuBar;
+class QPushButton;
+class QTextEdit;
+QT_END_NAMESPACE
+
+class Dialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+  Dialog();
+  ~Dialog();
+
+private:
+    void createMenu();
+    void createHorizontalGroupBox();
+    void createGridGroupBox();
+    void createFormGroupBox();
+
+    enum { NumGridRows = 3, NumButtons = 4 };
+
+    QMenuBar *menuBar;
+    QGroupBox *horizontalGroupBox;
+    QGroupBox *gridGroupBox;
+    QGroupBox *formGroupBox;
+    QTextEdit *smallEditor;
+    QTextEdit *bigEditor;
+    QLabel *labels[NumGridRows];
+    QLineEdit *lineEdits[NumGridRows];
+    QPushButton *buttons[NumButtons];
+    QDialogButtonBox *buttonBox;
+
+    QMenu *fileMenu;
+    QAction *exitAction;
+
+    sstMisc01PrtFilCls *poPrt;  // sst Protocol
+    sstQt01PathStorageCls *poPathStorage;  // sst Painter Path Storage
+    sstQt01PathPaintWidgetCls *poPathWidget;  // sst Painter Path widget
+    sstQtDxf01PathStorageCls *poDxfDb;  // sst Dxf database
+};
+
 #endif
 
 // --------------------------------------------------------------- File End ----

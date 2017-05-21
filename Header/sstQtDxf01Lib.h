@@ -55,7 +55,14 @@
 class sstQtDxf01PathStorageCls
 {
   public:   // Public functions
-     sstQtDxf01PathStorageCls();  // Constructor
+  //==============================================================================
+  /**
+  * @brief // Load all pathes from csv file in sst table object.  <BR>
+  *
+  * @param poPrt    [in] Pointer to open sst Protocol object
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01PathStorageCls(sstMisc01PrtFilCls *poPrt);  // Constructor
     ~sstQtDxf01PathStorageCls();  // Destructor
      //==============================================================================
      /**
@@ -232,13 +239,73 @@ class sstQtDxf01PathStorageCls
      // ----------------------------------------------------------------------------
      int ReadDxfDbFromCsv(int iKey, std::string oFilNam);
      //==============================================================================
+     /**
+     * @brief // write all dxf data from database into sst path storage <BR>
+     * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
+     *
+     * @param iKey [in] For the moment 0
+     * @param poTmpPathStore [in out] sst Path Storage to fill
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WritAlltoPathStorage(int iKey,sstQt01PathStorageCls *poTmpPathStore);
+     //==============================================================================
+     /**
+     * @brief // write all dxf data from database into sst path storage <BR>
+     * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
+     *
+     * @param iKey [in] For the moment 0
+     * @param poTmpPathStore [in out] sst Path Storage to fill
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int LoadDxfFile(int iKey, std::string oDxfNamStr);
+     //==============================================================================
+     /**
+     * @brief // write all dxf data from database into sst path storage <BR>
+     * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
+     *
+     * @param iKey [in] For the moment 0
+     * @param poTmpPathStore [in out] sst Path Storage to fill
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteAll2Dxf(int iKey, std::string oDxfNamStr);
+     //==============================================================================
+     /**
+     * @brief // write all path from storage to sst Dxf database <BR>
+     * iStat = oPathDxfDb.WriteAllPath2Dxf ( iKey, poTmpPathStore);
+     *
+     * @param iKey [in] For the moment 0
+     * @param poTmpPathStore [in out] sst Path Storage to fill
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteAllPath2Dxf(int iKey, sstQt01PathStorageCls *poTmpPathStore);
+     //==============================================================================
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
      sstRec04Cls *poShapeItemRecTable;  /**< painter path element table */
      dREC04RECNUMTYP dActualReadPos;    /**< actual read position in table */
      sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
-     sstMisc01PrtFilCls oPrt;           /**< protocol file */
+     sstMisc01PrtFilCls *poPrt;           /**< protocol file */
 };
 //==============================================================================
 

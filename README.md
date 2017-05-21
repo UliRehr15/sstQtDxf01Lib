@@ -20,3 +20,4 @@ Structure of coding projects should be:
 05.09.16: Version 1.2: qt example widgets/tooltips with loading path geometry from csv file. <BR>
 23.12.16: Version 1.3: qt example widgets/tooltips: Reading/Writing Hatches to Dxf-Format. <BR>
 07.04.17: Version 1.4: New function ReadNextPath for PathStorageCls Class. <BR>
+21.05.17: Version 1.5: Creating of sstDxf Database outside of widget. <BR>

@@ -612,90 +612,51 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sstLibreCAD2Lib/Header/rs_flags.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
-		../../Qt/5.5/gcc/include/QtGui/QPainterPath \
-		../../Qt/5.5/gcc/include/QtGui/qpainterpath.h \
-		../../Qt/5.5/gcc/include/QtGui/qmatrix.h \
-		../../Qt/5.5/gcc/include/QtGui/qpolygon.h \
-		../../Qt/5.5/gcc/include/QtCore/qvector.h \
-		../../Qt/5.5/gcc/include/QtCore/qpoint.h \
-		../../Qt/5.5/gcc/include/QtCore/qrect.h \
-		../../Qt/5.5/gcc/include/QtCore/qmargins.h \
-		../../Qt/5.5/gcc/include/QtCore/qsize.h \
-		../../Qt/5.5/gcc/include/QtGui/qregion.h \
-		../../Qt/5.5/gcc/include/QtGui/qwindowdefs.h \
-		../../Qt/5.5/gcc/include/QtCore/qobjectdefs.h \
-		../../Qt/5.5/gcc/include/QtCore/qobjectdefs_impl.h \
-		../../Qt/5.5/gcc/include/QtGui/qwindowdefs_win.h \
-		../../Qt/5.5/gcc/include/QtCore/qdatastream.h \
-		../../Qt/5.5/gcc/include/QtCore/qscopedpointer.h \
-		../../Qt/5.5/gcc/include/QtCore/qiodevice.h \
-		../../Qt/5.5/gcc/include/QtCore/qobject.h \
-		../../Qt/5.5/gcc/include/QtCore/qcoreevent.h \
-		../../Qt/5.5/gcc/include/QtCore/qmetatype.h \
-		../../Qt/5.5/gcc/include/QtCore/qvarlengtharray.h \
-		../../Qt/5.5/gcc/include/QtCore/qcontainerfwd.h \
-		../../Qt/5.5/gcc/include/QtCore/qisenum.h \
-		../../Qt/5.5/gcc/include/QtCore/qobject_impl.h \
-		../../Qt/5.5/gcc/include/QtCore/qpair.h \
-		../../Qt/5.5/gcc/include/QtCore/qline.h \
-		../../Qt/5.5/gcc/include/QtCore/QPoint \
-		../sst_str01_lib/Header/sstStr01Lib.h \
-		../sst_misc01_lib/Header/sstMisc01Lib.h \
-		../sst_rec04_lib/Header/sstRec04Lib.h \
-		../sstQt01Lib/Header/sstQt01Lib.h \
-		../../Qt/5.5/gcc/include/QtWidgets/QDialog \
-		../../Qt/5.5/gcc/include/QtWidgets/qdialog.h \
-		../../Qt/5.5/gcc/include/QtWidgets/qwidget.h \
-		../../Qt/5.5/gcc/include/QtGui/qpaintdevice.h \
-		../../Qt/5.5/gcc/include/QtGui/qpalette.h \
-		../../Qt/5.5/gcc/include/QtGui/qbrush.h \
-		../../Qt/5.5/gcc/include/QtGui/qtransform.h \
-		../../Qt/5.5/gcc/include/QtGui/qimage.h \
-		../../Qt/5.5/gcc/include/QtGui/qpixelformat.h \
-		../../Qt/5.5/gcc/include/QtGui/qpixmap.h \
-		../../Qt/5.5/gcc/include/QtCore/qsharedpointer.h \
-		../../Qt/5.5/gcc/include/QtCore/qshareddata.h \
-		../../Qt/5.5/gcc/include/QtCore/qhash.h \
-		../../Qt/5.5/gcc/include/QtCore/qsharedpointer_impl.h \
-		../../Qt/5.5/gcc/include/QtGui/qfont.h \
-		../../Qt/5.5/gcc/include/QtGui/qfontmetrics.h \
-		../../Qt/5.5/gcc/include/QtGui/qfontinfo.h \
-		../../Qt/5.5/gcc/include/QtWidgets/qsizepolicy.h \
-		../../Qt/5.5/gcc/include/QtGui/qcursor.h \
-		../../Qt/5.5/gcc/include/QtGui/qkeysequence.h \
-		../../Qt/5.5/gcc/include/QtGui/qevent.h \
-		../../Qt/5.5/gcc/include/QtCore/qvariant.h \
-		../../Qt/5.5/gcc/include/QtCore/qmap.h \
-		../../Qt/5.5/gcc/include/QtCore/qdebug.h \
-		../../Qt/5.5/gcc/include/QtCore/qtextstream.h \
-		../../Qt/5.5/gcc/include/QtCore/qlocale.h \
-		../../Qt/5.5/gcc/include/QtCore/qset.h \
-		../../Qt/5.5/gcc/include/QtCore/qcontiguouscache.h \
-		../../Qt/5.5/gcc/include/QtCore/qurl.h \
-		../../Qt/5.5/gcc/include/QtCore/qurlquery.h \
-		../../Qt/5.5/gcc/include/QtCore/qfile.h \
-		../../Qt/5.5/gcc/include/QtCore/qfiledevice.h \
-		../../Qt/5.5/gcc/include/QtGui/qvector2d.h \
-		../../Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
 		../../Qt/5.5/gcc/include/QtWidgets/QtWidgets \
 		../../Qt/5.5/gcc/include/QtWidgets/QtWidgetsDepends \
 		../../Qt/5.5/gcc/include/QtCore/QtCore \
 		../../Qt/5.5/gcc/include/QtCore/QtCoreDepends \
 		../../Qt/5.5/gcc/include/QtCore/qabstractanimation.h \
+		../../Qt/5.5/gcc/include/QtCore/qobject.h \
+		../../Qt/5.5/gcc/include/QtCore/qobjectdefs.h \
+		../../Qt/5.5/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.5/gcc/include/QtCore/qcoreevent.h \
+		../../Qt/5.5/gcc/include/QtCore/qscopedpointer.h \
+		../../Qt/5.5/gcc/include/QtCore/qmetatype.h \
+		../../Qt/5.5/gcc/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.5/gcc/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.5/gcc/include/QtCore/qisenum.h \
+		../../Qt/5.5/gcc/include/QtCore/qobject_impl.h \
 		../../Qt/5.5/gcc/include/QtCore/qanimationgroup.h \
 		../../Qt/5.5/gcc/include/QtCore/qparallelanimationgroup.h \
 		../../Qt/5.5/gcc/include/QtCore/qpauseanimation.h \
 		../../Qt/5.5/gcc/include/QtCore/qpropertyanimation.h \
 		../../Qt/5.5/gcc/include/QtCore/qvariantanimation.h \
 		../../Qt/5.5/gcc/include/QtCore/qeasingcurve.h \
+		../../Qt/5.5/gcc/include/QtCore/qvector.h \
+		../../Qt/5.5/gcc/include/QtCore/qpoint.h \
+		../../Qt/5.5/gcc/include/QtCore/qvariant.h \
+		../../Qt/5.5/gcc/include/QtCore/qmap.h \
+		../../Qt/5.5/gcc/include/QtCore/qpair.h \
+		../../Qt/5.5/gcc/include/QtCore/qdebug.h \
+		../../Qt/5.5/gcc/include/QtCore/qhash.h \
+		../../Qt/5.5/gcc/include/QtCore/qtextstream.h \
+		../../Qt/5.5/gcc/include/QtCore/qiodevice.h \
+		../../Qt/5.5/gcc/include/QtCore/qlocale.h \
+		../../Qt/5.5/gcc/include/QtCore/qshareddata.h \
+		../../Qt/5.5/gcc/include/QtCore/qset.h \
+		../../Qt/5.5/gcc/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.5/gcc/include/QtCore/qsequentialanimationgroup.h \
 		../../Qt/5.5/gcc/include/QtCore/qtextcodec.h \
 		../../Qt/5.5/gcc/include/QtCore/qendian.h \
 		../../Qt/5.5/gcc/include/QtCore/qlibraryinfo.h \
 		../../Qt/5.5/gcc/include/QtCore/qdatetime.h \
 		../../Qt/5.5/gcc/include/QtCore/qbuffer.h \
+		../../Qt/5.5/gcc/include/QtCore/qdatastream.h \
 		../../Qt/5.5/gcc/include/QtCore/qdir.h \
 		../../Qt/5.5/gcc/include/QtCore/qfileinfo.h \
+		../../Qt/5.5/gcc/include/QtCore/qfile.h \
+		../../Qt/5.5/gcc/include/QtCore/qfiledevice.h \
 		../../Qt/5.5/gcc/include/QtCore/qdiriterator.h \
 		../../Qt/5.5/gcc/include/QtCore/qfileselector.h \
 		../../Qt/5.5/gcc/include/QtCore/QObject \
@@ -712,6 +673,8 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtCore/qtemporarydir.h \
 		../../Qt/5.5/gcc/include/QtCore/QScopedPointer \
 		../../Qt/5.5/gcc/include/QtCore/qtemporaryfile.h \
+		../../Qt/5.5/gcc/include/QtCore/qurl.h \
+		../../Qt/5.5/gcc/include/QtCore/qurlquery.h \
 		../../Qt/5.5/gcc/include/QtCore/qabstractitemmodel.h \
 		../../Qt/5.5/gcc/include/QtCore/qabstractproxymodel.h \
 		../../Qt/5.5/gcc/include/QtCore/qidentityproxymodel.h \
@@ -732,6 +695,8 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtCore/qmimedata.h \
 		../../Qt/5.5/gcc/include/QtCore/qobjectcleanuphandler.h \
 		../../Qt/5.5/gcc/include/QtCore/qpointer.h \
+		../../Qt/5.5/gcc/include/QtCore/qsharedpointer.h \
+		../../Qt/5.5/gcc/include/QtCore/qsharedpointer_impl.h \
 		../../Qt/5.5/gcc/include/QtCore/qsharedmemory.h \
 		../../Qt/5.5/gcc/include/QtCore/qsignalmapper.h \
 		../../Qt/5.5/gcc/include/QtCore/qsocketnotifier.h \
@@ -777,9 +742,13 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtCore/qcommandlineparser.h \
 		../../Qt/5.5/gcc/include/QtCore/qcryptographichash.h \
 		../../Qt/5.5/gcc/include/QtCore/qelapsedtimer.h \
+		../../Qt/5.5/gcc/include/QtCore/qline.h \
 		../../Qt/5.5/gcc/include/QtCore/qlinkedlist.h \
+		../../Qt/5.5/gcc/include/QtCore/qmargins.h \
 		../../Qt/5.5/gcc/include/QtCore/qmessageauthenticationcode.h \
 		../../Qt/5.5/gcc/include/QtCore/qqueue.h \
+		../../Qt/5.5/gcc/include/QtCore/qrect.h \
+		../../Qt/5.5/gcc/include/QtCore/qsize.h \
 		../../Qt/5.5/gcc/include/QtCore/qregularexpression.h \
 		../../Qt/5.5/gcc/include/QtCore/qscopedvaluerollback.h \
 		../../Qt/5.5/gcc/include/QtCore/qstack.h \
@@ -791,10 +760,25 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/QtGui \
 		../../Qt/5.5/gcc/include/QtGui/QtGuiDepends \
 		../../Qt/5.5/gcc/include/QtGui/qaccessible.h \
+		../../Qt/5.5/gcc/include/QtGui/qevent.h \
+		../../Qt/5.5/gcc/include/QtGui/qwindowdefs.h \
+		../../Qt/5.5/gcc/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.5/gcc/include/QtGui/qregion.h \
+		../../Qt/5.5/gcc/include/QtGui/qkeysequence.h \
+		../../Qt/5.5/gcc/include/QtGui/qvector2d.h \
+		../../Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
 		../../Qt/5.5/gcc/include/QtGui/qaccessiblebridge.h \
 		../../Qt/5.5/gcc/include/QtGui/qaccessibleobject.h \
 		../../Qt/5.5/gcc/include/QtGui/qaccessibleplugin.h \
 		../../Qt/5.5/gcc/include/QtGui/qbitmap.h \
+		../../Qt/5.5/gcc/include/QtGui/qpixmap.h \
+		../../Qt/5.5/gcc/include/QtGui/qpaintdevice.h \
+		../../Qt/5.5/gcc/include/QtGui/qimage.h \
+		../../Qt/5.5/gcc/include/QtGui/qtransform.h \
+		../../Qt/5.5/gcc/include/QtGui/qmatrix.h \
+		../../Qt/5.5/gcc/include/QtGui/qpolygon.h \
+		../../Qt/5.5/gcc/include/QtGui/qpainterpath.h \
+		../../Qt/5.5/gcc/include/QtGui/qpixelformat.h \
 		../../Qt/5.5/gcc/include/QtGui/qicon.h \
 		../../Qt/5.5/gcc/include/QtGui/qiconengine.h \
 		../../Qt/5.5/gcc/include/QtGui/qiconengineplugin.h \
@@ -806,7 +790,10 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/qpictureformatplugin.h \
 		../../Qt/5.5/gcc/include/QtGui/qpixmapcache.h \
 		../../Qt/5.5/gcc/include/QtGui/qstandarditemmodel.h \
+		../../Qt/5.5/gcc/include/QtGui/qbrush.h \
+		../../Qt/5.5/gcc/include/QtGui/qfont.h \
 		../../Qt/5.5/gcc/include/QtGui/qclipboard.h \
+		../../Qt/5.5/gcc/include/QtGui/qcursor.h \
 		../../Qt/5.5/gcc/include/QtGui/qdrag.h \
 		../../Qt/5.5/gcc/include/QtGui/qgenericplugin.h \
 		../../Qt/5.5/gcc/include/QtGui/qgenericpluginfactory.h \
@@ -833,6 +820,7 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/QPaintDevice \
 		../../Qt/5.5/gcc/include/QtGui/QOpenGLContext \
 		../../Qt/5.5/gcc/include/QtGui/QImage \
+		../../Qt/5.5/gcc/include/QtGui/qpalette.h \
 		../../Qt/5.5/gcc/include/QtGui/qrasterwindow.h \
 		../../Qt/5.5/gcc/include/QtGui/qscreen.h \
 		../../Qt/5.5/gcc/include/QtCore/QList \
@@ -865,6 +853,8 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/qpainter.h \
 		../../Qt/5.5/gcc/include/QtGui/qtextoption.h \
 		../../Qt/5.5/gcc/include/QtGui/qpen.h \
+		../../Qt/5.5/gcc/include/QtGui/qfontinfo.h \
+		../../Qt/5.5/gcc/include/QtGui/qfontmetrics.h \
 		../../Qt/5.5/gcc/include/QtGui/qpdfwriter.h \
 		../../Qt/5.5/gcc/include/QtGui/qabstracttextdocumentlayout.h \
 		../../Qt/5.5/gcc/include/QtGui/qtextlayout.h \
@@ -886,6 +876,9 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/qtguiversion.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qaccessiblewidget.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qcolordialog.h \
+		../../Qt/5.5/gcc/include/QtWidgets/qdialog.h \
+		../../Qt/5.5/gcc/include/QtWidgets/qwidget.h \
+		../../Qt/5.5/gcc/include/QtWidgets/qsizepolicy.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qerrormessage.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qfilesystemmodel.h \
@@ -1017,7 +1010,13 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qtoolbox.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qtoolbutton.h \
 		../../Qt/5.5/gcc/include/QtWidgets/qtwidgetsversion.h \
-		../../Qt/5.5/gcc/include/QtCore/QAbstractTableModel \
+		../../Qt/5.5/gcc/include/QtGui/QPainterPath \
+		../../Qt/5.5/gcc/include/QtCore/QPoint \
+		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../sst_rec04_lib/Header/sstRec04Lib.h \
+		../sstQt01Lib/Header/sstQt01Lib.h \
+		../../Qt/5.5/gcc/include/QtGui/QPen \
 		../../Qt/5.5/gcc/include/QtWidgets/QTableView \
 		../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		Header/sstQtDxf01Lib.h

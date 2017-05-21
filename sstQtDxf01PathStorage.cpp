@@ -28,6 +28,7 @@
 #include <rs_color.h>
 #include <rs_vector.h>
 
+#include <QtWidgets>
 #include <QColor>
 #include <QPainterPath>
 #include <QPoint>
@@ -41,18 +42,27 @@
 #include "sstQtDxf01Lib.h"
 
 //=============================================================================
-sstQtDxf01PathStorageCls::sstQtDxf01PathStorageCls()
+sstQtDxf01PathStorageCls::sstQtDxf01PathStorageCls(sstMisc01PrtFilCls *poTmpPrt)
 {
-  this->poDxfDb = new sstDxf03DbCls(&this->oPrt);
-  int iStat = poDxfDb->ReadAllFromDxf( 0, "sstQtDxf01LibTest.dxf");
-  assert(iStat == 0);
+  if (poTmpPrt == NULL) assert(0);
+  this->poPrt = poTmpPrt;
+
+  // Create new sst dxf database and load data from dxf file
+  this->poDxfDb = new sstDxf03DbCls(this->poPrt);
+  //  int iStat = poDxfDb->ReadAllFromDxf( 0, "sstQtDxf01LibTest.dxf");
+  //  if (iStat < 0)
+  //  {
+  //    this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
+  //    this->poPrt->SST_PrtZu(1);
+  //    assert(0);
+  //  }
   dActualReadPos = 1;  // table reading starts at begin of table
 }
 //=============================================================================
 sstQtDxf01PathStorageCls::~sstQtDxf01PathStorageCls()
 {
-  int iStat = poDxfDb->WritAll2DxfFil( 0, "sstQtDxf01LibTest.dxf");
-  assert(iStat == 0);
+//  int iStat = poDxfDb->WritAll2DxfFil( 0, "sstQtDxf01LibTest.dxf");
+//  assert(iStat == 0);
   delete this->poDxfDb;
 }
 //=============================================================================
@@ -471,3 +481,124 @@ int sstQtDxf01PathStorageCls::ReadDxfDbFromCsv(int iKey, std::string oFilNam)
   return iRet;
 }
 //=============================================================================
+int sstQtDxf01PathStorageCls::WritAlltoPathStorage(int iKey, sstQt01PathStorageCls *poTmpPathStore)
+{
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+  int iStat1 = 0;
+
+  dREC04RECNUMTYP dMainRecNo = 1;
+  QPainterPath *poPath;
+  sstQt01ShapeItem *poItemPath;
+  QColor oColor;
+  QPoint oPnt(0,0);
+
+  poPath = new QPainterPath;
+  poItemPath = new sstQt01ShapeItem;
+
+  // read next path from dxf database
+  iStat1 = this->ReadNextPath( 0, &dMainRecNo, poPath, &oColor);
+
+  while (iStat1 >= 0)
+  {
+    int iElements = poPath->elementCount();
+    switch (iElements)
+    {
+      case 4:
+      poItemPath->setToolTip("Triangle");
+      // createShapeItem( *poPath, "Triangle", oPnt, oColor);
+      break;
+    case 5:
+      poItemPath->setToolTip("Square");
+      // createShapeItem( *poPath, "Square", oPnt, oColor);
+      break;
+    case 13:
+      poItemPath->setToolTip("Circle");
+      // createShapeItem( *poPath, "Circle", oPnt, oColor);
+      break;
+    default:
+      assert(0);
+      break;
+    }
+
+    poItemPath->setColor(oColor);
+    poItemPath->setPath(*poPath);
+    poItemPath->setPosition(oPnt);
+
+    poTmpPathStore->appendShapeItem(*poItemPath);
+
+    delete poPath;
+    delete poItemPath;
+    poPath = new (QPainterPath);
+    poItemPath = new sstQt01ShapeItem;
+
+    iStat1 = this->ReadNextPath(0, &dMainRecNo, poPath, &oColor);
+  }
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathStorageCls::LoadDxfFile(int iKey, std::string oDxfNamStr)
+{
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+    iStat = poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
+    if (iStat < 0)
+    {
+      this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
+      this->poPrt->SST_PrtZu(1);
+      assert(0);
+    }
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathStorageCls::WriteAll2Dxf(int iKey, std::string oDxfNamStr)
+{
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+    iStat = poDxfDb->WritAll2DxfFil( 0, oDxfNamStr);
+    if (iStat < 0)
+    {
+      this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
+      this->poPrt->SST_PrtZu(1);
+      assert(0);
+    }
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathStorageCls::WriteAllPath2Dxf(int iKey, sstQt01PathStorageCls *poTmpPathStore)
+{
+
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+
+  sstQt01ShapeItem *poShapeItem;
+  QPoint myPoint(0,0);
+
+  poShapeItem = new sstQt01ShapeItem;
+
+  int iNumItems = poTmpPathStore->countItems();
+
+  for (int ii=1;ii <= iNumItems; ii++)
+  {
+    *poShapeItem = poTmpPathStore->getShapeItem(ii);
+
+    myPoint = poShapeItem->getPosition();
+    QPainterPath oPath = poShapeItem->getPath();
+    oPath.translate(myPoint.x(), myPoint.y());
+
+    QColor oColor = poShapeItem->getColor();
+
+    // Append path object to path storage
+    // this->oPathStorage->AppendPath(0,oPath,oColor);
+
+    // Write one path into dxf database
+    this->WrtPath2Dxf( 0, oPath, oColor);
+  }
+
+  return iStat;
+}
+//=============================================================================
+

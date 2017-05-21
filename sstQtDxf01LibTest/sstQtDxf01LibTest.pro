@@ -42,12 +42,10 @@ release{
 
 
 HEADERS       = \
-                sortingbox.h \
                 sstQtDxf01LibTest.h
 
 
 SOURCES       = \
-                sortingbox.cpp \
     sstQtDxf01LibTest.cpp
 #    sstQt01PathStorage.cpp
 
