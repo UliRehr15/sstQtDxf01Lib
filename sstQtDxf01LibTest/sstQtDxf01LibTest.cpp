@@ -37,6 +37,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -57,20 +58,24 @@ int main(int argc, char *argv[])
 //==============================================================================
 Dialog::Dialog()
 {
-
+  int iStat = 0;
   // open protocol system
   this->poPrt = new sstMisc01PrtFilCls;
-  this->poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01LibTest.log");
+  this->poPrt->SST_PrtAuf(1,(char*)"tonQtDxf01LibTest.log");
 
-  // open new sst dxf database
-  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sst Dxf database
+  // open new sstDxf database
+  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sstDxf database
   poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
-  int iStat = poDxfPathConvert->LoadDxfFile(0,"sstQtDxf01LibTest.dxf");
-  assert(iStat == 0);
+  iStat = poDxfPathConvert->LoadDxfFile(0,"sstQtDxf01LibTest.dxf");
+  if (iStat < 0)
+  {
+    this->poPrt->SST_PrtZu(1);
+    assert(0);
+  }
 
-  this->poPathStorage = new sstQt01PathStorageCls;
+  this->poPathStorage = new sstQt01PathStorageCls(this->poPrt);
 
-  // fill Path Storage from dxf database
+  // fill Path Storage from Dxf database
   iStat = poDxfPathConvert->WritAlltoPathStorage( 0, this->poPathStorage);
   assert(iStat == 0);
 
@@ -108,14 +113,16 @@ Dialog::Dialog()
 //==============================================================================
 Dialog::~Dialog()
 {
-  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sst Dxf database
+  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sstDxf database
   poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
 
   int iStat = poDxfPathConvert->WriteAllPath2Dxf(0,this->poPathStorage);
   assert(iStat == 0);
 
-  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
-  assert(iStat == 0);
+  // iStat = poDxfPathConvert->WriteAll2Dxf(0,"tonQtDxf01LibTest.dxf");
+  // assert(iStat == 0);
+
+  delete poDxfPathConvert;
 
   delete this->poPathWidget;
   delete this->poPathStorage;

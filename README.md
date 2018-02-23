@@ -21,3 +21,5 @@ Structure of coding projects should be:
 23.12.16: Version 1.3: qt example widgets/tooltips: Reading/Writing Hatches to Dxf-Format. <BR>
 07.04.17: Version 1.4: New function ReadNextPath for PathStorageCls Class. <BR>
 21.05.17: Version 1.5: Creating of sstDxf Database outside of widget. <BR>
+23.02.18: Version 1.6: New function LineToPath with coordinate transformation. <BR>
+                       Rewrite test-tool: Read/Draw of Line-Entities in world coordinates. <BR>

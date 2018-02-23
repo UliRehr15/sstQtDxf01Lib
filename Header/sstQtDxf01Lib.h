@@ -37,11 +37,12 @@
  *
  */
 
+
 //==============================================================================
 /**
-* @brief storage class for painter path objects <BR>
+* @brief dxf format data storage class for converting to/from painter path objects <BR>
 *
-* FIFO storage, reading/writing to csv file <BR>
+* Class owns a dxf db storage. Class could convert data to painter path objects. <BR>
 *
 * Changed: 05.09.16  Re.
 *
@@ -52,12 +53,12 @@
 * @date 05.09.16
 */
 // ----------------------------------------------------------------------------
-class sstQtDxf01PathStorageCls
+class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
 {
   public:   // Public functions
   //==============================================================================
   /**
-  * @brief // Load all pathes from csv file in sst table object.  <BR>
+  * @brief // Constructor.  <BR>
   *
   * @param poPrt    [in] Pointer to open sst Protocol object
   */
@@ -66,7 +67,7 @@ class sstQtDxf01PathStorageCls
     ~sstQtDxf01PathStorageCls();  // Destructor
      //==============================================================================
      /**
-     * @brief // Load all pathes from csv file in sst table object.  <BR>
+     * @brief // Load all pathes from Dxf file in sstPathDxf object.  <BR>
      *
      * @param iKey    [in] For the moment 0
      * @param oFilNam [in] File name
@@ -80,7 +81,7 @@ class sstQtDxf01PathStorageCls
      int LoadAllPathFromFile (int iKey, std::string oFilNam);
      //==============================================================================
      /**
-     * @brief // store all pathes from sst table object into csv file.  <BR>
+     * @brief // store all pathes from sstPathDxf object into Dxf file.  <BR>
      *
      * @param iKey    [in] For the moment 0
      * @param oFilNam [in] File name
@@ -94,25 +95,10 @@ class sstQtDxf01PathStorageCls
      int StoreAllPathToFile (int iKey, std::string oFilNam);
      //==============================================================================
      /**
-     * @brief // Write one QPainterPath to sst dxf database  <BR>
-     *
-     * @param iKey   [in] For the moment 0
-     * @param oPath  [in] QPainterPath object to write to dxf
-     * @param oColor [in] Color of Path
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int WrtPath2Dxf(int iKey,  QPainterPath oPath, QColor oColor);
-     //==============================================================================
-     /**
-     * @brief // read next QPainterPath object from sst dxf database.  <BR>
+     * @brief // read next QPainterPath object from sstDxf database.  <BR>
      *
      * @param iKey       [in] For the moment 0
-     * @param dMainRecNo [in][out] main record number in sst dxf database
+     * @param dMainRecNo [in][out] main record number in sstDxf database
      * @param poPath     [out] QPainterPath object
      * @param poColor    [out] Color of Path
      *
@@ -122,69 +108,7 @@ class sstQtDxf01PathStorageCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int ReadNextPath(int iKey, dREC04RECNUMTYP *dMainRecNo,  QPainterPath *poPath, QColor *poColor);
-     //==============================================================================
-     /**
-     * @brief // transform coordinates of HatchEdge from device to world coordinate system  <BR>
-     * iStat = oPathStore.Transform_DC_WC(iKey, &oDLHatchEdge);
-     *
-     * @param iKey          [in] For the moment 0
-     * @param oDLHatchEdge  [in out] HatchEdge object
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int Transform_DC_WC (int iKey, DL_HatchEdgeData *oDLHatchEdge);
-     //==============================================================================
-     /**
-     * @brief // transform coordinates of HatchEdge from device to world coordinate system  <BR>
-     * iStat = oPathStore.Transform_DC_WC(iKey, &dX, &dY);
-     *
-     * @param iKey  [in] For the moment 0
-     * @param dX    [in out] X Value
-     * @param dY    [in out] Y Value
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int Transform_DC_WC (int iKey, double *dX, double *dY);
-     //==============================================================================
-     /**
-     * @brief // transform coordinates of HatchEdge from would to device coordinate system  <BR>
-     * iStat = oPathStore.Transform_WC_DC(iKey, &oDLHatchEdge);
-     *
-     * @param iKey          [in] For the moment 0
-     * @param oDLHatchEdge  [in out] HatchEdge object
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int Transform_WC_DC (int iKey, DL_HatchEdgeData *oDLHatchEdge);
-     //==============================================================================
-     /**
-     * @brief // transform coordinates of HatchEdge from would to device coordinate system  <BR>
-     * iStat = oPathStore.Transform_WC_DC(iKey, &dX, &dY);
-     *
-     * @param iKey  [in] For the moment 0
-     * @param dX    [in out] HatchEdge object
-     * @param dY    [in out] HatchEdge object
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int Transform_WC_DC (int iKey, double *dX, double *dY);
+     int ReadNextEntity2Path(int iKey, dREC04RECNUMTYP dMainRecNo,  QPainterPath *poPath, QColor *poColor);
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>
@@ -210,37 +134,7 @@ class sstQtDxf01PathStorageCls
      int colorToNumber(const QColor& col, int *rgb);
      //==============================================================================
      /**
-     * @brief // write dxf database to csv files  <BR>
-     * iStat = oPathStore.WriteDxfDbtoCsv( iKey, oFilNam);
-     *
-     * @param iKey    [in] For the moment zero
-     * @param oFilNam [in] File Name
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int WriteDxfDbToCsv(int iKey, std::string oFilNam);
-     //==============================================================================
-     /**
-     * @brief // Read full Dxf Database from Csv files  <BR>
-     * iStat = oPathStore.ReadDxfDbFromCsv( iKey, oFilNam);
-     *
-     * @param iKey    [in] For the moment zero
-     * @param oFilNam [in] File Name
-     *
-     * @return Errorstate
-     *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
-     */
-     // ----------------------------------------------------------------------------
-     int ReadDxfDbFromCsv(int iKey, std::string oFilNam);
-     //==============================================================================
-     /**
-     * @brief // write all dxf data from database into sst path storage <BR>
+     * @brief // write all sstDxf data from database into sst path storage <BR>
      * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
      *
      * @param iKey [in] For the moment 0
@@ -255,11 +149,11 @@ class sstQtDxf01PathStorageCls
      int WritAlltoPathStorage(int iKey,sstQt01PathStorageCls *poTmpPathStore);
      //==============================================================================
      /**
-     * @brief // write all dxf data from database into sst path storage <BR>
-     * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
+     * @brief // LoadDxfFile <BR>
+     * iStat = oPathDxfDb.LoadDxfFile(iKey,poTmpPathStore);
      *
-     * @param iKey [in] For the moment 0
-     * @param poTmpPathStore [in out] sst Path Storage to fill
+     * @param iKey        [in] For the moment 0
+     * @param oDxfNamStr  [in] sstDxf File to fill
      *
      * @return Errorstate
      *
@@ -270,11 +164,11 @@ class sstQtDxf01PathStorageCls
      int LoadDxfFile(int iKey, std::string oDxfNamStr);
      //==============================================================================
      /**
-     * @brief // write all dxf data from database into sst path storage <BR>
+     * @brief // write all sstDxf data from database into sst path storage <BR>
      * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
      *
-     * @param iKey [in] For the moment 0
-     * @param poTmpPathStore [in out] sst Path Storage to fill
+     * @param iKey        [in] For the moment 0
+     * @param oDxfNamStr  [in] sst Path Storage to fill
      *
      * @return Errorstate
      *
@@ -285,7 +179,7 @@ class sstQtDxf01PathStorageCls
      int WriteAll2Dxf(int iKey, std::string oDxfNamStr);
      //==============================================================================
      /**
-     * @brief // write all path from storage to sst Dxf database <BR>
+     * @brief // write all path from storage to sstDxf database <BR>
      * iStat = oPathDxfDb.WriteAllPath2Dxf ( iKey, poTmpPathStore);
      *
      * @param iKey [in] For the moment 0
@@ -302,11 +196,10 @@ class sstQtDxf01PathStorageCls
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
-     sstRec04Cls *poShapeItemRecTable;  /**< painter path element table */
-     dREC04RECNUMTYP dActualReadPos;    /**< actual read position in table */
      sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
      sstMisc01PrtFilCls *poPrt;           /**< protocol file */
 };
 //==============================================================================
+
 
 #endif // SSTQTDXF01LIB_H

@@ -1,17 +1,28 @@
 /**********************************************************************
  *
- * sstQt01Lib - sst Qt library
+ * sstQtDxf01Lib - sst Qt Dxf library
  * Hosted on github
  *
  * Copyright (C) 2016 Uli Rehr
  *
- * This is free software; you can redistribute and/or modify it under
- * the terms of the GNU Lesser General Public Licence as published
- * by the Free Software Foundation.
- * See the COPYING file for more information.
+ * This file may be distributed and/or modified under the terms of the
+ * GNU General Public License version 2 as published by the Free Software
+ * Foundation and appearing in the file gpl-2.0.txt included in the
+ * packaging of this file.
  *
- **********************************************************************/
-// sstQt01PathStorage.cpp    02.09.16  Re.    02.09.16  Re.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ *
+**********************************************************************/
+// sstQtDxf01PathStorage.cpp    23.02.2018  Re.    17.07.17  Re.
 //
 
 #include <stdio.h>
@@ -34,6 +45,8 @@
 #include <QPoint>
 
 #include <sstStr01Lib.h>
+#include <sstStr01FixColWidth.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstQt01Lib.h>
@@ -47,278 +60,56 @@ sstQtDxf01PathStorageCls::sstQtDxf01PathStorageCls(sstMisc01PrtFilCls *poTmpPrt)
   if (poTmpPrt == NULL) assert(0);
   this->poPrt = poTmpPrt;
 
-  // Create new sst dxf database and load data from dxf file
+  // Create new empty sstDxf database
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
-  //  int iStat = poDxfDb->ReadAllFromDxf( 0, "sstQtDxf01LibTest.dxf");
-  //  if (iStat < 0)
-  //  {
-  //    this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
-  //    this->poPrt->SST_PrtZu(1);
-  //    assert(0);
-  //  }
-  dActualReadPos = 1;  // table reading starts at begin of table
 }
 //=============================================================================
 sstQtDxf01PathStorageCls::~sstQtDxf01PathStorageCls()
 {
-//  int iStat = poDxfDb->WritAll2DxfFil( 0, "sstQtDxf01LibTest.dxf");
-//  assert(iStat == 0);
   delete this->poDxfDb;
 }
 //=============================================================================
-int sstQtDxf01PathStorageCls::WrtPath2Dxf(int iKey, QPainterPath oTmpPath, QColor oTmpColor)
+int sstQtDxf01PathStorageCls::ReadNextEntity2Path(int iKey,dREC04RECNUMTYP dLineRecNo, QPainterPath *poPath, QColor *poColor)
 {
+  sstMath01dPnt2Cls d2Pnt1;
+  sstMath01dPnt2Cls d2Pnt2;
 
-  // sstQtDxf01PathElementCls oShapeItemCsv;
-  QPainterPath::Element oElement0;
-  QPainterPath::Element oElement1;
-  QPainterPath::Element oElement2;
-  QPainterPath::Element oElement3;
-  QPainterPath::Element oElementFirst;  // first element of object
-  QPainterPath::Element oElementCorner[4];  // 4 Corner point of circle
-  QPainterPath::Element oElementCtr;  // Center of circle
-  DL_HatchData oDLHatch(1,1,1,0,"SOLID");
-  DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
-  DL_Attributes oDLAttributes;
-  dREC04RECNUMTYP oEntRecNo = 0;
-  dREC04RECNUMTYP oMainRecNo = 0;
-  unsigned int uiCircleCorner = 0;
-  int iDxfColor = 0;
-
-  // dREC04RECNUMTYP dRecNo = 0;
+  int iRet  = 0;
   int iStat = 0;
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
-  int ePrevType = 0;
-  int iEleNum = oTmpPath.elementCount();
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityLine);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
 
-  // convert qt color to dxf color
-  int iRGB = 0;
-  iDxfColor = this->colorToNumber(oTmpColor, &iRGB);
+  if (dLineRecNo > dMainRecs) return -3;  // Read position after end of table?
 
-  oDLAttributes.setLayer("0");
-  oDLAttributes.setLineType("CONTINUOUS");
+  // Insert all model LINE entities
+  DL_LineData  	  oLineRec(0,0,0,0,0,0);
+  DL_Attributes 	oAttribRec;
 
-  for (int ii =1; ii <= iEleNum; ii++)
+  iStat = this->poDxfDb->ReadLine( 0, dLineRecNo, &oLineRec, &oAttribRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  if (oLayStr.length() > 0)
   {
-    QPainterPath::Element oElement_ii;
-    oElement_ii = oTmpPath.elementAt(ii-1);
 
-    switch (oElement_ii.type)
-    {
-    case 0:
-    {
-      oElement0 = oElement_ii;
-    }
-      break;
-    case 1:
-      {
-      if (ePrevType == 0)
-      { // new element
-        // open new dxflib hatch object in sstDxfDb
-        oDLAttributes.setColor(iDxfColor);
-        iStat = poDxfDb->OpenNewHatch( 0, oDLHatch, oDLAttributes, &oEntRecNo, &oMainRecNo);
-        oElementFirst = oElement_ii;
-      }
-        else
-        {
-        // DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
-          // write new dxflib hatch edge into sstDxfDb hatch object
-          oDLHatchEdge.x1 = oElement1.x;
-          oDLHatchEdge.y1 = oElement1.y;
-          oDLHatchEdge.x2 = oElement_ii.x;
-          oDLHatchEdge.y2 = oElement_ii.y;
-          iStat = this->Transform_DC_WC( 0, &oDLHatchEdge);
-          iStat = poDxfDb->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-        }
-        oElement1 = oElement_ii;
-      }
-      break;
-    case 2:
-    {
-      // New circle area
-      if (ePrevType == 3)
-      {
-        // close last circle
-        oElementCorner[uiCircleCorner] = oElement3;
-        uiCircleCorner++;
-      }
+    d2Pnt1.x = oLineRec.x1;
+    d2Pnt1.y = oLineRec.y1;
+    this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
 
-      // open new dxflib hatch object in sstDxfDb
+    d2Pnt2.x = oLineRec.x2;
+    d2Pnt2.y = oLineRec.y2;
+    this->Transform_WC_DC(0, &d2Pnt2.x,&d2Pnt2.y);
 
-      oElement2 = oElement_ii;
-    }
-      break;
-    case 3:
-    {
+    poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
+    poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
 
-      oElement3 = oElement_ii;
-    }
-      break;
-    default:
-      break;
-    }
-    ePrevType = oElement_ii.type;
+    poColor->setBlue(0);
+    poColor->setRed(0);
+    poColor->setGreen(0);
   }
 
-  // close open objects before leaving PainterPath
-  if (ePrevType == 1)
-  { // new element
-    // open new dxflib hatch object in sstDxfDb
-    oDLHatchEdge.x1 = oElement1.x;
-    oDLHatchEdge.y1 = oElement1.y;
-    oDLHatchEdge.x2 = oElementFirst.x;
-    oDLHatchEdge.y2 = oElementFirst.y;
-    iStat = this->Transform_DC_WC( 0, &oDLHatchEdge);
-    iStat = poDxfDb->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-  }
-  if (ePrevType == 3)
-  {
-    oElementCorner[uiCircleCorner] = oElement3;
-
-    oElementCtr.x = (oElementCorner[0].x + oElementCorner[2].x) / 2.0;
-    oElementCtr.y = (oElementCorner[0].y + oElementCorner[2].y) / 2.0;
-
-    int iRad = oElementCtr.y - oElementCorner[2].y;
-    if (iRad < 0) iRad = iRad * -1.0;
-
-    // open new dxflib hatch object in sstDxfDb
-    oDLHatchEdge.cx = oElementCtr.x;
-    oDLHatchEdge.cy = oElementCtr.y;
-    oDLHatchEdge.angle1 = 0;
-    oDLHatchEdge.angle2 = 2*M_PI;
-    oDLHatchEdge.radius = iRad;
-    oDLHatchEdge.ccw = 1;
-    oDLHatchEdge.type = 2;
-    oDLHatchEdge.defined = true;
-
-    oDLAttributes.setColor(iDxfColor);
-    iStat = poDxfDb->OpenNewHatch( 0, oDLHatch, oDLAttributes, &oEntRecNo, &oMainRecNo);
-
-    iStat = this->Transform_DC_WC( 0, &oDLHatchEdge);
-    iStat = poDxfDb->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-  }
-
-  return iStat;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::ReadNextPath(int iKey,dREC04RECNUMTYP *dMainRecNo, QPainterPath *poPath, QColor *poColor)
-{
-  // sstQtDxf01PathStorageCls oPathHandler;
-
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  dREC04RECNUMTYP dMainRecs =  this->poDxfDb->MainCount();
-  if (dMainRecs <= 0) return -2;  // Dxf Database is empty
-
-  if (*dMainRecNo >= dMainRecs) return -3;  // Read position after end of table?
-
-    RS2::EntityType eEntityType = RS2::EntityUnknown;
-    dREC04RECNUMTYP dEntRecNo = 0;
-    iStat = this->poDxfDb->ReadMainTable(0,*dMainRecNo,&eEntityType,&dEntRecNo);
-    switch(eEntityType)
-    {
-      case RS2::EntityHatch:
-    {
-      DL_HatchData oDLHatch;
-      DL_Attributes oDLAttributes;
-        iStat = this->poDxfDb->ReadHatch(0,dEntRecNo,&oDLHatch,&oDLAttributes);
-        if (oDLHatch.numLoops <= 0) assert (0);
-
-        int iColor = oDLAttributes.getColor();
-
-        // transform dxf color to QColor
-        *poColor = this->numberToColor(iColor);
-
-        *dMainRecNo = *dMainRecNo + 1;
-        iStat = this->poDxfDb->ReadMainTable(0,*dMainRecNo,&eEntityType,&dEntRecNo);
-        if (eEntityType != RS2::EntityHatchLoop) assert (0);
-        DL_HatchLoopData oDLHatchLoop;
-        iStat = this->poDxfDb->ReadHatchLoop( 0, dEntRecNo, &oDLHatchLoop);
-        if (oDLHatchLoop.numEdges <= 0) assert(0);
-        for (int dd = 1; dd <= oDLHatchLoop.numEdges; dd++)
-        {
-          *dMainRecNo = *dMainRecNo + 1;
-          iStat = this->poDxfDb->ReadMainTable(0,*dMainRecNo,&eEntityType,&dEntRecNo);
-          if (eEntityType != RS2::EntityHatchEdge) assert (0);
-          DL_HatchEdgeData oDLHatchEdge;
-          iStat = this->poDxfDb->ReadHatchEdge( 0, dEntRecNo, &oDLHatchEdge);
-          assert(iStat >= 0);
-          // transform coordinates of HatchEdge from would to device coordinate system
-          this->Transform_WC_DC( 0, &oDLHatchEdge);
-          switch (oDLHatchEdge.type)
-          {
-            case 1:
-            if (dd == 1)
-            {
-              poPath->moveTo(oDLHatchEdge.x1,oDLHatchEdge.y1);
-              poPath->lineTo(oDLHatchEdge.x2,oDLHatchEdge.y2);
-            }  // End first edge
-            // polygon element
-            else
-              poPath->lineTo(oDLHatchEdge.x2,oDLHatchEdge.y2);
-            break;
-          case 2:  // Circle
-          {
-            QPointF center;
-            center.setX(oDLHatchEdge.cx);
-            center.setY(oDLHatchEdge.cy);
-            poPath->addEllipse(center,oDLHatchEdge.radius,oDLHatchEdge.radius);
-          }
-            break;
-          default:
-            break;
-          }  // end switch edge type
-        }  // end all hatch loops
-    }  // end process type hatch
-        break;
-    case RS2::EntityCircle:
-    {
-      DL_CircleData oDLCircle(0,0,0,0);
-      DL_Attributes oDLAttributes;
-      iStat = this->poDxfDb->ReadCircle( 0, dEntRecNo, &oDLCircle, &oDLAttributes);
-      assert(iStat == 0);
-      this->Transform_WC_DC( 0, &oDLCircle.cx, &oDLCircle.cy);
-      QPointF center;
-      center.setX(oDLCircle.cx);
-      center.setY(oDLCircle.cy);
-      poPath->addEllipse(center,oDLCircle.radius,oDLCircle.radius);
-    } // end process type circle
-      break;
-    default:
-    {
-      iStat = 0;
-    }  // end process all not defined dxf entity types
-      break;
-    } // end switch dxf entity type
-
-    *dMainRecNo = *dMainRecNo + 1;
-
-    // Fatal Errors goes to an assert
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::Transform_DC_WC (int iKey, DL_HatchEdgeData *oDLHatchEdge)
-//-----------------------------------------------------------------------------
-{
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  oDLHatchEdge->cy = (oDLHatchEdge->cy * -1.0) + 400.0;
-  oDLHatchEdge->y1 = (oDLHatchEdge->y1 * -1.0) + 400.0;
-  oDLHatchEdge->y2 = (oDLHatchEdge->y2 * -1.0) + 400.0;
-
   // Fatal Errors goes to an assert
   assert(iRet >= 0);
 
@@ -326,83 +117,6 @@ int sstQtDxf01PathStorageCls::Transform_DC_WC (int iKey, DL_HatchEdgeData *oDLHa
   iRet = iStat;
 
   return iRet;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::Transform_DC_WC (int iKey, double *dX, double *dY)
-//-----------------------------------------------------------------------------
-{
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  *dX = (*dX * -1.0) + 400.0;
-  *dY = (*dY * -1.0) + 400.0;
-
-  // Fatal Errors goes to an assert
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::Transform_WC_DC (int iKey, DL_HatchEdgeData *oDLHatchEdge)
-//-----------------------------------------------------------------------------
-{
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  oDLHatchEdge->cy = (oDLHatchEdge->cy - 400.0) * -1.0;
-  oDLHatchEdge->y1 = (oDLHatchEdge->y1 - 400.0) * -1.0;
-  oDLHatchEdge->y2 = (oDLHatchEdge->y2 - 400.0) * -1.0;
-
-  // Fatal Errors goes to an assert
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::Transform_WC_DC (int iKey, double *dX, double *dY)
-//-----------------------------------------------------------------------------
-{
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  *dX = *dX * 1.0;
-  *dY = (*dY - 400.0) * -1.0;
-
-  // Fatal Errors goes to an assert
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
-QColor sstQtDxf01PathStorageCls::numberToColor(int num) {
-        if (num==0) {
-            return QColor(RS2::FlagByBlock);
-        } else if (num==256) {
-            return QColor(RS2::FlagByLayer);
-        } else if (num<=255 && num>=0) {
-            return QColor( (dxfColors[num][0]*255),
-                           (dxfColors[num][1]*255),
-                           (dxfColors[num][2]*255));
-        } else {
-            return QColor(RS2::FlagByLayer);
-        }
-
-    return QColor();
 }
 //=============================================================================
 int sstQtDxf01PathStorageCls::colorToNumber(const QColor& col, int *rgb)
@@ -420,20 +134,6 @@ int sstQtDxf01PathStorageCls::colorToNumber(const QColor& col, int *rgb)
         int num=0;
         int diff=255*3;  // smallest difference to a color in the table found so far
 
-        // Run through the whole table and compare
-        for (int i=1; i<=255; i++) {
-            int d =   abs(col.red()  - (dxfColors[i][0] * 255))
-                    + abs(col.green()- (dxfColors[i][1] * 255))
-                    + abs(col.blue() - (dxfColors[i][2] * 255));
-
-            if (d<diff) {
-                diff = d;
-                num = i;
-                if (d==0) {
-                    break;
-                }
-            }
-        }
         if(diff != 0) {
             *rgb = 0;
             *rgb = col.red()<<16 | col.green()<<8 | col.blue();
@@ -442,97 +142,38 @@ int sstQtDxf01PathStorageCls::colorToNumber(const QColor& col, int *rgb)
     }
 }
 //=============================================================================
-int sstQtDxf01PathStorageCls::WriteDxfDbToCsv(int iKey, std::string oFilNam)
-{
-
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  iStat = this->poDxfDb->WritAll2Csv( 0, oFilNam);
-
-  // Fatal Errors goes to an assert
-
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::ReadDxfDbFromCsv(int iKey, std::string oFilNam)
-{
-  int iRet  = 0;
-  int iStat = 0;
-  //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  iStat = this->poDxfDb->ReadAllCsvFiles(0,oFilNam);
-
-  // Fatal Errors goes to an assert
-
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
-}
-//=============================================================================
 int sstQtDxf01PathStorageCls::WritAlltoPathStorage(int iKey, sstQt01PathStorageCls *poTmpPathStore)
 {
   if ( iKey != 0) return -1;
   int iStat = 0;
-  int iStat1 = 0;
 
-  dREC04RECNUMTYP dMainRecNo = 1;
   QPainterPath *poPath;
   sstQt01ShapeItem *poItemPath;
   QColor oColor;
   QPoint oPnt(0,0);
+  dREC04RECNUMTYP dNumRecords = 0;
 
-  poPath = new QPainterPath;
-  poItemPath = new sstQt01ShapeItem;
+  dNumRecords = this->poDxfDb->EntityCount(RS2::EntityLine);
 
-  // read next path from dxf database
-  iStat1 = this->ReadNextPath( 0, &dMainRecNo, poPath, &oColor);
-
-  while (iStat1 >= 0)
+  for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
   {
-    int iElements = poPath->elementCount();
-    switch (iElements)
-    {
-      case 4:
-      poItemPath->setToolTip("Triangle");
-      // createShapeItem( *poPath, "Triangle", oPnt, oColor);
-      break;
-    case 5:
-      poItemPath->setToolTip("Square");
-      // createShapeItem( *poPath, "Square", oPnt, oColor);
-      break;
-    case 13:
-      poItemPath->setToolTip("Circle");
-      // createShapeItem( *poPath, "Circle", oPnt, oColor);
-      break;
-    default:
-      assert(0);
-      break;
-    }
+    poPath = new QPainterPath;
+    poItemPath = new sstQt01ShapeItem;
+
+    // read next path from Dxf database
+    iStat = this->ReadNextEntity2Path( 0, ii, poPath, &oColor);
 
     poItemPath->setColor(oColor);
     poItemPath->setPath(*poPath);
     poItemPath->setPosition(oPnt);
+    poItemPath->setShapeType(eSstQt01PathLine);
+
+    poItemPath->setToolTip("Line");
 
     poTmpPathStore->appendShapeItem(*poItemPath);
 
     delete poPath;
     delete poItemPath;
-    poPath = new (QPainterPath);
-    poItemPath = new sstQt01ShapeItem;
-
-    iStat1 = this->ReadNextPath(0, &dMainRecNo, poPath, &oColor);
   }
 
   return iStat;
@@ -542,28 +183,19 @@ int sstQtDxf01PathStorageCls::LoadDxfFile(int iKey, std::string oDxfNamStr)
 {
   if ( iKey != 0) return -1;
   int iStat = 0;
-    iStat = poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
-    if (iStat < 0)
-    {
-      this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
-      this->poPrt->SST_PrtZu(1);
-      assert(0);
-    }
+    iStat = this->poDxfDb->ReadAllFromDxf(0, oDxfNamStr);
 
-  return iStat;
-}
-//=============================================================================
-int sstQtDxf01PathStorageCls::WriteAll2Dxf(int iKey, std::string oDxfNamStr)
-{
-  if ( iKey != 0) return -1;
-  int iStat = 0;
-    iStat = poDxfDb->WritAll2DxfFil( 0, oDxfNamStr);
     if (iStat < 0)
     {
-      this->poPrt->SST_PrtWrtChar(1,(char*)"sstQtDxf01LibTest.dxf",(char*)"File not found: ");
+      this->poPrt->SST_PrtWrtChar(1,(char*)oDxfNamStr.c_str(),(char*)"File not found: ");
       this->poPrt->SST_PrtZu(1);
       assert(0);
     }
+  sstMath01Mbr2Cls oMbr = this->poDxfDb->getMbrModel();
+
+  // Recalculate Coordinate Transformation
+  iStat = this->Calc_All( 0, oMbr, 1000000, 200.0);
+  assert(iStat >= 0);
 
   return iStat;
 }
@@ -589,13 +221,10 @@ int sstQtDxf01PathStorageCls::WriteAllPath2Dxf(int iKey, sstQt01PathStorageCls *
     QPainterPath oPath = poShapeItem->getPath();
     oPath.translate(myPoint.x(), myPoint.y());
 
-    QColor oColor = poShapeItem->getColor();
+    // QColor oColor = poShapeItem->getColor();
 
-    // Append path object to path storage
-    // this->oPathStorage->AppendPath(0,oPath,oColor);
-
-    // Write one path into dxf database
-    this->WrtPath2Dxf( 0, oPath, oColor);
+    // Write one path into sstDxf database
+    // this->WrtPath2Dxf( 0, oPath, oColor);
   }
 
   return iStat;

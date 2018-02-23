@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -fPIC -D_REENTRANT -Wall -W $(DEFINES)
 CXXFLAGS      = -m32 -pipe -g -fPIC -std=c++0x -D_REENTRANT -Wall -W $(DEFINES)
-INCPATH       = -I. -I../dxflib/Header -I../sstLibreCAD2Lib/Header -I../sst_dxf03_lib/Header -I../sstQt01Lib/Header -I../sst_rec04_lib/Header -I../sst_misc01_lib/Header -I../sst_str01_lib/Header -IHeader -I../../Qt/5.5/gcc/include -I../../Qt/5.5/gcc/include/QtWidgets -I../../Qt/5.5/gcc/include/QtGui -I../../Qt/5.5/gcc/include/QtCore -I. -I../../Qt/5.5/gcc/mkspecs/linux-g++-32
+INCPATH       = -I. -I../dxflib/Header -I../sstLibreCAD2Lib/Header -I../sst_dxf03_lib/Header -I../sstQt01Lib/Header -I../sst_rec04_lib/Header -I../sst_misc01_lib/Header -I../sstMath01Lib/Header -I../sst_str01_lib/Header -IHeader -I../../Qt/5.5/gcc/include -I../../Qt/5.5/gcc/include/QtWidgets -I../../Qt/5.5/gcc/include/QtGui -I../../Qt/5.5/gcc/include/QtCore -I. -I../../Qt/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /home/uli-le/Qt/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -1013,6 +1013,8 @@ sstQtDxf01PathStorage.o: sstQtDxf01PathStorage.cpp ../dxflib/Header/dl_dxf.h \
 		../../Qt/5.5/gcc/include/QtGui/QPainterPath \
 		../../Qt/5.5/gcc/include/QtCore/QPoint \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sst_str01_lib/Header/sstStr01FixColWidth.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		../sstQt01Lib/Header/sstQt01Lib.h \

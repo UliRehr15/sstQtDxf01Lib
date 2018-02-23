@@ -11,6 +11,7 @@ INCLUDEPATH +=  ../../sstQt01Lib/Header
 INCLUDEPATH +=  ../../sst_str01_lib/Header
 INCLUDEPATH +=  ../../sst_misc01_lib/Header
 INCLUDEPATH +=  ../../sst_rec04_lib/Header
+INCLUDEPATH +=  ../../sstMath01Lib/Header
 INCLUDEPATH +=  ../Header
 
 debug{
@@ -19,6 +20,7 @@ debug{
   LIBS        += ../../libs/libsst_dxf03_lib_d.a
   LIBS        += ../../libs/libsst_rec04_lib_d.a
   LIBS        += ../../libs/libsst_misc01_lib_d.a
+  LIBS        += ../../libs/libsstMath01Lib_d.a
   LIBS        += ../../libs/libsst_str01_lib_d.a
   LIBS        += ../../libs/libsstLibreCAD2Lib_d.a
   LIBS        += ../../libs/libdxflib_d.a
@@ -35,6 +37,7 @@ release{
   LIBS        += ../../libs/libsst_dxf03_lib_r.a
   LIBS        += ../../libs/libsst_rec04_lib_r.a
   LIBS        += ../../libs/libsst_misc01_lib_r.a
+  LIBS        += ../../libs/libsstMath01Lib_r.a
   LIBS        += ../../libs/libsst_str01_lib_r.a
   LIBS        += ../../libs/libsstLibreCAD2Lib_r.a
   LIBS        += ../../libs/libdxflib_r.a

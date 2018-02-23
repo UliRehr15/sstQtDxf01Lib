@@ -26,13 +26,16 @@ INCLUDEPATH +=  ../sst_dxf03_lib/Header
 INCLUDEPATH +=  ../sstQt01Lib/Header
 INCLUDEPATH +=  ../sst_rec04_lib/Header
 INCLUDEPATH +=  ../sst_misc01_lib/Header
+INCLUDEPATH +=  ../sstMath01Lib/Header
 INCLUDEPATH +=  ../sst_str01_lib/Header
 INCLUDEPATH +=  ./Header
 
 
 SOURCES += \
-#    sstQtDxf01Lib.cpp  \
     sstQtDxf01PathStorage.cpp
+    # sstQtDxf01PathStorage2.cpp \
+    # sstQt01FormatStore.cpp
+#    sstQtDxf01Lib.cpp  \
 #    sstQtDxf01PathElement.cpp
 
 

@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -m32 -pipe -g -std=c++0x -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../dxflib/Header -I../../sstLibreCAD2Lib/Header -I../../sst_dxf03_lib/Header -I../../sstQt01Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
+INCPATH       = -I. -I../../dxflib/Header -I../../sstLibreCAD2Lib/Header -I../../sst_dxf03_lib/Header -I../../sstQt01Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../../sstMath01Lib/Header -I../Header -I../../../Qt/5.5/gcc/include -I../../../Qt/5.5/gcc/include/QtWidgets -I../../../Qt/5.5/gcc/include/QtGui -I../../../Qt/5.5/gcc/include/QtCore -I. -I../../../Qt/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /home/uli-le/Qt/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = sstQtDxf01LibTest1.0.0
 DISTDIR = /home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest/.tmp/sstQtDxf01LibTest1.0.0
 LINK          = g++
 LFLAGS        = -m32 -Wl,-rpath,/home/uli-le/Qt/5.5/gcc -Wl,-rpath,/home/uli-le/Qt/5.5/gcc/lib
-LIBS          = $(SUBLIBS) ../../libs/libsstQtDxf01Lib_d.a ../../libs/libsstQt01Lib_d.a ../../libs/libsst_dxf03_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libsstLibreCAD2Lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) ../../libs/libsstQtDxf01Lib_d.a ../../libs/libsstQt01Lib_d.a ../../libs/libsst_dxf03_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsstMath01Lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libsstLibreCAD2Lib_d.a ../../libs/libdxflib_d.a -L/home/uli-le/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -665,6 +665,7 @@ moc_sstQtDxf01LibTest.cpp: ../../../Qt/5.5/gcc/include/QtWidgets/QDialog \
 		../../sstLibreCAD2Lib/Header/rs_vector.h \
 		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sstMath01Lib/Header/sstMath01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
@@ -692,7 +693,7 @@ moc_sstQtDxf01LibTest.cpp: ../../../Qt/5.5/gcc/include/QtWidgets/QDialog \
 		../../../Qt/5.5/gcc/include/QtWidgets/qrubberband.h \
 		../Header/sstQtDxf01Lib.h \
 		sstQtDxf01LibTest.h
-	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/dxflib/Header -I/home/uli-le/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli-le/Entwicklung/sst_dxf03_lib/Header -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Entwicklung/sstQtDxf01Lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sstQtDxf01LibTest.h -o moc_sstQtDxf01LibTest.cpp
+	/home/uli-le/Qt/5.5/gcc/bin/moc $(DEFINES) -I/home/uli-le/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/uli-le/Entwicklung/sstQtDxf01Lib/sstQtDxf01LibTest -I/home/uli-le/Entwicklung/dxflib/Header -I/home/uli-le/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli-le/Entwicklung/sst_dxf03_lib/Header -I/home/uli-le/Entwicklung/sstQt01Lib/Header -I/home/uli-le/Entwicklung/sst_str01_lib/Header -I/home/uli-le/Entwicklung/sst_misc01_lib/Header -I/home/uli-le/Entwicklung/sst_rec04_lib/Header -I/home/uli-le/Entwicklung/sstMath01Lib/Header -I/home/uli-le/Entwicklung/sstQtDxf01Lib/Header -I/home/uli-le/Qt/5.5/gcc/include -I/home/uli-le/Qt/5.5/gcc/include/QtWidgets -I/home/uli-le/Qt/5.5/gcc/include/QtGui -I/home/uli-le/Qt/5.5/gcc/include/QtCore sstQtDxf01LibTest.h -o moc_sstQtDxf01LibTest.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1164,6 +1165,7 @@ sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../../Qt/5.5/gcc/include/QtWidgets
 		../../sstLibreCAD2Lib/Header/rs_vector.h \
 		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sstMath01Lib/Header/sstMath01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
