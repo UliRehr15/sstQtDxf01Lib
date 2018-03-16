@@ -40,9 +40,7 @@
 
 //==============================================================================
 /**
-* @brief dxf format data storage class for converting to/from painter path objects <BR>
-*
-* Class owns a dxf db storage. Class could convert data to painter path objects. <BR>
+* @brief converting between dxf and painter path objects <BR>
 *
 * Changed: 05.09.16  Re.
 *
@@ -53,7 +51,7 @@
 * @date 05.09.16
 */
 // ----------------------------------------------------------------------------
-class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
+class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
 {
   public:   // Public functions
   //==============================================================================
@@ -63,8 +61,8 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
   * @param poPrt    [in] Pointer to open sst Protocol object
   */
   // ----------------------------------------------------------------------------
-     sstQtDxf01PathStorageCls(sstMisc01PrtFilCls *poPrt);  // Constructor
-    ~sstQtDxf01PathStorageCls();  // Destructor
+     sstQtDxf01PathConvertCls(sstDxf03DbCls *poDxfDb, sstQt01PathStorageCls *poPathStore, sstMisc01PrtFilCls *poPrt);  // Constructor
+    ~sstQtDxf01PathConvertCls();  // Destructor
      //==============================================================================
      /**
      * @brief // Load all pathes from Dxf file in sstPathDxf object.  <BR>
@@ -95,12 +93,11 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      int StoreAllPathToFile (int iKey, std::string oFilNam);
      //==============================================================================
      /**
-     * @brief // read next QPainterPath object from sstDxf database.  <BR>
+     * @brief // read LINE object from sstDxf database and write into sstPath.  <BR>
      *
-     * @param iKey       [in] For the moment 0
-     * @param dMainRecNo [in][out] main record number in sstDxf database
-     * @param poPath     [out] QPainterPath object
-     * @param poColor    [out] Color of Path
+     * @param iKey        [in]  For the moment 0
+     * @param dLineRecNo  [in]  record number of LINE in sstDxf database
+     * @param poPathItem  [out] sstPath object
      *
      * @return Errorstate
      *
@@ -108,7 +105,39 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int ReadNextEntity2Path(int iKey, dREC04RECNUMTYP dMainRecNo,  QPainterPath *poPath, QColor *poColor);
+     int WriteLINEtoItemPath(int iKey, dREC04RECNUMTYP dLineRecNo, sstQt01ShapeItem *poPathItem);
+     //==============================================================================
+     /**
+     * @brief // read sstPath and convert to LINE Entity  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param poPathItem  [in] sstPath object
+     * @param dDLLine     [in out]  LINE Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteItemPathtoLINE(int iKey,
+                             const sstQt01ShapeItem oPathItem,
+                             DL_LineData  *poDLLine);
+     //==============================================================================
+     /**
+     * @brief // read sst path object and update sstdxf LINE object.  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param dLineRecNo  [in]  record number of LINE in sstDxf database
+     * @param poPathItem  [out] sstPath object
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadItemPathfromLine(int iKey, dREC04RECNUMTYP dLineRecNo, sstQt01ShapeItem *poPathItem);
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>
@@ -146,7 +175,7 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int WritAlltoPathStorage(int iKey,sstQt01PathStorageCls *poTmpPathStore);
+     int WritAlltoPathStorage(int iKey);
      //==============================================================================
      /**
      * @brief // LoadDxfFile <BR>
@@ -161,7 +190,7 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int LoadDxfFile(int iKey, std::string oDxfNamStr);
+     // int LoadDxfFile(int iKey, std::string oDxfNamStr);
      //==============================================================================
      /**
      * @brief // write all sstDxf data from database into sst path storage <BR>
@@ -176,14 +205,14 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int WriteAll2Dxf(int iKey, std::string oDxfNamStr);
+     int WriteAll2Dxf(int iKey, const std::string oDxfNamStr);
      //==============================================================================
      /**
      * @brief // write all path from storage to sstDxf database <BR>
      * iStat = oPathDxfDb.WriteAllPath2Dxf ( iKey, poTmpPathStore);
      *
      * @param iKey [in] For the moment 0
-     * @param poTmpPathStore [in out] sst Path Storage to fill
+     * @param poTmpPathStore [in out] sst Path Storage to read from
      *
      * @return Errorstate
      *
@@ -191,13 +220,14 @@ class sstQtDxf01PathStorageCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int WriteAllPath2Dxf(int iKey, sstQt01PathStorageCls *poTmpPathStore);
+     int WriteAllPath2Dxf(int iKey);
      //==============================================================================
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
-     sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
-     sstMisc01PrtFilCls *poPrt;           /**< protocol file */
+     sstDxf03DbCls *poDxfDb;            /**< sst dxf database from outside */
+     sstMisc01PrtFilCls *poPrt;         /**< protocol object from outside */
+     sstQt01PathStorageCls *poPathStore; /**< sstPainterPath object from outside */
 };
 //==============================================================================
 

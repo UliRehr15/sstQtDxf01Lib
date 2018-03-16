@@ -2,6 +2,8 @@
 
 sst Qt/Dxf Classes and functions.
 
+Show dxf data in tables and map at the same time.
+
 Compile with QT 5.5 and QTCreator 3.5.1
 
 Structure of coding projects should be:
@@ -10,6 +12,7 @@ Structure of coding projects should be:
    [dxflib] from github <BR>
    [sstLibreCad2Lib] <BR>
    [sst_str01_lib]  <BR>
+   [sst_math01_lib]  <BR>
    [sst_misc01_lib]  <BR>
    [sst_rec04_lib]  <BR>
    [sst_dxf03_lib]  <BR>
@@ -23,3 +26,5 @@ Structure of coding projects should be:
 21.05.17: Version 1.5: Creating of sstDxf Database outside of widget. <BR>
 23.02.18: Version 1.6: New function LineToPath with coordinate transformation. <BR>
                        Rewrite test-tool: Read/Draw of Line-Entities in world coordinates. <BR>
+15.03.18: Version 1.7: New funciton PathtoLine with coordinate transformation. <BR>
+                       Write with painterpath moved lines back to dxf file. <BR>

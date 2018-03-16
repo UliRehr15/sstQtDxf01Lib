@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01LibTest.cpp    14.08.16  Re.    14.08.16  Re.
+// sstQtDxf01LibTest.cpp    23.02.18  Re.    14.08.16  Re.
 
 #include <assert.h>
 
@@ -59,29 +59,34 @@ int main(int argc, char *argv[])
 Dialog::Dialog()
 {
   int iStat = 0;
+  std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
   // open protocol system
   this->poPrt = new sstMisc01PrtFilCls;
-  this->poPrt->SST_PrtAuf(1,(char*)"tonQtDxf01LibTest.log");
+  this->poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01LibTest.log");
 
-  // open new sstDxf database
-  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sstDxf database
-  poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
-  iStat = poDxfPathConvert->LoadDxfFile(0,"sstQtDxf01LibTest.dxf");
+  // Create new empty sstDxf database
+  this->poDxfDb = new sstDxf03DbCls(this->poPrt);
+
+  iStat = this->poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
+
   if (iStat < 0)
   {
+    this->poPrt->SST_PrtWrtChar(1,(char*)oDxfNamStr.c_str(),(char*)"File not found: ");
     this->poPrt->SST_PrtZu(1);
     assert(0);
   }
 
+  // create new map widget with sstpainterpath storage
   this->poPathStorage = new sstQt01PathStorageCls(this->poPrt);
 
+  // open new Dxf_Path converter object
+  this->poDxfPathConvert = new sstQtDxf01PathConvertCls(this->poDxfDb,this->poPathStorage, this->poPrt);
+
   // fill Path Storage from Dxf database
-  iStat = poDxfPathConvert->WritAlltoPathStorage( 0, this->poPathStorage);
+  iStat = poDxfPathConvert->WritAlltoPathStorage( 0);
   assert(iStat == 0);
 
   this->poPathWidget = new sstQt01PathPaintWidgetCls(this->poPrt, this->poPathStorage);
-
-  delete poDxfPathConvert;
 
   createMenu();
     createHorizontalGroupBox();
@@ -113,19 +118,18 @@ Dialog::Dialog()
 //==============================================================================
 Dialog::~Dialog()
 {
-  sstQtDxf01PathStorageCls *poDxfPathConvert;  // sstDxf database
-  poDxfPathConvert = new sstQtDxf01PathStorageCls(this->poPrt);
-
-  int iStat = poDxfPathConvert->WriteAllPath2Dxf(0,this->poPathStorage);
+  // write all path from intern path storage to inter sst sstDxf database
+  int iStat = poDxfPathConvert->WriteAllPath2Dxf(0);
   assert(iStat == 0);
 
-  // iStat = poDxfPathConvert->WriteAll2Dxf(0,"tonQtDxf01LibTest.dxf");
-  // assert(iStat == 0);
+  // Write intern sst dxf database to dxf file
+  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  assert(iStat == 0);
 
   delete poDxfPathConvert;
-
   delete this->poPathWidget;
   delete this->poPathStorage;
+  delete   this->poDxfDb;
   this->poPrt->SST_PrtZu(1);
   delete this->poPrt;
 }

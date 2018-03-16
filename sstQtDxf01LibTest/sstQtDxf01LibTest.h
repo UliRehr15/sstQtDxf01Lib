@@ -98,7 +98,10 @@ private:
     sstMisc01PrtFilCls *poPrt;  // sst Protocol
     sstQt01PathStorageCls *poPathStorage;  // sst Painter Path Storage
     sstQt01PathPaintWidgetCls *poPathWidget;  // sst Painter Path widget
-    sstQtDxf01PathStorageCls *poDxfDb;  // sst Dxf database
+    sstQtDxf01PathConvertCls *poDxfPathConvert;
+    // sstQtDxf01PathConvertCls *poDxfDb;  // sst Dxf database
+    sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
+
 };
 
 #endif
