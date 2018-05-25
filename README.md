@@ -26,5 +26,6 @@ Structure of coding projects should be:
 21.05.17: Version 1.5: Creating of sstDxf Database outside of widget. <BR>
 23.02.18: Version 1.6: New function LineToPath with coordinate transformation. <BR>
                        Rewrite test-tool: Read/Draw of Line-Entities in world coordinates. <BR>
-15.03.18: Version 1.7: New funciton PathtoLine with coordinate transformation. <BR>
+15.03.18: Version 1.7: New function PathtoLine with coordinate transformation. <BR>
                        Write with painterpath moved lines back to dxf file. <BR>
+25.05.18: Version 1.8: Add Table classes for Entity LINE, POINT, CIRCLE, TEXT and MTEXT. <BR>

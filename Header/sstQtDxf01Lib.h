@@ -31,7 +31,7 @@
 #define SST_QT_DXF01_LIB_HEADER
 
 /**
- * @defgroup sstQtDxf01Lib sstQtDxf01Lib: cpp sst dxf library (Version 3)
+ * @defgroup sstQtDxf01Lib sstQtDxf01Lib: cpp sst Qt Dxf library (Version 1)
  *
  * cpp sst qt dxf library <BR>
  *
@@ -58,7 +58,9 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
   /**
   * @brief // Constructor.  <BR>
   *
-  * @param poPrt    [in] Pointer to open sst Protocol object
+  * @param poDxfDb      [in out] Pointer to open sst Dxf Database object
+  * @param poPathStore  [in out] Pointer to open sst Painter path storage object
+  * @param poPrt        [in out] Pointer to open sst Protocol object
   */
   // ----------------------------------------------------------------------------
      sstQtDxf01PathConvertCls(sstDxf03DbCls *poDxfDb, sstQt01PathStorageCls *poPathStore, sstMisc01PrtFilCls *poPrt);  // Constructor
@@ -111,8 +113,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * @brief // read sstPath and convert to LINE Entity  <BR>
      *
      * @param iKey        [in]  For the moment 0
-     * @param poPathItem  [in] sstPath object
-     * @param dDLLine     [in out]  LINE Entity
+     * @param oPathItem   [in] sstPath object
+     * @param poDLLine    [in out]  LINE Entity
      *
      * @return Errorstate
      *
@@ -167,7 +169,6 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * iStat = oPathDxfDb.WritAlltoPathStorage(iKey,poTmpPathStore);
      *
      * @param iKey [in] For the moment 0
-     * @param poTmpPathStore [in out] sst Path Storage to fill
      *
      * @return Errorstate
      *
@@ -212,7 +213,6 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * iStat = oPathDxfDb.WriteAllPath2Dxf ( iKey, poTmpPathStore);
      *
      * @param iKey [in] For the moment 0
-     * @param poTmpPathStore [in out] sst Path Storage to read from
      *
      * @return Errorstate
      *
@@ -228,6 +228,163 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      sstDxf03DbCls *poDxfDb;            /**< sst dxf database from outside */
      sstMisc01PrtFilCls *poPrt;         /**< protocol object from outside */
      sstQt01PathStorageCls *poPathStore; /**< sstPainterPath object from outside */
+};
+//==============================================================================
+//==============================================================================
+/**
+* @brief View Class for Dxf Entity Table
+*
+* Changed: 25.05.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 25.05.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabViewCircleCls : public sstQt01TabViewCls
+{
+  public:   // Public functions
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabViewLineCls <BR>
+  *
+  * @param poPrt         [in] Adress of Protocoll
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01TabViewCircleCls(sstMisc01PrtFilCls    *poPrt,
+                              sstDxf03DbCls         *poDxfDb);  // Constructor
+     ~sstQtDxf01TabViewCircleCls();  // Destructor
+// ----------------------------------------------------------------------------
+private:  // Private functions
+     sstQtDxf01TabMdlCircleCls  *poTabMdl; /**< Table Model Object */
+};
+//==============================================================================
+/**
+* @brief View Class for Dxf Entity Table
+*
+* Changed: 25.05.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 25.05.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabViewLineCls : public sstQt01TabViewCls
+{
+  public:   // Public functions
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabViewLineCls <BR>
+  *
+  * @param poPrt         [in] Adress of Protocoll
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01TabViewLineCls(sstMisc01PrtFilCls    *poPrt,
+                              sstDxf03DbCls         *poDxfDb);  // Constructor
+     ~sstQtDxf01TabViewLineCls();  // Destructor
+// ----------------------------------------------------------------------------
+private:  // Private functions
+     sstQtDxf01TabMdlLineCls  *poTabMdl; /**< Table Model Object */
+};
+//==============================================================================
+/**
+* @brief View Class for Dxf Entity Table
+*
+* Changed: 25.05.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 25.05.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabViewMTextCls : public sstQt01TabViewCls
+{
+  public:   // Public functions
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabViewMTextCls <BR>
+  *
+  * @param poPrt         [in] Adress of Protocoll
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01TabViewMTextCls(sstMisc01PrtFilCls    *poPrt,
+                              sstDxf03DbCls         *poDxfDb);  // Constructor
+     ~sstQtDxf01TabViewMTextCls();  // Destructor
+// ----------------------------------------------------------------------------
+private:  // Private functions
+     sstQtDxf01TabMdlMTextCls  *poTabMdl; /**< Table Model Object */
+};
+//==============================================================================
+/**
+* @brief View Class for Dxf Entity Table
+*
+* Changed: 25.05.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 25.05.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabViewPointCls : public sstQt01TabViewCls
+{
+  public:   // Public functions
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabViewPointCls <BR>
+  *
+  * @param poPrt         [in] Adress of Protocoll
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  *
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01TabViewPointCls(sstMisc01PrtFilCls    *poPrt,
+                               sstDxf03DbCls         *poDxfDb);  // Constructor
+     ~sstQtDxf01TabViewPointCls();  // Destructor
+// ----------------------------------------------------------------------------
+private:  // Private functions
+     sstQtDxf01TabMdlPointCls  *poTabMdl; /**< Table Model Object */
+};
+//==============================================================================
+/**
+* @brief View Class for Dxf Entity Table
+*
+* Changed: 25.05.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 25.05.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabViewTextCls : public sstQt01TabViewCls
+{
+  public:   // Public functions
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabViewTextCls <BR>
+  *
+  * @param poPrt         [in] Adress of sst Protocoll object
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  */
+  // ----------------------------------------------------------------------------
+     sstQtDxf01TabViewTextCls(sstMisc01PrtFilCls    *poPrt,
+                              sstDxf03DbCls         *poDxfDb);  // Constructor
+     ~sstQtDxf01TabViewTextCls();  // Destructor
+// ----------------------------------------------------------------------------
+private:  // Private functions
+     sstQtDxf01TabMdlTextCls  *poTabMdl; /**< Table Model Object */
 };
 //==============================================================================
 

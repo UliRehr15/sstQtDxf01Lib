@@ -32,14 +32,17 @@ INCLUDEPATH +=  ./Header
 
 
 SOURCES += \
-    sstQtDxf01PathStorage.cpp
-    # sstQtDxf01PathStorage2.cpp \
-    # sstQt01FormatStore.cpp
-#    sstQtDxf01Lib.cpp  \
-#    sstQtDxf01PathElement.cpp
+    sstQtDxf01PathStorage.cpp \
+    sstQtDxf01TabMdlCircle.cpp \
+    sstQtDxf01TabMdlLine.cpp \
+    sstQtDxf01TabMdlMText.cpp \
+    sstQtDxf01TabMdlPoint.cpp \
+    sstQtDxf01TabMdlText.cpp \
+    sstQtDxf01TabViewAll.cpp
 
 
-HEADERS += ./Header/sstQtDxf01Lib.h
+HEADERS += ./Header/sstQtDxf01Lib.h \
+           ./Header/sstQtDxf01QtTab.h
 
 OTHER_FILES += README.md
 
