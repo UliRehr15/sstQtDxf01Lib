@@ -28,4 +28,5 @@ Structure of coding projects should be:
                        Rewrite test-tool: Read/Draw of Line-Entities in world coordinates. <BR>
 15.03.18: Version 1.7: New function PathtoLine with coordinate transformation. <BR>
                        Write with painterpath moved lines back to dxf file. <BR>
-25.05.18: Version 1.8: Add Table classes for Entity LINE, POINT, CIRCLE, TEXT and MTEXT. <BR>
+25.05.18: Version 1.8: Add Table classes for Entities LINE, POINT, CIRCLE, TEXT and MTEXT. <BR>
+25.05.18: Version 1.9: Testframe for sst qt dxf entity tables.
