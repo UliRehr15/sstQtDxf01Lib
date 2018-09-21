@@ -78,7 +78,7 @@ Dialog::Dialog()
   }
 
   // create new map widget with sstpainterpath storage
-  this->poPathStorage = new sstQt01PathStorageCls(this->poPrt);
+  this->poPathStorage = new sstQt01PathStoreViewCls(this->poPrt);
 
   // open new Dxf_Path converter object
   this->poDxfPathConvert = new sstQtDxf01PathConvertCls(this->poDxfDb,this->poPathStorage, this->poPrt);

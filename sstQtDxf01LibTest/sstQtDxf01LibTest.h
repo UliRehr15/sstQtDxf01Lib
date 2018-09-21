@@ -97,7 +97,8 @@ private:
     QAction *exitAction;
 
     sstMisc01PrtFilCls *poPrt;  // sst Protocol
-    sstQt01PathStorageCls *poPathStorage;  // sst Painter Path Storage
+    // sstQt01PathStorageCls *poPathStorage;  // sst Painter Path Storage
+    sstQt01PathStoreViewCls *poPathStorage;  // sst Painter Path Storage
     sstQt01PathPaintWidgetCls *poPathWidget;  // sst Painter Path widget
     sstQtDxf01PathConvertCls *poDxfPathConvert;
     // sstQtDxf01PathConvertCls *poDxfDb;  // sst Dxf database

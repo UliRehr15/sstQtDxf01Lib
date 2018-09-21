@@ -20,7 +20,7 @@ CONFIG += staticlib
 
 QT += widgets
 
-INCLUDEPATH +=  ../dxflib/Header
+INCLUDEPATH +=  ../dxflib/src
 INCLUDEPATH +=  ../sstLibreCAD2Lib/Header
 INCLUDEPATH +=  ../sst_dxf03_lib/Header
 INCLUDEPATH +=  ../sstQt01Lib/Header

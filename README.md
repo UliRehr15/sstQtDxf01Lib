@@ -4,19 +4,21 @@ sst Qt/Dxf Classes and functions.
 
 Show dxf data in tables and map at the same time.
 
-Compile with QT 5.5 and QTCreator 3.5.1
+This Library is created with QT 5.9.5, QtCreator 4.5.2 and gcc 7.3.0.
 
 Structure of coding projects should be:
 
 .. [libs]  <BR>
-   [dxflib] from github <BR>
-   [sstLibreCad2Lib] <BR>
-   [sst_str01_lib]  <BR>
-   [sst_math01_lib]  <BR>
-   [sst_misc01_lib]  <BR>
-   [sst_rec04_lib]  <BR>
-   [sst_dxf03_lib]  <BR>
-   [sstQt01Lib]  <BR>
+.. [boost_1_68_0]  from www.boost.org <BR>
+.. [muParser]  Version 2.2.5 from https://github.com/beltoforion/muparser <BR>
+.. [dxflib]  Version 3.12.2 from www.qcad.org/Download <BR>
+.. [sstLibreCad2Lib] <BR>
+.. [sst_str01_lib]  <BR>
+.. [sst_math01_lib]  <BR>
+.. [sst_misc01_lib]  <BR>
+.. [sst_rec04_lib]  <BR>
+.. [sst_dxf03_lib]  <BR>
+.. [sstQt01Lib]  <BR>
 
 05.07.16: Version 1.0: github project created. <BR>
 14.08.16: Version 1.1: qt example widgets/tooltips with storing path geometry in csv file. <BR>
@@ -30,3 +32,6 @@ Structure of coding projects should be:
                        Write with painterpath moved lines back to dxf file. <BR>
 25.05.18: Version 1.8: Add Table classes for Entities LINE, POINT, CIRCLE, TEXT and MTEXT. <BR>
 25.05.18: Version 1.9: Testframe for sst qt dxf entity tables.
+21.09.18: Version 1.10: Updated to QT 5.9.5, QtCreator 4.5.2 and gcc 7.3.0. <BR>
+                        Updated to dxflib 3.12.2. <BR>
+

@@ -13,7 +13,7 @@ CONFIG       -= release  # DEBUG ist aktiv
 
 INCLUDEPATH +=  ../../sstMath01Lib/Header
 INCLUDEPATH +=  ../../sstLibreCAD2Lib/Header
-INCLUDEPATH +=  ../../dxflib/Header
+INCLUDEPATH +=  ../../dxflib/src
 INCLUDEPATH +=  ../../sst_str01_lib/Header
 INCLUDEPATH +=  ../../sst_misc01_lib/Header
 INCLUDEPATH +=  ../../sst_rec04_lib/Header

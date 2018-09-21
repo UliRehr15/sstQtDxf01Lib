@@ -63,7 +63,7 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
   * @param poPrt        [in out] Pointer to open sst Protocol object
   */
   // ----------------------------------------------------------------------------
-     sstQtDxf01PathConvertCls(sstDxf03DbCls *poDxfDb, sstQt01PathStorageCls *poPathStore, sstMisc01PrtFilCls *poPrt);  // Constructor
+     sstQtDxf01PathConvertCls(sstDxf03DbCls *poDxfDb, sstQt01PathStoreViewCls *poPathStore, sstMisc01PrtFilCls *poPrt);  // Constructor
     ~sstQtDxf01PathConvertCls();  // Destructor
      //==============================================================================
      /**
@@ -103,8 +103,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteLINEtoItemPath(int iKey, dREC04RECNUMTYP dLineRecNo, sstQt01ShapeItem *poPathItem);
@@ -227,7 +231,7 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
   private:  // Private functions
      sstDxf03DbCls *poDxfDb;            /**< sst dxf database from outside */
      sstMisc01PrtFilCls *poPrt;         /**< protocol object from outside */
-     sstQt01PathStorageCls *poPathStore; /**< sstPainterPath object from outside */
+     sstQt01PathStoreViewCls *poPathStore; /**< sstPainterPath object from outside */
 };
 //==============================================================================
 //==============================================================================

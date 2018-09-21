@@ -57,7 +57,7 @@
 
 //=============================================================================
 sstQtDxf01PathConvertCls::sstQtDxf01PathConvertCls(sstDxf03DbCls *poTmpDxfDb,
-                                                   sstQt01PathStorageCls *poTmpPathStore,
+                                                   sstQt01PathStoreViewCls *poTmpPathStore,
                                                    sstMisc01PrtFilCls *poTmpPrt)
 {
   if (poTmpPrt == NULL) assert(0);
@@ -86,7 +86,6 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
                                                   dREC04RECNUMTYP   dLineRecNo,
                                                   sstQt01ShapeItem *poItemPath)
 {
-  QPainterPath *poPath = new QPainterPath;
   QColor oColor;
 
   sstMath01dPnt2Cls d2Pnt1;  // local double points
@@ -109,6 +108,7 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
 
   iStat = this->poDxfDb->ReadLine( 0, dLineRecNo, &oLineRec, &oAttribRec);
   std::string oLayStr = oAttribRec.getLayer();
+  if (oLayStr.length() == 0) return -4;
   if (oLayStr.length() > 0)
   {
 
@@ -120,13 +120,14 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
     d2Pnt2.y = oLineRec.y2;
     this->Transform_WC_DC(0, &d2Pnt2.x,&d2Pnt2.y);
 
+    QPainterPath *poPath = new QPainterPath;
+
     poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
     poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
 
     oColor.setBlue(0);
     oColor.setRed(0);
     oColor.setGreen(0);
-  }
 
   poItemPath->setColor(oColor);
   poItemPath->setPath(*poPath);
@@ -138,6 +139,7 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
 
   delete poPath;
 
+  }
   // Fatal Errors goes to an assert
   assert(iRet >= 0);
 
@@ -288,8 +290,8 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
 
   // QPainterPath *poPath;
   sstQt01ShapeItem *poItemPath;
-  QColor oColor;
-  QPoint oPnt(0,0);
+  // QColor oColor;
+  // QPoint oPnt(0,0);
   dREC04RECNUMTYP dNumRecords = 0;
 
   dNumRecords = this->poDxfDb->EntityCount(RS2::EntityLine);
@@ -310,7 +312,7 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
 
 //    poItemPath->setToolTip("Line");
 
-    this->poPathStore->appendShapeItem(*poItemPath);
+    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
 
     // delete poPath;
     delete poItemPath;
