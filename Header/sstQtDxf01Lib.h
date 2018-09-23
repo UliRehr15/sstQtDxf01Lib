@@ -114,11 +114,11 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      int WriteLINEtoItemPath(int iKey, dREC04RECNUMTYP dLineRecNo, sstQt01ShapeItem *poPathItem);
      //==============================================================================
      /**
-     * @brief // read sstPath and convert to LINE Entity  <BR>
+     * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
      *
      * @param iKey        [in]  For the moment 0
-     * @param oPathItem   [in] sstPath object
-     * @param poDLLine    [in out]  LINE Entity
+     * @param oPathItem   [in]  sstShapeItem object
+     * @param poDLLine    [out] Dxf LINE Entity
      *
      * @return Errorstate
      *
@@ -126,9 +126,9 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int WriteItemPathtoLINE(int iKey,
-                             const sstQt01ShapeItem oPathItem,
-                             DL_LineData  *poDLLine);
+     int WriteItemPathtoLINE(int                     iKey,
+                             const sstQt01ShapeItem  oPathItem,
+                             DL_LineData            *poDLLine);
      //==============================================================================
      /**
      * @brief // read sst path object and update sstdxf LINE object.  <BR>

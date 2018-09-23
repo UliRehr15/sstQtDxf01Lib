@@ -135,7 +135,12 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
   poItemPath->setShapeType(eSstQt01PathLine);
   poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
 
-  poItemPath->setToolTip("Line");
+  sstStr01Cls oStrCnvt;
+  oStrCnvt.SetSeparator(0,(char*) "_");
+  std::string oTooltipStr = "ID";
+  oStrCnvt.Csv_UInt4_2String(0,dLineRecNo,&oTooltipStr);
+  oStrCnvt.Csv_Str_2String(0,"Line",&oTooltipStr);
+  poItemPath->setToolTip( oTooltipStr);
 
   delete poPath;
 
@@ -149,9 +154,9 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
   return iRet;
 }
 //=============================================================================
-int sstQtDxf01PathConvertCls::WriteItemPathtoLINE(int                iKey,
-                                                  const sstQt01ShapeItem  oItemPath,
-                                                  DL_LineData  *poDLLine)
+int sstQtDxf01PathConvertCls::WriteItemPathtoLINE(int                      iKey,
+                                                  const sstQt01ShapeItem   oItemPath,
+                                                  DL_LineData             *poDLLine)
 {
   QPainterPath *poPath = new QPainterPath;
   QColor oColor;
@@ -247,7 +252,7 @@ int sstQtDxf01PathConvertCls::ReadItemPathfromLine(int               iKey,
   poItemPath->setShapeType(eSstQt01PathLine);
   poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
 
-  poItemPath->setToolTip("Line");
+  poItemPath->setToolTip((std::string) "Line");
 
   delete poPath;
 
@@ -368,9 +373,13 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
   {
     *poShapeItem = this->poPathStore->getShapeItem(ii);
 
+    // Update position of path with translate position
     myPoint = poShapeItem->getPosition();
     QPainterPath oPath = poShapeItem->getPath();
     oPath.translate(myPoint.x(), myPoint.y());
+    poShapeItem->setPath(oPath);
+
+    // Get Dxf Entity Type from Extern ID
     dREC04RECNUMTYP dDxfMainNo = poShapeItem->getExternId();
     iStat = this->poDxfDb->ReadMainTable( 0, dDxfMainNo, &eEntType, &dDxfEntNo);
 
@@ -380,10 +389,10 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
     {
     case (RS2::EntityLine):
     {
-      poDxfDb->ReadLine( 0, dDxfEntNo, &oDL_Line, &oDL_Attributes);
+      iStat = poDxfDb->ReadLine( 0, dDxfEntNo, &oDL_Line, &oDL_Attributes);
       // Update dxf entity LINE with data from Itempath
-      this->WriteItemPathtoLINE( 0, *poShapeItem, &oDL_Line);
-      poDxfDb->WriteLine( 0, oDL_Line, oDL_Attributes, &dDxfEntNo, &dDxfMainNo);
+      iStat = this->WriteItemPathtoLINE( 0, *poShapeItem, &oDL_Line);
+      iStat = poDxfDb->WriteLine( 0, oDL_Line, oDL_Attributes, &dDxfEntNo, &dDxfMainNo);
       break;
     }
     case (RS2::EntityPolyline):

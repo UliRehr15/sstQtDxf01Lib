@@ -33,5 +33,7 @@ Structure of coding projects should be:
 25.05.18: Version 1.8: Add Table classes for Entities LINE, POINT, CIRCLE, TEXT and MTEXT. <BR>
 25.05.18: Version 1.9: Testframe for sst qt dxf entity tables.
 21.09.18: Version 1.10: Updated to QT 5.9.5, QtCreator 4.5.2 and gcc 7.3.0. <BR>
-                        Updated to dxflib 3.12.2. <BR>
+                        Updated to dxflib 3.12.2. Exchange Path Tab Store with Path List Store. <BR>
+23.09.19: Version 1.11: Fix problem backwriting into dxf in View changed PainterPath. <BR>
+                        Fix problem with showing tooltip strings. <BR>
 
