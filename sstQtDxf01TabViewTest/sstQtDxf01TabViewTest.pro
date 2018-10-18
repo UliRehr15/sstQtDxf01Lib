@@ -1,9 +1,4 @@
-TEMPLATE	    = app
-CONFIG	 	   += warn_on
-CONFIG       += qt
-CONFIG       += windows
-CONFIG       += c++11
-
+CONFIG     += c++11
 
 QT += widgets
 
@@ -20,14 +15,6 @@ INCLUDEPATH +=  ../../sstQt01Lib/Header
 INCLUDEPATH +=  ../../sstQtDxf01Lib/Header
 INCLUDEPATH +=  ../../sst_dxf03_lib/Header
 
-HEADERS     = \
-    sstQtDxf01TabTest.h
-
-SOURCES     = \
-    sstQtDxf01TabTest.cpp \
-    TabTest_Dialog.cpp
-
-
 debug{
   LIBS        += ../../libs/libsstQtDxf01Lib_d.a
   LIBS        += ../../libs/libsstQt01Lib_d.a
@@ -39,7 +26,6 @@ debug{
   LIBS        += ../../libs/libsstLibreCAD2Lib_d.a
   LIBS        += ../../libs/libdxflib_d.a
 }
-
 release{
 
   win32-g++:QMAKE_LFLAGS += -static
@@ -47,6 +33,7 @@ release{
   win32-g++:QMAKE_LFLAGS_EXCEPTIONS_ON -= -mthreads
   win32-g++:QMAKE_CXXFLAGS_EXCEPTIONS_ON -= -mthreads
 
+  LIBS        += ../../libs/libsstQtDxf01Lib_r.a
   LIBS        += ../../libs/libsstQt01Lib_r.a
   LIBS        += ../../libs/libsst_dxf03_lib_r.a
   LIBS        += ../../libs/libsst_rec04_lib_r.a
@@ -55,10 +42,12 @@ release{
   LIBS        += ../../libs/libsst_str01_lib_r.a
   LIBS        += ../../libs/libsstLibreCAD2Lib_r.a
   LIBS        += ../../libs/libdxflib_r.a
-
 }
 
-TARGET	  	= sstQtDxf01TabTest
+HEADERS       = \
+                window.h
+SOURCES       = sstQtDxf01TabViewTest.cpp \
+                window.cpp
+# RESOURCES     = basicdrawing.qrc
 
-# copy to deployment directory
-# DESTDIR     = ../../../local_deploy
+TARGET = sstQtDxf01TabViewTest

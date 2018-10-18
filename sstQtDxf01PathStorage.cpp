@@ -51,7 +51,6 @@
 #include <sstRec04Lib.h>
 #include <sstQt01Lib.h>
 #include <sstDxf03Lib.h>
-
 #include "sstQtDxf01QtTab.h"
 #include "sstQtDxf01Lib.h"
 

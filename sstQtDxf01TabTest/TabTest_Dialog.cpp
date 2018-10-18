@@ -64,56 +64,17 @@ Dialog::Dialog()
 
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
   iStat = this->poDxfDb->ReadAllFromDxf(0,oDxfFilNam);
-  assert(iStat == 0);
+  if (iStat < 0)
+  {
+    this->poPrt->SST_PrtWrtChar(1,(char*)oDxfFilNam.c_str(),(char*)"File not found: ");
+    this->poPrt->SST_PrtWrt(1,(char*) "Tool aborted");
+    this->poPrt->SST_PrtZu(1);
+    exit(0);
+  }
 
-  this->poTab1View = new sstQtDxf01TabViewLineCls(this->poPrt,this->poDxfDb);
-  this->poTab2View = new sstQtDxf01TabViewCircleCls(this->poPrt,this->poDxfDb);
-  this->poTab3View = new sstQtDxf01TabViewMTextCls(this->poPrt,this->poDxfDb);
-  this->poTab4View = new sstQtDxf01TabViewPointCls(this->poPrt,this->poDxfDb);
-  this->poTab5View = new sstQtDxf01TabViewTextCls(this->poPrt,this->poDxfDb);
+  oDxfGroupBox = new sstQtDxf01TabGroupBoxCls(this->poPrt, this->poDxfDb);
 
-  poTextWidget1 = new QTextBrowser;
-  poTextWidget1->setPlainText(tr("TextWidget1"));
-
-  stackedWidget = new QStackedWidget;
-        stackedWidget->addWidget(poTextWidget1);
-        stackedWidget->addWidget(poTab1View);
-        stackedWidget->addWidget(poTab2View);
-        stackedWidget->addWidget(poTab3View);
-        stackedWidget->addWidget(poTab4View);
-        stackedWidget->addWidget(poTab5View);
-
-  treeView = new QTreeView(this);
-  standardModel = new QStandardItemModel ;
-  QStandardItem *rootNode = standardModel->invisibleRootItem();
-
-
-  //defining a couple of items
-  QStandardItem *rootItem = new QStandardItem("Dxf File");
-  QStandardItem *tabItem1 =  new QStandardItem("LINE Table");
-  QStandardItem *tabItem2 =     new QStandardItem("CIRCLE Table");
-  QStandardItem *tabItem3 =     new QStandardItem("MTEXT Table");
-  QStandardItem *tabItem4 =     new QStandardItem("POINT Table");
-  QStandardItem *tabItem5 =     new QStandardItem("TEXT Table");
-
-  //building up the hierarchy
-  rootNode->appendRow(rootItem);
-  rootItem->appendRow(tabItem1);
-  rootItem->appendRow(tabItem2);
-  rootItem->appendRow(tabItem3);
-  rootItem->appendRow(tabItem4);
-  rootItem->appendRow(tabItem5);
-
-  //register the model
-  treeView->setModel(standardModel);
-  treeView->expandAll();
-
-  //selection changes shall trigger a slot
-  QItemSelectionModel *selectionModel= treeView->selectionModel();
-  connect(selectionModel, SIGNAL(selectionChanged (const QItemSelection &, const QItemSelection &)),
-          this, SLOT(selectionChangedSlot(const QItemSelection &, const QItemSelection &)));
     createMenu();
-    createHorizontalGroupBox();
 
     bigEditor = new QTextEdit;
     bigEditor->setPlainText(tr("This widget takes up all the remaining space "
@@ -127,7 +88,7 @@ Dialog::Dialog()
 
     mainLayout = new QVBoxLayout;
     mainLayout->setMenuBar(menuBar);
-    mainLayout->addWidget(horizontalGroupBox);
+    mainLayout->addWidget(oDxfGroupBox);
     mainLayout->addWidget(bigEditor);
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);
@@ -140,11 +101,6 @@ Dialog::~Dialog()
   delete this->buttonBox;
   delete this->bigEditor;
 
-  delete this->poTab5View;
-  delete this->poTab4View;
-  delete this->poTab3View;
-  delete this->poTab2View;
-  delete this->poTab1View;
   int iStat = this->poDxfDb->WritAll2DxfFil(0,"Test_Line_Utm.dxf");
   assert(iStat == 0);
   delete this->poDxfDb;
@@ -163,49 +119,3 @@ void Dialog::createMenu()
     connect(exitAction, SIGNAL(triggered()), this, SLOT(accept()));
 }
 
-void Dialog::createHorizontalGroupBox()
-{
-    horizontalGroupBox = new QGroupBox(tr("Horizontal layout"));
-    QHBoxLayout *layout = new QHBoxLayout;
-
-    layout->addWidget(treeView);
-
-    layout->addWidget(stackedWidget);
-
-    horizontalGroupBox->setLayout(layout);
-}
-
-//QLabel *Dialog::createLabel(const QString &text)
-//{
-//    QLabel *label = new QLabel(text);
-//    label->setFrameStyle(QFrame::Box | QFrame::Raised);
-//    return label;
-//}
-
-void Dialog::selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/)
-{
-    //get the text of the selected item
-    const QModelIndex index = treeView->selectionModel()->currentIndex();
-    QString selectedText = index.data(Qt::DisplayRole).toString();
-    int selectedInt = index.row();  // get actual row of tree
-    //find out the hierarchy level of the selected item
-    int hierarchyLevel=1;
-    QModelIndex seekRoot = index;
-    while(seekRoot.parent() != QModelIndex())
-    {
-        seekRoot = seekRoot.parent();
-        hierarchyLevel++;
-    }
-    QString showString = QString("%1, Level %2").arg(selectedText)
-                         .arg(hierarchyLevel);
-    setWindowTitle(showString);
-    if (hierarchyLevel == 1)
-    {
-      stackedWidget->setCurrentIndex(0);
-    }
-    else
-    {
-      if (selectedInt == 0) stackedWidget->setCurrentIndex(1);
-      else stackedWidget->setCurrentIndex(2);
-    }
-}

@@ -36,4 +36,5 @@ Structure of coding projects should be:
                         Updated to dxflib 3.12.2. Exchange Path Tab Store with Path List Store. <BR>
 23.09.19: Version 1.11: Fix problem backwriting into dxf in View changed PainterPath. <BR>
                         Fix problem with showing tooltip strings. <BR>
+18.10.18: Version 1.12: Grouped Dxf Table Views in DxfTabGroupBoxWidget. <BR>
 

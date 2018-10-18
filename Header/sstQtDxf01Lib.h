@@ -37,6 +37,28 @@
  *
  */
 
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_color.h>
+#include <rs_vector.h>
+
+#include <QtWidgets>
+#include <QColor>
+#include <QPainterPath>
+#include <QPoint>
+
+#include <sstStr01Lib.h>
+#include <sstStr01FixColWidth.h>
+#include <sstMath01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstQt01Lib.h>
+#include <sstDxf03Lib.h>
+#include "sstQtDxf01QtTab.h"
+#include "sstQtDxf01Lib.h"
+
+
 
 //==============================================================================
 /**
@@ -391,6 +413,58 @@ private:  // Private functions
      sstQtDxf01TabMdlTextCls  *poTabMdl; /**< Table Model Object */
 };
 //==============================================================================
+/**
+* @brief Group Box Widget for Dxf Entity Tables <BR>
+*
+* Changed: 18.10.18  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 18.10.18
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01TabGroupBoxCls : public QGroupBox
+{
+    Q_OBJECT
+
+public:
+  //==============================================================================
+  /**
+  * @brief // Constructor for sstQtDxf01TabGroupBoxCls <BR>
+  *
+  * @param poPrt         [in] Adress of sst Protocoll object
+  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  */
+  // ----------------------------------------------------------------------------
+    sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb);
+    ~sstQtDxf01TabGroupBoxCls();
+
+private slots:
+    void selectionChangedSlot(const QItemSelection & newSelection, const QItemSelection & oldSelection);
+
+private:
+    QStackedWidget        *stackedWidget;
+    QTextBrowser          *poTextWidget1;
+    QTreeView             *treeView;
+    QStandardItemModel    *standardModel;
+
+    sstQtDxf01TabViewLineCls    *poTab1View;
+    sstQtDxf01TabViewCircleCls  *poTab2View;
+    sstQtDxf01TabViewMTextCls   *poTab3View;
+    sstQtDxf01TabViewPointCls   *poTab4View;
+    sstQtDxf01TabViewTextCls    *poTab5View;
+
+    QStandardItem *rootItem;
+    QStandardItem *tabItem1;
+    QStandardItem *tabItem2;
+    QStandardItem *tabItem3;
+    QStandardItem *tabItem4;
+    QStandardItem *tabItem5;
+
+};
+
 
 
 #endif // SSTQTDXF01LIB_H

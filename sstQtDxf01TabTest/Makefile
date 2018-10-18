@@ -366,6 +366,9 @@ moc_sstQtDxf01TabTest.cpp: ../../dxflib/src/dl_dxf.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		sstQtDxf01TabTest.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -405,6 +408,9 @@ sstQtDxf01TabTest.o: sstQtDxf01TabTest.cpp ../../dxflib/src/dl_dxf.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		sstQtDxf01TabTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01TabTest.o sstQtDxf01TabTest.cpp
 
@@ -428,6 +434,9 @@ TabTest_Dialog.o: TabTest_Dialog.cpp ../../dxflib/src/dl_dxf.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		sstQtDxf01TabTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TabTest_Dialog.o TabTest_Dialog.cpp
 

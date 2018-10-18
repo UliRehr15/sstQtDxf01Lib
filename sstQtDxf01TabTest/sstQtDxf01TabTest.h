@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01TabTest.h    25.05.18  Re.   25.05.18  Re.
+// sstQtDxf01TabTest.h    18.10.18  Re.   25.05.18  Re.
 //
 
 #ifndef SSTQTDXF01TABTEST_H
@@ -64,6 +64,7 @@ class QMenu;
 class QMenuBar;
 class QPushButton;
 class QTextEdit;
+// class QView;
 QT_END_NAMESPACE
 
 class Dialog : public QDialog
@@ -74,34 +75,21 @@ public:
     Dialog();
     ~Dialog();
 
-private slots:
-    void selectionChangedSlot(const QItemSelection & newSelection, const QItemSelection & oldSelection);
-
 private:
     void createMenu();
-    void createHorizontalGroupBox();
 
     enum { NumGridRows = 3, NumButtons = 2 };
 
     QMenuBar *menuBar;
-    QGroupBox *horizontalGroupBox;
     QTextEdit *bigEditor;
     QDialogButtonBox *buttonBox;
 
     QMenu *fileMenu;
     QAction *exitAction;
 
-    QTreeView *treeView;
-    QStandardItemModel *standardModel;
-    QTextBrowser *poTextWidget1;
-    QVBoxLayout *mainLayout;
-    QStackedWidget *stackedWidget;
+    sstQtDxf01TabGroupBoxCls *oDxfGroupBox;
 
-    sstQtDxf01TabViewLineCls    *poTab1View;
-    sstQtDxf01TabViewCircleCls  *poTab2View;
-    sstQtDxf01TabViewMTextCls   *poTab3View;
-    sstQtDxf01TabViewPointCls   *poTab4View;
-    sstQtDxf01TabViewTextCls    *poTab5View;
+    QVBoxLayout *mainLayout;
     sstMisc01PrtFilCls *poPrt;
 
     sstDxf03DbCls *poDxfDb;
