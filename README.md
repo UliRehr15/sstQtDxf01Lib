@@ -37,4 +37,5 @@ Structure of coding projects should be:
 23.09.19: Version 1.11: Fix problem backwriting into dxf in View changed PainterPath. <BR>
                         Fix problem with showing tooltip strings. <BR>
 18.10.18: Version 1.12: Grouped Dxf Table Views in DxfTabGroupBoxWidget. <BR>
+23.10.18: Version 1.13: Create new test frame for combined working with dxf map and tables. <BR>
 

@@ -67,7 +67,7 @@ Dialog::Dialog()
 
   // Create new empty sstDxf database
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
-
+  // Load Dxf Data from file
   iStat = this->poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
 
   if (iStat < 0)

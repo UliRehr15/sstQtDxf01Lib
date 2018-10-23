@@ -11,8 +11,7 @@
  * See the COPYING file for more information.
  *
  **********************************************************************/
-// window.cpp   24.09.18  Re.   24.09.18  Re.
-
+// window.cpp   23.10.18  Re.   24.09.18  Re.
 
 #include <assert.h>
 
@@ -38,97 +37,82 @@
 
 #include "window.h"
 
+//==============================================================================
 Window::Window()
 {
-  // int iStat = 0;
-  this->oPrt = new sstMisc01PrtFilCls;
+  int iStat = 0;
+  std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
 
-  oPrt->SST_PrtAuf(1,(char*)"sstQt01PathTabView.log");
+  this->poPrt = new sstMisc01PrtFilCls;
+  poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01TabViewTest.log");
 
-  this->poPathTabStorage = new sstQt01PathStorageCls( oPrt);
-  this->poPathTabStorage->LoadAllPathFromFile(0,"Paint.csv");
-  // assert(iStat == 0);
+  // Create new empty sstDxf database
+  this->poDxfDb = new sstDxf03DbCls(this->poPrt);
+  // Load Dxf Data from file
+  iStat = this->poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
 
-  if (poPathTabStorage->countItems() <= 0)
+  if (iStat < 0)
   {
-    oPrt->SST_PrtWrtChar(1,(char*)"Is Empty",(char*)"File Paint.csv: ");
-
-    poPathTabStorage->createDefaultItems(0);
+    this->poPrt->SST_PrtWrtChar(1,(char*)oDxfNamStr.c_str(),(char*)"File not found: ");
+    this->poPrt->SST_PrtZu(1);
+    assert(0);
   }
 
-  //Open new PainterPath Map View Storage with QList inside
-  this->poPathViewStorage = new sstQt01PathStoreViewCls( oPrt);
+  // create sstpainterpath storage for map widget
+  this->poPathViewStorage = new sstQt01PathStoreViewCls(this->poPrt);
 
-  // Fill View Storage from Tab Storage
-  this->poPathTabStorage->setViewStoreData( 0, this->poPathViewStorage);
+  // open new Dxf_Path converter object
+  this->poDxfPathConvert = new sstQtDxf01PathConvertCls(this->poDxfDb,this->poPathViewStorage, this->poPrt);
 
-  sstQt01TestPaintWidgetCls1 = new sstQt01TestPaintWidgetCls;
-  sstQt01TestPaintWidgetCls2 = new sstQt01TestPaintWidgetCls;
+  // fill Path Storage from Dxf database
+  iStat = poDxfPathConvert->WritAlltoPathStorage( 0);
+  assert(iStat == 0);
 
-  poPathTabWidget = new sstQt01PathTabViewCls( oPrt, this->poPathTabStorage);
+  // Create GroupBoxWidget with all dxf entity tables
+  poTabGroupBoxWidget = new sstQtDxf01TabGroupBoxCls( poPrt, this->poDxfDb);
 
-  poPathMapWidget = new sstQt01PathPaintWidgetCls(oPrt,this->poPathViewStorage);
+  // create new map widget with sstpainterpath storage
+  poPathMapWidget = new sstQt01PathPaintWidgetCls( poPrt,this->poPathViewStorage);
 
     QGridLayout *mainLayout = new QGridLayout;
 
     mainLayout->setColumnStretch(0, 1);
     mainLayout->setColumnStretch(3, 1);
     mainLayout->addWidget(poPathMapWidget, 0, 0, 1, 4);
-    mainLayout->addWidget(poPathTabWidget, 1, 0, 1, 4);
+    mainLayout->addWidget(poTabGroupBoxWidget, 1, 0, 1, 4);
 
     setLayout(mainLayout);
-
-    shapeChanged();
-    penChanged();
-    brushChanged();
 
     setWindowTitle(tr("Basic Drawing"));
 
     // For refreshing map from table
-    connect(poPathTabWidget, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), poPathMapWidget, SLOT(sstPaintEvent(sstQt01ShapeItem)));
-    // for refreshing table from map
-    connect(poPathMapWidget, SIGNAL(sstPathMoveReleaseSgnl(sstQt01ShapeItem)), poPathTabWidget, SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
+//    connect(poPathTabWidget, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), poPathMapWidget, SLOT(sstPaintEvent(sstQt01ShapeItem)));
+//    // for refreshing table from map
+//    connect(poPathMapWidget, SIGNAL(sstPathMoveReleaseSgnl(sstQt01ShapeItem)), poPathTabWidget, SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
 
-    connect(poPathMapWidget,SIGNAL(sstSgnlBeginInsertRows(int,int)),poPathTabWidget,SLOT(sstSlotBeginInsertRows(int,int)));
-    connect(poPathMapWidget,SIGNAL(sstSgnlEndInsertRows()),poPathTabWidget,SLOT(sstSlotEndInsertRows()));
+//    connect(poPathMapWidget,SIGNAL(sstSgnlBeginInsertRows(int,int)),poPathTabWidget,SLOT(sstSlotBeginInsertRows(int,int)));
+//    connect(poPathMapWidget,SIGNAL(sstSgnlEndInsertRows()),poPathTabWidget,SLOT(sstSlotEndInsertRows()));
 
-    connect(poPathMapWidget,SIGNAL(sstSgnlBeginRemoveRows(int,int)),poPathTabWidget,SLOT(sstSlotBeginRemoveRows(int,int)));
-    connect(poPathMapWidget,SIGNAL(sstSgnlEndRemoveRows()),poPathTabWidget,SLOT(sstSlotEndRemoveRows()));
+//    connect(poPathMapWidget,SIGNAL(sstSgnlBeginRemoveRows(int,int)),poPathTabWidget,SLOT(sstSlotBeginRemoveRows(int,int)));
+//    connect(poPathMapWidget,SIGNAL(sstSgnlEndRemoveRows()),poPathTabWidget,SLOT(sstSlotEndRemoveRows()));
 }
+//==============================================================================
 Window::~Window()
 {
   int iStat = 0;
-  iStat = this->poPathTabStorage->StoreAllPathToFile(0,"Paint.csv");
-  assert (iStat == 0);
+  // write all path from intern path storage to inter sst sstDxf database
+  iStat = poDxfPathConvert->WriteAllPath2Dxf(0);
+  assert(iStat == 0);
+
+  // Write intern sst dxf database to dxf file
+  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  assert(iStat == 0);
+
+  delete poDxfPathConvert;
   delete this->poPathViewStorage;
-  delete this->poPathTabStorage;
-  this->oPrt->SST_PrtZu(1);
+  delete this->poPathMapWidget;
+  delete   this->poDxfDb;
+  this->poPrt->SST_PrtZu(1);
+  delete this->poPrt;
 }
-
-void Window::shapeChanged()
-{
-    sstQt01TestPaintWidgetCls::Shape shape = sstQt01TestPaintWidgetCls::Polygon;
-    sstQt01TestPaintWidgetCls1->setShape(shape);
-    sstQt01TestPaintWidgetCls2->setShape(shape);
-}
-
-void Window::penChanged()
-{
-
-    int width = 0;
-    Qt::PenStyle style = Qt::SolidLine;
-    Qt::PenCapStyle cap = Qt::FlatCap;
-    Qt::PenJoinStyle join = Qt::MiterJoin;
-    sstQt01TestPaintWidgetCls1->setPen(QPen(Qt::blue, width, style, cap, join));
-    sstQt01TestPaintWidgetCls2->setPen(QPen(Qt::blue, width, style, cap, join));
-}
-
-void Window::brushChanged()
-{
-        QLinearGradient linearGradient(0, 0, 100, 100);
-        linearGradient.setColorAt(0.0, Qt::white);
-        linearGradient.setColorAt(0.2, Qt::green);
-        linearGradient.setColorAt(1.0, Qt::black);
-        sstQt01TestPaintWidgetCls1->setBrush(linearGradient);
-        sstQt01TestPaintWidgetCls2->setBrush(linearGradient);
-}
+//==============================================================================

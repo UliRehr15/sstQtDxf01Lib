@@ -346,10 +346,29 @@ moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 compiler_moc_header_make_all: moc_window.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_window.cpp
-moc_window.cpp: ../../sst_str01_lib/Header/sstStr01Lib.h \
+moc_window.cpp: ../../dxflib/src/dl_dxf.h \
+		../../dxflib/src/dl_global.h \
+		../../dxflib/src/dl_attributes.h \
+		../../dxflib/src/dl_codes.h \
+		../../dxflib/src/dl_entities.h \
+		../../dxflib/src/dl_writer_ascii.h \
+		../../dxflib/src/dl_writer.h \
+		../../dxflib/src/dl_creationadapter.h \
+		../../dxflib/src/dl_creationinterface.h \
+		../../dxflib/src/dl_extrusion.h \
+		../../sstLibreCAD2Lib/Header/rs_vector.h \
+		../../sstLibreCAD2Lib/Header/rs.h \
+		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sstMath01Lib/Header/sstMath01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
+		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
+		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
+		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		window.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -388,7 +407,11 @@ sstQtDxf01TabViewTest.o: sstQtDxf01TabViewTest.cpp ../../dxflib/src/dl_dxf.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
-		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h
+		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
+		window.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01TabViewTest.o sstQtDxf01TabViewTest.cpp
 
 window.o: window.cpp ../../dxflib/src/dl_dxf.h \
@@ -410,7 +433,11 @@ window.o: window.cpp ../../dxflib/src/dl_dxf.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
 		../../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		../../sstQtDxf01Lib/Header/sstQtDxf01QtTab.h \
-		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h
+		../../sstQtDxf01Lib/Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
+		window.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o window.cpp
 
 moc_window.o: moc_window.cpp 

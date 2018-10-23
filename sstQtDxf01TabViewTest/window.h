@@ -18,10 +18,19 @@
 
 #include <string>
 
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstQt01Lib.h>
+#include <sstDxf03Lib.h>
+#include <sstQtDxf01QtTab.h>
+#include <sstQtDxf01Lib.h>
 
 #include <QWidget>
 
@@ -43,21 +52,25 @@ public:
     ~Window();
 
 private slots:
-    void shapeChanged();
-    void penChanged();
-    void brushChanged();
+//    void shapeChanged();
+//    void penChanged();
+//    void brushChanged();
 
 private:
-    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls1;
-    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls2;
+//    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls1;
+//    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls2;
 
-    sstQt01PathTabViewCls *poPathTabWidget;
+    // sstQt01PathTabViewCls *poPathTabWidget;
+    sstQtDxf01TabGroupBoxCls *poTabGroupBoxWidget;
 
     sstQt01PathPaintWidgetCls *poPathMapWidget;
 
-    sstMisc01PrtFilCls *oPrt;
-    sstQt01PathStorageCls   *poPathTabStorage;     // sst Painter Path Table storage
-    sstQt01PathStoreViewCls *poPathViewStorage;  // sst Painter Path Map View storage
+    sstMisc01PrtFilCls       *poPrt;
+    // sstQt01PathStorageCls   *poPathTabStorage;     // sst Painter Path Table storage
+    sstDxf03DbCls            *poDxfDb;            /**< sst dxf database */
+    // sstQt01PathStorageCls   *poPathTabStorage;     // sst Painter Path Table storage
+    sstQt01PathStoreViewCls  *poPathViewStorage;    // sst Painter Path Map View storage
+    sstQtDxf01PathConvertCls *poDxfPathConvert;
 
 };
 //! [0]
