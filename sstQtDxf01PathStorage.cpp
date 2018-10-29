@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01PathStorage.cpp    23.02.2018  Re.    17.07.17  Re.
+// sstQtDxf01PathStorage.cpp    29.10.18  Re.    17.07.17  Re.
 //
 
 #include <stdio.h>
@@ -107,8 +107,8 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
 
   iStat = this->poDxfDb->ReadLine( 0, dLineRecNo, &oLineRec, &oAttribRec);
   std::string oLayStr = oAttribRec.getLayer();
-  if (oLayStr.length() == 0) return -4;
-  if (oLayStr.length() > 0)
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() >= 0)
   {
 
     d2Pnt1.x = oLineRec.x1;
@@ -128,20 +128,20 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
     oColor.setRed(0);
     oColor.setGreen(0);
 
-  poItemPath->setColor(oColor);
-  poItemPath->setPath(*poPath);
-  // poItemPath->setPosition(oPnt);
-  poItemPath->setShapeType(eSstQt01PathLine);
-  poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
+    poItemPath->setColor(oColor);
+    poItemPath->setPath(*poPath);
+    // poItemPath->setPosition(oPnt);
+    poItemPath->setShapeType(eSstQt01PathLine);
+    poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
 
-  sstStr01Cls oStrCnvt;
-  oStrCnvt.SetSeparator(0,(char*) "_");
-  std::string oTooltipStr = "ID";
-  oStrCnvt.Csv_UInt4_2String(0,dLineRecNo,&oTooltipStr);
-  oStrCnvt.Csv_Str_2String(0,"Line",&oTooltipStr);
-  poItemPath->setToolTip( oTooltipStr);
+    sstStr01Cls oStrCnvt;
+    oStrCnvt.SetSeparator(0,(char*) "_");
+    std::string oTooltipStr = "ID";
+    oStrCnvt.Csv_UInt4_2String(0,dLineRecNo,&oTooltipStr);
+    oStrCnvt.Csv_Str_2String(0,"Line",&oTooltipStr);
+    poItemPath->setToolTip( oTooltipStr);
 
-  delete poPath;
+    delete poPath;
 
   }
   // Fatal Errors goes to an assert

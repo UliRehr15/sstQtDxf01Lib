@@ -62,14 +62,14 @@ Window::Window()
   this->poPathViewStorage = new sstQt01PathStoreViewCls(this->poPrt);
 
   // open new Dxf_Path converter object
-  this->poDxfPathConvert = new sstQtDxf01PathConvertCls(this->poDxfDb,this->poPathViewStorage, this->poPrt);
+  this->poDxfPathConvert = new sstQtDxf01PathConvertCls( this->poDxfDb, this->poPathViewStorage, this->poPrt);
 
-  // fill Path Storage from Dxf database
-  iStat = poDxfPathConvert->WritAlltoPathStorage( 0);
+  // fill View Path Storage from Dxf database
+  iStat = this->poDxfPathConvert->WritAlltoPathStorage( 0);
   assert(iStat == 0);
 
   // Create GroupBoxWidget with all dxf entity tables
-  poTabGroupBoxWidget = new sstQtDxf01TabGroupBoxCls( poPrt, this->poDxfDb);
+  poTabGroupBoxWidget = new sstQtDxf01TabGroupBoxCls( poPrt, this->poDxfDb, this->poDxfPathConvert);
 
   // create new map widget with sstpainterpath storage
   poPathMapWidget = new sstQt01PathPaintWidgetCls( poPrt,this->poPathViewStorage);
@@ -84,6 +84,11 @@ Window::Window()
     setLayout(mainLayout);
 
     setWindowTitle(tr("Basic Drawing"));
+
+    // For refreshing map from table
+    connect(poTabGroupBoxWidget, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), poPathMapWidget, SLOT(sstPaintEvent(sstQt01ShapeItem)));
+    // for refreshing table from map
+    connect(poPathMapWidget, SIGNAL(sstPathMoveReleaseSgnl(sstQt01ShapeItem)), poTabGroupBoxWidget, SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
 
     // For refreshing map from table
 //    connect(poPathTabWidget, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), poPathMapWidget, SLOT(sstPaintEvent(sstQt01ShapeItem)));

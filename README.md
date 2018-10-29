@@ -38,4 +38,6 @@ Structure of coding projects should be:
                         Fix problem with showing tooltip strings. <BR>
 18.10.18: Version 1.12: Grouped Dxf Table Views in DxfTabGroupBoxWidget. <BR>
 23.10.18: Version 1.13: Create new test frame for combined working with dxf map and tables. <BR>
+29.10.18: Version 1.14: Signals ans Slots for refreshing tables from map and vice versa. <BR>
+                        First only for Entity LINE in section entities. <BR>
 

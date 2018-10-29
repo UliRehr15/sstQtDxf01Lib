@@ -65,6 +65,9 @@ sstQtDxf01TabMdlTextCls::sstQtDxf01TabMdlTextCls(QObject *parent, sstMisc01PrtFi
   {
     this->sstTabVector.push_back(ll);
   }
+
+  connect(this,SIGNAL(sstSgnlTabUpdated(sstQt01ShapeItem)),this,SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
+
 }
  
 // // Constructor
@@ -296,3 +299,26 @@ bool sstQtDxf01TabMdlTextCls::insertRows(int position, int rows, const QModelInd
   return true;
 //  Bloc Code Generation End
 }
+//=============================================================================
+void sstQtDxf01TabMdlTextCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
+{
+
+  // Update path storage with shapeitem at index position
+  // int iStat = this->poPathStorage->ReplaceShape( 0, oShapeItem.getExternId(), oShapeItem);
+  // assert(iStat >= 0);
+
+  // Get actual size of path data table
+  // int iRow = (int) this->poPathStorage->RecordCount();
+  // int iCol = (int) this->poPathStorage->ColumnCount();
+  int iRow = (int) this->poDatabase->EntityCount(RS2::EntityText);
+  int iCol = (int) this->poDatabase->ColumnCount(RS2::EntityText);
+
+  // Indexing whole model table
+  QModelIndex oIndex1 = this->index(0,0);
+  QModelIndex oIndex2 = this->index(iRow-1,iCol-1);
+
+  // emit system signal -dataChanged- is necessary, because
+  // data are changed outside of Table Model in map.
+  emit this->dataChanged(oIndex1,oIndex2);
+}
+//=============================================================================

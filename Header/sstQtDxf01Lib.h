@@ -302,6 +302,8 @@ private:  // Private functions
 // ----------------------------------------------------------------------------
 class sstQtDxf01TabViewLineCls : public sstQt01TabViewCls
 {
+  Q_OBJECT
+
   public:   // Public functions
   //==============================================================================
   /**
@@ -315,6 +317,26 @@ class sstQtDxf01TabViewLineCls : public sstQt01TabViewCls
                               sstDxf03DbCls         *poDxfDb);  // Constructor
      ~sstQtDxf01TabViewLineCls();  // Destructor
 // ----------------------------------------------------------------------------
+public slots:
+     void sstSlotChangeTabLine(dREC04RECNUMTYP dLineRecNo);
+     void sstSlotUpdateTabLine(sstQt01ShapeItem oShapeItem);
+
+signals:
+     //==============================================================================
+     /**
+     * @brief Signal -Table data changed- direction table to map
+     */
+     // ----------------------------------------------------------------------------
+     void sstSgnlTabLineChanged(dREC04RECNUMTYP dLineRecNo);
+     //==============================================================================
+     /**
+     * @brief Signal -Table data changed- direction table to map
+     */
+     // ----------------------------------------------------------------------------
+     void sstSgnlTabLineUpdated(sstQt01ShapeItem oShapeItem);
+
+
+
 private:  // Private functions
      sstQtDxf01TabMdlLineCls  *poTabMdl; /**< Table Model Object */
 };
@@ -434,27 +456,44 @@ public:
   /**
   * @brief // Constructor for sstQtDxf01TabGroupBoxCls <BR>
   *
-  * @param poPrt         [in] Adress of sst Protocoll object
-  * @param poDxfDb       [in] Adress of sst Dxf Database object
+  * @param poPrt            [in] Adress of sst Protocoll object
+  * @param poDxfPathConvert [in] Adress of sst Dxf Database object
   */
   // ----------------------------------------------------------------------------
-    sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb);
+  // sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb);
+  sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls        *poPrt,
+                           sstDxf03DbCls             *poDxfDb,
+                           sstQtDxf01PathConvertCls  *poDxfPathConvert);
     ~sstQtDxf01TabGroupBoxCls();
 
 private slots:
     void selectionChangedSlot(const QItemSelection & newSelection, const QItemSelection & oldSelection);
+    void sstSlotUpdateMap(dREC04RECNUMTYP dRecNo);
+    void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
+
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- direction table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabChanged(sstQt01ShapeItem oShapeItem);
 
 private:
+    sstQtDxf01PathConvertCls *poDxfPathCnvt;
+    sstDxf03DbCls            *poDxfDb;
+    sstMisc01PrtFilCls       *poPrt;
+
     QStackedWidget        *stackedWidget;
     QTextBrowser          *poTextWidget1;
     QTreeView             *treeView;
     QStandardItemModel    *standardModel;
 
-    sstQtDxf01TabViewLineCls    *poTab1View;
-    sstQtDxf01TabViewCircleCls  *poTab2View;
-    sstQtDxf01TabViewMTextCls   *poTab3View;
-    sstQtDxf01TabViewPointCls   *poTab4View;
-    sstQtDxf01TabViewTextCls    *poTab5View;
+    sstQtDxf01TabViewLineCls    *poTabLineView;
+    sstQtDxf01TabViewCircleCls  *poTabCircleView;
+    sstQtDxf01TabViewMTextCls   *poTabMTextView;
+    sstQtDxf01TabViewPointCls   *poTabPointView;
+    sstQtDxf01TabViewTextCls    *poTabTextView;
 
     QStandardItem *rootItem;
     QStandardItem *tabItem1;

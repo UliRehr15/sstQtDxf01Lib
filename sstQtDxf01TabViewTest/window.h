@@ -42,7 +42,6 @@ class QSpinBox;
 QT_END_NAMESPACE
 class sstQt01TestPaintWidgetCls;
 
-//! [0]
 class Window : public QWidget
 {
     Q_OBJECT
@@ -57,22 +56,13 @@ private slots:
 //    void brushChanged();
 
 private:
-//    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls1;
-//    sstQt01TestPaintWidgetCls *sstQt01TestPaintWidgetCls2;
-
-    // sstQt01PathTabViewCls *poPathTabWidget;
-    sstQtDxf01TabGroupBoxCls *poTabGroupBoxWidget;
-
+    sstQtDxf01TabGroupBoxCls  *poTabGroupBoxWidget;
     sstQt01PathPaintWidgetCls *poPathMapWidget;
-
-    sstMisc01PrtFilCls       *poPrt;
-    // sstQt01PathStorageCls   *poPathTabStorage;     // sst Painter Path Table storage
-    sstDxf03DbCls            *poDxfDb;            /**< sst dxf database */
-    // sstQt01PathStorageCls   *poPathTabStorage;     // sst Painter Path Table storage
-    sstQt01PathStoreViewCls  *poPathViewStorage;    // sst Painter Path Map View storage
-    sstQtDxf01PathConvertCls *poDxfPathConvert;
+    sstMisc01PrtFilCls        *poPrt;
+    sstDxf03DbCls             *poDxfDb;              /**< sst dxf database */
+    sstQt01PathStoreViewCls   *poPathViewStorage;    // sst Painter Path Map View storage
+    sstQtDxf01PathConvertCls  *poDxfPathConvert;     // object to convert from dxf to painterpath and back
 
 };
-//! [0]
 
 #endif // WINDOW_H

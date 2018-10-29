@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQt01TestTabGroupBox.cpp    18.10.18  Re.   11.10.18  Re.
+// sstQtDxf01TabGroupBox.cpp    29.10.18  Re.   11.10.18  Re.
 //
 // Tree View Widget for group of dxf entity view tables
 
@@ -51,26 +51,34 @@
 #include <sstQtDxf01QtTab.h>
 #include <sstQtDxf01Lib.h>
 
-sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb)
+//==============================================================================
+// sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb)
+sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt,
+                                                   sstDxf03DbCls *poDxfDb,
+                                                   sstQtDxf01PathConvertCls  *poDxfPathConvert)
 {
+  this->poDxfPathCnvt = poDxfPathConvert;
+  this->poDxfDb       = poDxfDb;
+  this->poPrt         = poPrt;
+
   this->setTitle("Test-Tabellen");
 
-  this->poTab1View = new sstQtDxf01TabViewLineCls( poPrt, poDxfDb);
-  this->poTab2View = new sstQtDxf01TabViewCircleCls( poPrt, poDxfDb);
-  this->poTab3View = new sstQtDxf01TabViewMTextCls( poPrt, poDxfDb);
-  this->poTab4View = new sstQtDxf01TabViewPointCls( poPrt, poDxfDb);
-  this->poTab5View = new sstQtDxf01TabViewTextCls( poPrt, poDxfDb);
+  this->poTabLineView = new sstQtDxf01TabViewLineCls( poPrt, poDxfDb);
+  this->poTabCircleView = new sstQtDxf01TabViewCircleCls( poPrt, poDxfDb);
+  this->poTabMTextView = new sstQtDxf01TabViewMTextCls( poPrt, poDxfDb);
+  this->poTabPointView = new sstQtDxf01TabViewPointCls( poPrt, poDxfDb);
+  this->poTabTextView = new sstQtDxf01TabViewTextCls( poPrt, poDxfDb);
 
   poTextWidget1 = new QTextBrowser;
   poTextWidget1->setPlainText(tr("TextWidget1"));
 
   stackedWidget = new QStackedWidget;
   stackedWidget->addWidget(poTextWidget1);
-  stackedWidget->addWidget(poTab1View);
-  stackedWidget->addWidget(poTab2View);
-  stackedWidget->addWidget(poTab3View);
-  stackedWidget->addWidget(poTab4View);
-  stackedWidget->addWidget(poTab5View);
+  stackedWidget->addWidget(poTabLineView);
+  stackedWidget->addWidget(poTabCircleView);
+  stackedWidget->addWidget(poTabMTextView);
+  stackedWidget->addWidget(poTabPointView);
+  stackedWidget->addWidget(poTabTextView);
 
   treeView = new QTreeView(this);
   standardModel = new QStandardItemModel ;
@@ -101,6 +109,9 @@ sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, ss
   connect(selectionModel, SIGNAL(selectionChanged (const QItemSelection &, const QItemSelection &)),
           this, SLOT(selectionChangedSlot(const QItemSelection &, const QItemSelection &)));
 
+  connect(this, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), this->poTabLineView, SLOT(sstSlotUpdateTabLine(sstQt01ShapeItem)));
+  connect(this->poTabLineView, SIGNAL(sstSgnlTabLineChanged(dREC04RECNUMTYP)), this, SLOT(sstSlotUpdateMap(dREC04RECNUMTYP)));
+
   // horizontalGroupBox = new QGroupBox(tr("Horizontal layout"));
   QHBoxLayout *layout = new QHBoxLayout;
 
@@ -111,21 +122,22 @@ sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, ss
   this->setLayout(layout);
 
 }
+//==============================================================================
 sstQtDxf01TabGroupBoxCls::~sstQtDxf01TabGroupBoxCls()
 {
   delete poTextWidget1;
 
-  delete poTab1View;
-  delete poTab2View;
-  delete poTab3View;
-  delete poTab4View;
-  delete poTab5View;
+  delete poTabLineView;
+  delete poTabCircleView;
+  delete poTabMTextView;
+  delete poTabPointView;
+  delete poTabTextView;
 
   delete treeView;
   delete stackedWidget;
   delete standardModel;
 }
-
+//==============================================================================
 void sstQtDxf01TabGroupBoxCls::selectionChangedSlot(const QItemSelection & /*newSelection*/, const QItemSelection & /*oldSelection*/)
 {
     //get the text of the selected item
@@ -153,4 +165,27 @@ void sstQtDxf01TabGroupBoxCls::selectionChangedSlot(const QItemSelection & /*new
       else stackedWidget->setCurrentIndex(2);
     }
 }
+//=============================================================================
+void sstQtDxf01TabGroupBoxCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
+{
+  DL_LineData oLineRec(0,0,0,0,0,0);
+  DL_Attributes oAttrib;
+  dREC04RECNUMTYP dRecNo = 0;
+  dREC04RECNUMTYP dMainRecNo = 0;
+  // Convert ShapeItem to DxfLineRec
+  this->poDxfPathCnvt->WriteItemPathtoLINE ( 0, oShapeItem, &oLineRec);
+  dRecNo = oShapeItem.getExternId();
+  this->poDxfDb->WriteLine(0,oLineRec,oAttrib,&dRecNo,&dMainRecNo);
 
+  emit this->poTabLineView->sstSgnlTabLineUpdated(oShapeItem);
+}
+//=============================================================================
+void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(dREC04RECNUMTYP dLineRecNo)
+{
+  sstQt01ShapeItem oShapeItem;
+  // Convert ShapeItem to DxfLineRec
+  this->poDxfPathCnvt->WriteLINEtoItemPath( 0, dLineRecNo, &oShapeItem);
+
+  emit this->sstSgnlTabChanged(oShapeItem);
+}
+//=============================================================================

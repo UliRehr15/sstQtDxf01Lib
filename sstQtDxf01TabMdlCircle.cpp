@@ -43,6 +43,7 @@
 #include <list>
 #include <dl_dxf.h>
 #include <dl_creationadapter.h>
+#include <rs.h>
 #include <rs_vector.h>
 #include <QtWidgets>
 #include <sstQt01Lib.h>
@@ -64,6 +65,9 @@ sstQtDxf01TabMdlCircleCls::sstQtDxf01TabMdlCircleCls(QObject *parent, sstMisc01P
   {
     this->sstTabVector.push_back(ll);
   }
+
+  connect(this,SIGNAL(sstSgnlTabUpdated(sstQt01ShapeItem)),this,SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
+
 }
  
 // // Constructor
@@ -233,3 +237,27 @@ bool sstQtDxf01TabMdlCircleCls::insertRows(int position, int rows, const QModelI
   return true;
 //  Bloc Code Generation End
 }
+//=============================================================================
+void sstQtDxf01TabMdlCircleCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
+{
+
+  // Update path storage with shapeitem at index position
+  // int iStat = this->poPathStorage->ReplaceShape( 0, oShapeItem.getExternId(), oShapeItem);
+  // assert(iStat >= 0);
+
+  // Get actual size of path data table
+//  int iRow = (int) this->poPathStorage->RecordCount();
+//  int iCol = (int) this->poPathStorage->ColumnCount();
+
+  int iRow = (int) this->poDatabase->EntityCount(RS2::EntityCircle);
+  int iCol = (int) this->poDatabase->ColumnCount(RS2::EntityCircle);
+
+  // Indexing whole model table
+  QModelIndex oIndex1 = this->index(0,0);
+  QModelIndex oIndex2 = this->index(iRow-1,iCol-1);
+
+  // emit system signal -dataChanged- is necessary, because
+  // data are changed outside of Table Model in map.
+  emit this->dataChanged(oIndex1,oIndex2);
+}
+//=============================================================================

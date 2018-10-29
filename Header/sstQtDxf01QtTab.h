@@ -196,6 +196,30 @@ class sstQtDxf01TabMdlCircleCls : public sstQt01TabMdlCls
     */
     // -----------------------------------------------------------------------------
     bool insertRows(int position, int rows, const QModelIndex &index);// return number of table columns
+public slots:
+        //==============================================================================
+        /**
+        * @brief Slot -Table data changed- direction map to table
+        * @param oShapeItem [in] ShapeItem for update
+        */
+        // ----------------------------------------------------------------------------
+        void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
+
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabChanged(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- map to table
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabUpdated(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+
   private:
      sstDxf03DbCls *poDatabase;
      sstMisc01PrtFilCls *poPrt;
@@ -304,6 +328,29 @@ class sstQtDxf01TabMdlMTextCls : public sstQt01TabMdlCls
     */
     // -----------------------------------------------------------------------------
     bool insertRows(int position, int rows, const QModelIndex &index);// return number of table columns
+public slots:
+        //==============================================================================
+        /**
+        * @brief Slot -Table data changed- direction map to table
+        * @param oShapeItem [in] ShapeItem for update
+        */
+        // ----------------------------------------------------------------------------
+        void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabChanged(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- map to table
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabUpdated(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+
   private:
      sstDxf03DbCls *poDatabase;
      sstMisc01PrtFilCls *poPrt;
@@ -412,6 +459,29 @@ class sstQtDxf01TabMdlTextCls : public sstQt01TabMdlCls
     */
     // -----------------------------------------------------------------------------
     bool insertRows(int position, int rows, const QModelIndex &index);// return number of table columns
+public slots:
+        //==============================================================================
+        /**
+        * @brief Slot -Table data changed- direction map to table
+        * @param oShapeItem [in] ShapeItem for update
+        */
+        // ----------------------------------------------------------------------------
+        void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabChanged(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- map to table
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabUpdated(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+
   private:
      sstDxf03DbCls *poDatabase;
      sstMisc01PrtFilCls *poPrt;
@@ -520,6 +590,29 @@ class sstQtDxf01TabMdlPointCls : public sstQt01TabMdlCls
     */
     // -----------------------------------------------------------------------------
     bool insertRows(int position, int rows, const QModelIndex &index);// return number of table columns
+public slots:
+        //==============================================================================
+        /**
+        * @brief Slot -Table data changed- direction map to table
+        * @param oShapeItem [in] ShapeItem for update
+        */
+        // ----------------------------------------------------------------------------
+        void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabChanged(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- map to table
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabUpdated(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+
   private:
      sstDxf03DbCls *poDatabase;
      sstMisc01PrtFilCls *poPrt;
@@ -628,6 +721,35 @@ class sstQtDxf01TabMdlLineCls : public sstQt01TabMdlCls
     */
     // -----------------------------------------------------------------------------
     bool insertRows(int position, int rows, const QModelIndex &index);// return number of table columns
+public slots:
+    //==============================================================================
+    /**
+    * @brief Slot -Table data changed- direction table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSlotChangeTabLine(dREC04RECNUMTYP dLineRecNo);
+        //==============================================================================
+        /**
+        * @brief Slot -Table data changed- direction map to table
+        * @param oShapeItem [in] ShapeItem for update
+        */
+        // ----------------------------------------------------------------------------
+        void sstSlotUpdateTabLine(sstQt01ShapeItem oShapeItem);
+signals:
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- table to map
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabLineChanged(dREC04RECNUMTYP dLineRecNo);
+    //==============================================================================
+    /**
+    * @brief Signal -Table data changed- map to table
+    */
+    // ----------------------------------------------------------------------------
+    void sstSgnlTabLineUpdated(sstQt01ShapeItem oShapeItem);
+    //==============================================================================
+
   private:
      sstDxf03DbCls *poDatabase;
      sstMisc01PrtFilCls *poPrt;

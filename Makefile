@@ -473,8 +473,8 @@ sstQtDxf01TabMdlCircle.o: sstQtDxf01TabMdlCircle.cpp ../sst_str01_lib/Header/sst
 		../dxflib/src/dl_creationadapter.h \
 		../dxflib/src/dl_creationinterface.h \
 		../dxflib/src/dl_extrusion.h \
-		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
+		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstQt01Lib/Header/sstQt01Lib.h \
 		../sst_dxf03_lib/Header/sstDxf03Lib.h \
 		Header/sstQtDxf01QtTab.h \

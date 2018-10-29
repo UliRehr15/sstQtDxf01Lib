@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01TabViewAll.cpp    25.05.18  Re.    25.05.18  Re.
+// sstQtDxf01TabViewAll.cpp    28.10.18  Re.    25.05.18  Re.
 //
 
 #include <QtWidgets>
@@ -56,6 +56,9 @@ sstQtDxf01TabViewCircleCls::sstQtDxf01TabViewCircleCls(sstMisc01PrtFilCls *poTmp
 {
   poTabMdl = new sstQtDxf01TabMdlCircleCls(0, poTmpPrt, poDxfDb);
   this->setModel( poTabMdl );
+
+  connect(this->poTabMdl,SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)),this,SLOT(sstSlotChangeTab(sstQt01ShapeItem)));
+
 }
 //=============================================================================
 sstQtDxf01TabViewCircleCls::~sstQtDxf01TabViewCircleCls()
@@ -69,6 +72,10 @@ sstQtDxf01TabViewLineCls::sstQtDxf01TabViewLineCls(sstMisc01PrtFilCls *poTmpPrt,
 {
   poTabMdl = new sstQtDxf01TabMdlLineCls(0, poTmpPrt, poDxfDb);
   this->setModel( poTabMdl );
+
+  connect(this,SIGNAL(sstSgnlTabLineUpdated(sstQt01ShapeItem)),this,SLOT(sstSlotUpdateTabLine(sstQt01ShapeItem)));
+  connect(this->poTabMdl,SIGNAL(sstSgnlTabLineChanged(dREC04RECNUMTYP)),this,SLOT(sstSlotChangeTabLine(dREC04RECNUMTYP)));
+
 }
 //=============================================================================
 sstQtDxf01TabViewLineCls::~sstQtDxf01TabViewLineCls()
@@ -76,12 +83,31 @@ sstQtDxf01TabViewLineCls::~sstQtDxf01TabViewLineCls()
   delete poTabMdl;
 }
 //=============================================================================
+void sstQtDxf01TabViewLineCls::sstSlotChangeTabLine(dREC04RECNUMTYP dRecNo)
+{
+  emit this->sstSgnlTabLineChanged(dRecNo);
+}
+//=============================================================================
+void sstQtDxf01TabViewLineCls::sstSlotUpdateTabLine(sstQt01ShapeItem oShapeItem)
+{
+  emit this->poTabMdl->sstSgnlTabLineUpdated(oShapeItem);
+  this->resizeRowsToContents();
+}
+//=============================================================================
+// void sstQtDxf01TabViewLineCls::sstSlotChangeTabLine(sstQt01ShapeItem oShapeItem)
+//{
+//  emit this->sstSgnlTabLineChanged(oShapeItem);
+// }
+//=============================================================================
 sstQtDxf01TabViewMTextCls::sstQtDxf01TabViewMTextCls(sstMisc01PrtFilCls *poTmpPrt,
                                                      sstDxf03DbCls      *poDxfDb)
   : sstQt01TabViewCls(poTmpPrt)
 {
   poTabMdl = new sstQtDxf01TabMdlMTextCls(0, poTmpPrt, poDxfDb);
   this->setModel( poTabMdl);
+
+  connect(this->poTabMdl,SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)),this,SLOT(sstSlotChangeTab(sstQt01ShapeItem)));
+
 }
 //=============================================================================
 sstQtDxf01TabViewMTextCls::~sstQtDxf01TabViewMTextCls()
@@ -95,6 +121,9 @@ sstQtDxf01TabViewPointCls::sstQtDxf01TabViewPointCls(sstMisc01PrtFilCls *poTmpPr
 {
   poTabMdl = new sstQtDxf01TabMdlPointCls(0, poTmpPrt, poDxfDb);
   this->setModel( poTabMdl);
+
+  connect(this->poTabMdl,SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)),this,SLOT(sstSlotChangeTab(sstQt01ShapeItem)));
+
 }
 //=============================================================================
 sstQtDxf01TabViewPointCls::~sstQtDxf01TabViewPointCls()
@@ -108,6 +137,9 @@ sstQtDxf01TabViewTextCls::sstQtDxf01TabViewTextCls(sstMisc01PrtFilCls *poTmpPrt,
 {
   poTabMdl = new sstQtDxf01TabMdlTextCls(0, poTmpPrt, poDxfDb);
   this->setModel( poTabMdl);
+
+  connect(this->poTabMdl,SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)),this,SLOT(sstSlotChangeTab(sstQt01ShapeItem)));
+
 }
 //=============================================================================
 sstQtDxf01TabViewTextCls::~sstQtDxf01TabViewTextCls()
