@@ -107,6 +107,7 @@ QVariant sstQtDxf01TabMdlCircleCls::data(const QModelIndex &index, int role) con
   assert (iStat == 0);
  
   switch(role){
+  case Qt::EditRole:
   case Qt::DisplayRole:
     {
       switch (index.column())

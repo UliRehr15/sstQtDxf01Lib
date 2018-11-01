@@ -376,6 +376,9 @@ moc_sstQtDxf01LibTest.cpp: ../../dxflib/src/dl_dxf.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
 		../Header/sstQtDxf01QtTab.h \
 		../Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		sstQtDxf01LibTest.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -415,6 +418,9 @@ sstQtDxf01LibTest.o: sstQtDxf01LibTest.cpp ../../dxflib/src/dl_dxf.h \
 		../../sstQt01Lib/Header/sstQt01Lib.h \
 		../Header/sstQtDxf01QtTab.h \
 		../Header/sstQtDxf01Lib.h \
+		../../sstLibreCAD2Lib/Header/rs_color.h \
+		../../sstLibreCAD2Lib/Header/rs_flags.h \
+		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
 		sstQtDxf01LibTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01LibTest.o sstQtDxf01LibTest.cpp
 

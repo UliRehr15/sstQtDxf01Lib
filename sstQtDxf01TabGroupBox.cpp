@@ -168,6 +168,8 @@ void sstQtDxf01TabGroupBoxCls::selectionChangedSlot(const QItemSelection & /*new
 //=============================================================================
 void sstQtDxf01TabGroupBoxCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
 {
+  if (this->poDxfPathCnvt == 0) return;
+
   DL_LineData oLineRec(0,0,0,0,0,0);
   DL_Attributes oAttrib;
   dREC04RECNUMTYP dRecNo = 0;
@@ -182,6 +184,8 @@ void sstQtDxf01TabGroupBoxCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
 //=============================================================================
 void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(dREC04RECNUMTYP dLineRecNo)
 {
+  if (this->poDxfPathCnvt == 0) return;
+
   sstQt01ShapeItem oShapeItem;
   // Convert ShapeItem to DxfLineRec
   this->poDxfPathCnvt->WriteLINEtoItemPath( 0, dLineRecNo, &oShapeItem);

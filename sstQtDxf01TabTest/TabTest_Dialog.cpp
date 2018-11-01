@@ -72,7 +72,7 @@ Dialog::Dialog()
     exit(0);
   }
 
-  oDxfGroupBox = new sstQtDxf01TabGroupBoxCls(this->poPrt, this->poDxfDb);
+    this->poDxfGroupBox = new sstQtDxf01TabGroupBoxCls(this->poPrt, this->poDxfDb, 0);
 
     createMenu();
 
@@ -88,7 +88,7 @@ Dialog::Dialog()
 
     mainLayout = new QVBoxLayout;
     mainLayout->setMenuBar(menuBar);
-    mainLayout->addWidget(oDxfGroupBox);
+    mainLayout->addWidget(poDxfGroupBox);
     mainLayout->addWidget(bigEditor);
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);

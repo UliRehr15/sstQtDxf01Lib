@@ -87,7 +87,7 @@ private:
     QMenu *fileMenu;
     QAction *exitAction;
 
-    sstQtDxf01TabGroupBoxCls *oDxfGroupBox;
+    sstQtDxf01TabGroupBoxCls *poDxfGroupBox;
 
     QVBoxLayout *mainLayout;
     sstMisc01PrtFilCls *poPrt;
