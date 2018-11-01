@@ -318,7 +318,21 @@ class sstQtDxf01TabViewLineCls : public sstQt01TabViewCls
      ~sstQtDxf01TabViewLineCls();  // Destructor
 // ----------------------------------------------------------------------------
 public slots:
+     //==============================================================================
+     /**
+     * @brief // Slot Update Table from Map <BR>
+     *
+     * @param dLineRecNo       [in] Send Record Number from Map to GroupBox
+     */
+     // ----------------------------------------------------------------------------
      void sstSlotChangeTabLine(dREC04RECNUMTYP dLineRecNo);
+     //==============================================================================
+     /**
+     * @brief // Slot Update Table from Map <BR>
+     *
+     * @param oShapeItem       [in] Send ShapeItem from GroupBox to Map
+     */
+     // ----------------------------------------------------------------------------
      void sstSlotUpdateTabLine(sstQt01ShapeItem oShapeItem);
 
 signals:
@@ -457,7 +471,8 @@ public:
   * @brief // Constructor for sstQtDxf01TabGroupBoxCls <BR>
   *
   * @param poPrt            [in] Adress of sst Protocoll object
-  * @param poDxfPathConvert [in] Adress of sst Dxf Database object
+  * @param poDxfDb          [in] Adress of sst Dxf Database object
+  * @param poDxfPathConvert [in] Adress of sst Dxf PainterPath Coordinates Convert object
   */
   // ----------------------------------------------------------------------------
   // sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb);
