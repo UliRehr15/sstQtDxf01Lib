@@ -67,9 +67,16 @@ sstQtDxf01PathConvertCls::sstQtDxf01PathConvertCls(sstDxf03DbCls *poTmpDxfDb,
   this->poPathStore = poTmpPathStore;
 
   sstMath01Mbr2Cls oMbr = this->poDxfDb->getMbrModel();
+  int iStat = oMbr.OK2(0);
+  if (iStat != 0)
+  {
+    this->poPrt->SST_PrtWrtChar(1,(char*)"Calculate Mbr from block Paperspace",(char*)"Error: ");
+    this->poPrt->SST_PrtZu(1);
+    assert(0);
+  }
 
   // Recalculate Coordinate Transformation
-  int iStat = this->Calc_All( 0, oMbr, 1000000, 200.0);
+  iStat = this->Calc_All( 0, oMbr, 1000000, 200.0);
   assert(iStat >= 0);
 
   // Create new empty sstDxf database

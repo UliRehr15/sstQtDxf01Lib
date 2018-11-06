@@ -41,7 +41,13 @@
 Window::Window()
 {
   int iStat = 0;
-  std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
+
+  int my_argc = qApp->arguments().count();
+  if (my_argc != 2) assert(0);
+  QString my_argv_1 = qApp->arguments().at(1);
+
+  // std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
+  std::string oDxfNamStr = my_argv_1.toStdString();
 
   this->poPrt = new sstMisc01PrtFilCls;
   poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01TabViewTest.log");

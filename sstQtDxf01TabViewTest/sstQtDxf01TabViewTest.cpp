@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 {
     // Q_INIT_RESOURCE(basicdrawing);
 
+  if (argc != 2) return 0;
 
   QApplication app(argc, argv);
     Window window;

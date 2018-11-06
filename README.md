@@ -41,4 +41,5 @@ Structure of coding projects should be:
 29.10.18: Version 1.14: Signals ans Slots for refreshing tables from map and vice versa. <BR>
                         First only for Entity LINE in section entities. <BR>
 01.11.18: Version 1.15: Better "in cell" editing for all tables. <BR>
+06.11.18: Version 1.16: App TabViewTest: Call with dxf file name. <BR>
 
