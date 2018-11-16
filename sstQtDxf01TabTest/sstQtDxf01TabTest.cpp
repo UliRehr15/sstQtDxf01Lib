@@ -24,7 +24,7 @@
 **********************************************************************/
 // sstQtDxf01TabTest.cpp    25.05.18  Re.    25.05.18  Re.
 //
-// Testframe for sst qt dxf entity tables.
+// Testframe for editing dxf data in sst qt dxf entity tables.
 //
 
 #include <QApplication>

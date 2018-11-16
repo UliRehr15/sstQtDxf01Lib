@@ -103,6 +103,8 @@ private:
     sstQtDxf01PathConvertCls *poDxfPathConvert;
     // sstQtDxf01PathConvertCls *poDxfDb;  // sst Dxf database
     sstDxf03DbCls *poDxfDb;            /**< sst dxf database */
+    std::string oDxfFilNamStr;  // Dxf File Name String
+
 };
 
 #endif

@@ -4,7 +4,6 @@ CONFIG       += qt
 CONFIG       += windows
 CONFIG       += c++11
 
-
 QT += widgets
 
 # CONFIG       -= debug  # RELEASE ist aktiv

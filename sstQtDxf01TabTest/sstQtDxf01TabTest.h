@@ -93,6 +93,8 @@ private:
     sstMisc01PrtFilCls *poPrt;
 
     sstDxf03DbCls *poDxfDb;
+    std::string    oDxfFilNam;  // Dxf File Name
+
 
 };
 

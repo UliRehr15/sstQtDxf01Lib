@@ -206,9 +206,76 @@ int sstQtDxf01PathConvertCls::WriteItemPathtoLINE(int                      iKey,
   return iRet;
 }
 //=============================================================================
-int sstQtDxf01PathConvertCls::ReadItemPathfromLine(int               iKey,
-                                                  dREC04RECNUMTYP   dLineRecNo,
-                                                  sstQt01ShapeItem *poItemPath)
+int sstQtDxf01PathConvertCls::WriteCIRCLEtoItemPath(int               iKey,
+                                                    dREC04RECNUMTYP   dCircleRecNo,
+                                                    sstQt01ShapeItem *poItemPath)
+{
+  QColor oColor;
+
+  sstMath01dPnt2Cls d2Pnt1;  // local double points
+  sstMath01dPnt2Cls d2Pnt2;
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityCircle);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dCircleRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert all model LINE entities
+  DL_CircleData   oCircleRec(0,0,0,0);
+  DL_Attributes 	oAttribRec;
+
+  iStat = this->poDxfDb->ReadCircle( 0, dCircleRecNo, &oCircleRec, &oAttribRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() >= 0)
+  {
+
+    d2Pnt1.x = oCircleRec.cx;
+    d2Pnt1.y = oCircleRec.cy;
+    this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+
+    QPainterPath *poPath = new QPainterPath;
+
+    poPath->addEllipse(QRect(d2Pnt1.getX(), d2Pnt1.getY(), 100, 100));
+
+    oColor.setBlue(0);
+    oColor.setRed(0);
+    oColor.setGreen(0);
+
+    poItemPath->setColor(oColor);
+    poItemPath->setPath(*poPath);
+    // poItemPath->setPosition(oPnt);
+    poItemPath->setShapeType(eSstQt01PathCircle);
+    poItemPath->setExternId(dCircleRecNo);  // Set DXF Entity ID to Path object
+
+    sstStr01Cls oStrCnvt;
+    oStrCnvt.SetSeparator(0,(char*) "_");
+    std::string oTooltipStr = "ID";
+    oStrCnvt.Csv_UInt4_2String(0,dCircleRecNo,&oTooltipStr);
+    oStrCnvt.Csv_Str_2String(0,"Circle",&oTooltipStr);
+    poItemPath->setToolTip( oTooltipStr);
+
+    delete poPath;
+
+  }
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteItemPathtoCIRCLE(int                    iKey,
+                                                  const sstQt01ShapeItem   oItemPath,
+                                                  DL_CircleData           *poDlCircle)
 {
   QPainterPath *poPath = new QPainterPath;
   QColor oColor;
@@ -221,44 +288,18 @@ int sstQtDxf01PathConvertCls::ReadItemPathfromLine(int               iKey,
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
-  dREC04RECNUMTYP dMainRecs = 0;
-  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityLine);
-  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+  *poPath = oItemPath.getPath();
 
-  if (dLineRecNo > dMainRecs) return -3;  // Read position after end of table?
+  int iEleNum = poPath->elementCount();
+  assert(iEleNum == 13);
+  QPainterPath::Element oElement;
+  oElement = poPath->elementAt(0);
 
-  // Insert all model LINE entities
-  DL_LineData  	  oLineRec(0,0,0,0,0,0);
-  DL_Attributes 	oAttribRec;
-
-  iStat = this->poDxfDb->ReadLine( 0, dLineRecNo, &oLineRec, &oAttribRec);
-  std::string oLayStr = oAttribRec.getLayer();
-  if (oLayStr.length() > 0)
-  {
-
-    d2Pnt1.x = oLineRec.x1;
-    d2Pnt1.y = oLineRec.y1;
-    this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
-
-    d2Pnt2.x = oLineRec.x2;
-    d2Pnt2.y = oLineRec.y2;
-    this->Transform_WC_DC(0, &d2Pnt2.x,&d2Pnt2.y);
-
-    poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
-    poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
-
-    oColor.setBlue(0);
-    oColor.setRed(0);
-    oColor.setGreen(0);
-  }
-
-  poItemPath->setColor(oColor);
-  poItemPath->setPath(*poPath);
-  // poItemPath->setPosition(oPnt);
-  poItemPath->setShapeType(eSstQt01PathLine);
-  poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
-
-  poItemPath->setToolTip((std::string) "Line");
+  d2Pnt1.x = oElement.x;
+  d2Pnt1.y = oElement.y;
+  this->Transform_DC_WC(0, &d2Pnt1.x,&d2Pnt1.y);
+  poDlCircle->cx = d2Pnt1.x;
+  poDlCircle->cy = d2Pnt1.y;
 
   delete poPath;
 
@@ -270,6 +311,72 @@ int sstQtDxf01PathConvertCls::ReadItemPathfromLine(int               iKey,
 
   return iRet;
 }
+//=============================================================================
+//=============================================================================
+//int sstQtDxf01PathConvertCls::ReadItemPathfromLine(int               iKey,
+//                                                  dREC04RECNUMTYP   dLineRecNo,
+//                                                  sstQt01ShapeItem *poItemPath)
+//{
+//  QPainterPath *poPath = new QPainterPath;
+//  QColor oColor;
+
+//  sstMath01dPnt2Cls d2Pnt1;  // local double points
+//  sstMath01dPnt2Cls d2Pnt2;
+
+//  int iRet  = 0;
+//  int iStat = 0;
+//  //-----------------------------------------------------------------------------
+//  if ( iKey != 0) return -1;
+
+//  dREC04RECNUMTYP dMainRecs = 0;
+//  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityLine);
+//  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+//  if (dLineRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+//  // Insert all model LINE entities
+//  DL_LineData  	  oLineRec(0,0,0,0,0,0);
+//  DL_Attributes 	oAttribRec;
+
+//  iStat = this->poDxfDb->ReadLine( 0, dLineRecNo, &oLineRec, &oAttribRec);
+//  std::string oLayStr = oAttribRec.getLayer();
+//  if (oLayStr.length() > 0)
+//  {
+
+//    d2Pnt1.x = oLineRec.x1;
+//    d2Pnt1.y = oLineRec.y1;
+//    this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+
+//    d2Pnt2.x = oLineRec.x2;
+//    d2Pnt2.y = oLineRec.y2;
+//    this->Transform_WC_DC(0, &d2Pnt2.x,&d2Pnt2.y);
+
+//    poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
+//    poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
+
+//    oColor.setBlue(0);
+//    oColor.setRed(0);
+//    oColor.setGreen(0);
+//  }
+
+//  poItemPath->setColor(oColor);
+//  poItemPath->setPath(*poPath);
+//  // poItemPath->setPosition(oPnt);
+//  poItemPath->setShapeType(eSstQt01PathLine);
+//  poItemPath->setExternId(dLineRecNo);  // Set DXF Entity ID to Path object
+
+//  poItemPath->setToolTip((std::string) "Line");
+
+//  delete poPath;
+
+//  // Fatal Errors goes to an assert
+//  assert(iRet >= 0);
+
+//  // Small Errors will given back
+//  iRet = iStat;
+
+//  return iRet;
+//}
 //=============================================================================
 int sstQtDxf01PathConvertCls::colorToNumber(const QColor& col, int *rgb)
 {
@@ -304,16 +411,64 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
   // QColor oColor;
   // QPoint oPnt(0,0);
   dREC04RECNUMTYP dNumRecords = 0;
+  RS2::EntityType eEntityType;
+  dREC04RECNUMTYP dEntRecNo = 0;
 
-  dNumRecords = this->poDxfDb->EntityCount(RS2::EntityLine);
+  // Count entities of section entities
+  dNumRecords = this->poDxfDb->countEntities(0,0);
 
   for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
   {
-    // poPath = new QPainterPath;
+    // return type/Tab Rec No of entity in block with main tab no <BR>
+    iStat = this->poDxfDb->ReadEntityType ( 0, 0, ii, &eEntityType, &dEntRecNo);
+    assert(iStat == 0);
+//    if (iStat < 0)
+//    {
+//      ii = dNumRecords;
+//      break;  // exit for loop
+//    }
+
+//    iStat = this->poDxfDb->ReadMainTable( 0, dNumRecords+ii, &eEntityType, &dEntRecNo);
+//    assert(iStat == 0);
     poItemPath = new sstQt01ShapeItem;
 
-    // read next LINE Entity from Dxf database and write into painterpath
-    iStat = this->WriteLINEtoItemPath( 0, ii, poItemPath);
+    switch (eEntityType) {
+    case RS2::EntityLine:
+    {
+      // read next LINE Entity from Dxf database and write into painterpath
+      iStat = this->WriteLINEtoItemPath( 0, dEntRecNo, poItemPath);
+
+      // if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+      break;
+    }
+    case RS2::EntityCircle:
+    {
+      // read next LINE Entity from Dxf database and write into painterpath
+      iStat = this->WriteCIRCLEtoItemPath( 0, dEntRecNo, poItemPath);
+
+      // if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+      break;
+    }
+
+    default:
+      break;
+    }
+    std::string oTypeStr;
+    oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntityType);
+    poItemPath->setExternStr(oTypeStr);
+    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+    delete poItemPath;
+  }
+
+//  dNumRecords = this->poDxfDb->EntityCount(RS2::EntityLine);
+
+//  for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
+//  {
+//    // poPath = new QPainterPath;
+//    poItemPath = new sstQt01ShapeItem;
+
+//    // read next LINE Entity from Dxf database and write into painterpath
+//    iStat = this->WriteLINEtoItemPath( 0, ii, poItemPath);
 
 //    poItemPath->setColor(oColor);
 //    poItemPath->setPath(*poPath);
@@ -323,11 +478,35 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
 
 //    poItemPath->setToolTip("Line");
 
-    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+//    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
 
-    // delete poPath;
-    delete poItemPath;
-  }
+//    // delete poPath;
+//    delete poItemPath;
+//  }
+
+//  dNumRecords = this->poDxfDb->EntityCount(RS2::EntityCircle);
+
+//  for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
+//  {
+//    // poPath = new QPainterPath;
+//    poItemPath = new sstQt01ShapeItem;
+
+//    // read next LINE Entity from Dxf database and write into painterpath
+//    iStat = this->WriteCIRCLEtoItemPath( 0, ii, poItemPath);
+
+//    poItemPath->setColor(oColor);
+//    poItemPath->setPath(*poPath);
+//    // poItemPath->setPosition(oPnt);
+//    poItemPath->setShapeType(eSstQt01PathLine);
+//    poItemPath->setId(ii);
+
+//    poItemPath->setToolTip("Line");
+
+//    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+
+//    // delete poPath;
+//    delete poItemPath;
+//  }
 
   return iStat;
 }
@@ -359,6 +538,8 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
   if ( iKey != 0) return -1;
   int iStat = 0;
   // RS2::EntityType eEntType = RS2::EntityUnknown;
+  DL_CircleData oDL_Circle(0,0,0,0);
+  DL_HatchData oDL_Hatch(0,0,0.0,0.0,"pattern",0.0,0.0);
   DL_LineData oDL_Line(0,0,0,0,0,0);
   DL_PolylineData oDL_Polyline(0,0,0,0);
   DL_VertexData oDL_Vertex(0,0);
@@ -370,7 +551,8 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
   QPoint myPoint(0,0);
 
   poShapeItem = new sstQt01ShapeItem;
-  dREC04RECNUMTYP dDxfEntNo;  // Dxf Entity Number
+  dREC04RECNUMTYP dDxfEntNo = 0;  // Dxf Entity Number
+  dREC04RECNUMTYP dDxfMainNo = 0;  // Dxf Main Number
   RS2::EntityType eEntType;
 
   int iNumItems = this->poPathStore->countItems();
@@ -386,13 +568,33 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
     poShapeItem->setPath(oPath);
 
     // Get Dxf Entity Type from Extern ID
-    dREC04RECNUMTYP dDxfMainNo = poShapeItem->getExternId();
-    iStat = this->poDxfDb->ReadMainTable( 0, dDxfMainNo, &eEntType, &dDxfEntNo);
+    dDxfEntNo = poShapeItem->getExternId();
+    std::string oTypeStr = poShapeItem->getExternStr();
+    eEntType = this->poDxfDb->CnvtTypeString2Enum(oTypeStr);
+    // iStat = this->poDxfDb->ReadMainTable( 0, dDxfMainNo, &eEntType, &dDxfEntNo);
 
-    // iStat = oDxfDB->ReadEntityType( 0, ii, ll, &eEntType, &dEntNo);
-    assert(iStat >= 0);
+    // std::string oEntityTypeStr = poShapeItem->g
+    // iStat = poDxfDb->ReadEntityType( 0, 0, ii, &eEntType, &dDxfEntNo);
+    // assert(iStat >= 0);
+
     switch (eEntType)
     {
+    case (RS2::EntityCircle):
+    {
+      iStat = poDxfDb->ReadCircle( 0, dDxfEntNo, &oDL_Circle, &oDL_Attributes);
+      // Update dxf entity CIRCLE with data from Itempath
+      iStat = this->WriteItemPathtoCIRCLE( 0, *poShapeItem, &oDL_Circle);
+      iStat = poDxfDb->WriteCircle( 0, oDL_Circle, oDL_Attributes, &dDxfEntNo, &dDxfMainNo);
+      break;
+    }
+//    case (RS2::EntityHatch):
+//    {
+//      iStat = poDxfDb->ReadHatch( 0, dDxfEntNo, &oDL_Hatch, &oDL_Attributes);
+//      // Update dxf entity HATCH with data from Itempath
+//      // iStat = this->WriteItemPathtoCIRCLE( 0, *poShapeItem, &oDL_Circle);
+//      // iStat = poDxfDb->WriteHatch( 0, oDL_Hatch, oDL_Attributes, &dDxfEntNo, &dDxfMainNo);
+//      break;
+//    }
     case (RS2::EntityLine):
     {
       iStat = poDxfDb->ReadLine( 0, dDxfEntNo, &oDL_Line, &oDL_Attributes);
@@ -414,9 +616,12 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
       // oDxf2Nap.addVertex(oDL_Vertex);
       break;
     }
+    case (RS2::EntityHatch):
+    case (RS2::EntityHatchEdge):
+    case (RS2::EntityHatchLoop):
     case (RS2::EntityText):
     {
-      // Skip text
+      // Skip entity, do nothing
       break;
     }
       default:

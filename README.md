@@ -42,4 +42,5 @@ Structure of coding projects should be:
                         First only for Entity LINE in section entities. <BR>
 01.11.18: Version 1.15: Better "in cell" editing for all tables. <BR>
 06.11.18: Version 1.16: App TabViewTest: Call with dxf file name. <BR>
+16.11.18: Version 1.17: new functions convert path to Circle and viceversa. <BR>
 

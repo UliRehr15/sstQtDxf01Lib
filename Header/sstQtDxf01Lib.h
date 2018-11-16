@@ -153,11 +153,32 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                              DL_LineData            *poDLLine);
      //==============================================================================
      /**
-     * @brief // read sst path object and update sstdxf LINE object.  <BR>
+     * @brief // read CIRCLE object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dCircleRecNo  [in]  record number of CIRCLE in sstDxf database
+     * @param poPathItem    [out] sstPath object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteCIRCLEtoItemPath(int               iKey,
+                               dREC04RECNUMTYP   dCircleRecNo,
+                               sstQt01ShapeItem *poPathItem);
+     //==============================================================================
+     /**
+     * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
      *
      * @param iKey        [in]  For the moment 0
-     * @param dLineRecNo  [in]  record number of LINE in sstDxf database
-     * @param poPathItem  [out] sstPath object
+     * @param oPathItem   [in]  sstShapeItem object
+     * @param poDlCircle  [out] DxfLib CIRCLE Entity
      *
      * @return Errorstate
      *
@@ -165,7 +186,9 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int ReadItemPathfromLine(int iKey, dREC04RECNUMTYP dLineRecNo, sstQt01ShapeItem *poPathItem);
+     int WriteItemPathtoCIRCLE(int                     iKey,
+                             const sstQt01ShapeItem  oPathItem,
+                             DL_CircleData            *poDlCircle);
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>

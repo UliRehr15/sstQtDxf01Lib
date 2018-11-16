@@ -47,7 +47,7 @@ Window::Window()
   QString my_argv_1 = qApp->arguments().at(1);
 
   // std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
-  std::string oDxfNamStr = my_argv_1.toStdString();
+  this->oDxfNamStr = my_argv_1.toStdString();
 
   this->poPrt = new sstMisc01PrtFilCls;
   poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01TabViewTest.log");
@@ -55,7 +55,7 @@ Window::Window()
   // Create new empty sstDxf database
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
   // Load Dxf Data from file
-  iStat = this->poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
+  iStat = this->poDxfDb->ReadAllFromDxf( 0, this->oDxfNamStr);
 
   if (iStat < 0)
   {

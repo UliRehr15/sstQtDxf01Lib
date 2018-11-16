@@ -60,7 +60,13 @@ int main(int argc, char *argv[])
 Dialog::Dialog()
 {
   int iStat = 0;
-  std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
+
+  int my_argc = qApp->arguments().count();
+  if (my_argc != 2) assert(0);
+  QString my_argv_1 = qApp->arguments().at(1);
+
+  this->oDxfFilNamStr = my_argv_1.toStdString();
+  // std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
   // open protocol system
   this->poPrt = new sstMisc01PrtFilCls;
   this->poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01LibTest.log");
@@ -68,11 +74,11 @@ Dialog::Dialog()
   // Create new empty sstDxf database
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
   // Load Dxf Data from file
-  iStat = this->poDxfDb->ReadAllFromDxf( 0, oDxfNamStr);
+  iStat = this->poDxfDb->ReadAllFromDxf( 0, this->oDxfFilNamStr);
 
   if (iStat < 0)
   {
-    this->poPrt->SST_PrtWrtChar(1,(char*)oDxfNamStr.c_str(),(char*)"File not found: ");
+    this->poPrt->SST_PrtWrtChar(1,(char*)this->oDxfFilNamStr.c_str(),(char*)"File not found: ");
     this->poPrt->SST_PrtZu(1);
     assert(0);
   }
@@ -124,7 +130,7 @@ Dialog::~Dialog()
   assert(iStat == 0);
 
   // Write intern sst dxf database to dxf file
-  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  iStat = poDxfPathConvert->WriteAll2Dxf( 0, this->oDxfFilNamStr);
   assert(iStat == 0);
 
   delete poDxfPathConvert;

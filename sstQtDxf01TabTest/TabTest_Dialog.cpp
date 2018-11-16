@@ -57,13 +57,18 @@ Dialog::Dialog()
 
   int iStat = 0;
 
-  this->poPrt = new sstMisc01PrtFilCls;
-  this->poPrt->SST_PrtAuf(1,(char*)"sstQt01TabTest2.log");
+  int my_argc = qApp->arguments().count();
+  if (my_argc != 2) assert(0);
+  QString my_argv_1 = qApp->arguments().at(1);
 
-  std::string oDxfFilNam = "Test_Line_Utm.dxf";
+  this->poPrt = new sstMisc01PrtFilCls;
+  this->poPrt->SST_PrtAuf(1,(char*)"sstQt01TabTest.log");
+
+  // std::string oDxfFilNam = "Test_Line_Utm.dxf";
+  this->oDxfFilNam = my_argv_1.toStdString();
 
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
-  iStat = this->poDxfDb->ReadAllFromDxf(0,oDxfFilNam);
+  iStat = this->poDxfDb->ReadAllFromDxf(0,this->oDxfFilNam);
   if (iStat < 0)
   {
     this->poPrt->SST_PrtWrtChar(1,(char*)oDxfFilNam.c_str(),(char*)"File not found: ");
@@ -101,7 +106,8 @@ Dialog::~Dialog()
   delete this->buttonBox;
   delete this->bigEditor;
 
-  int iStat = this->poDxfDb->WritAll2DxfFil(0,"Test_Line_Utm.dxf");
+  // int iStat = this->poDxfDb->WritAll2DxfFil(0,"Test_Line_Utm.dxf");
+  int iStat = this->poDxfDb->WritAll2DxfFil( 0, this->oDxfFilNam);
   assert(iStat == 0);
   delete this->poDxfDb;
   this->poPrt->SST_PrtZu(1);
