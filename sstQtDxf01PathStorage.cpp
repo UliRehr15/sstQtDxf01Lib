@@ -85,7 +85,6 @@ sstQtDxf01PathConvertCls::sstQtDxf01PathConvertCls(sstDxf03DbCls *poTmpDxfDb,
 //=============================================================================
 sstQtDxf01PathConvertCls::~sstQtDxf01PathConvertCls()
 {
-  // delete this->poDxfDb;
 }
 //=============================================================================
 int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
@@ -131,9 +130,7 @@ int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
     poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
     poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
 
-    oColor.setBlue(0);
-    oColor.setRed(0);
-    oColor.setGreen(0);
+    oColor = this->numberToColor(oAttribRec.getColor());
 
     poItemPath->setColor(oColor);
     poItemPath->setPath(*poPath);
@@ -213,7 +210,7 @@ int sstQtDxf01PathConvertCls::WriteCIRCLEtoItemPath(int               iKey,
   QColor oColor;
 
   sstMath01dPnt2Cls d2Pnt1;  // local double points
-  sstMath01dPnt2Cls d2Pnt2;
+  // sstMath01dPnt2Cls d2Pnt2;
 
   int iRet  = 0;
   int iStat = 0;
@@ -241,12 +238,16 @@ int sstQtDxf01PathConvertCls::WriteCIRCLEtoItemPath(int               iKey,
     this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
 
     QPainterPath *poPath = new QPainterPath;
+    QPointF oCenterPnt(d2Pnt1.getX(),d2Pnt1.getY());
 
-    poPath->addEllipse(QRect(d2Pnt1.getX(), d2Pnt1.getY(), 100, 100));
+    // Add Circle to Path
+    poPath->addEllipse( oCenterPnt, this->Transform_WC_DC_Dist(oCircleRec.radius),
+                                    this->Transform_WC_DC_Dist(oCircleRec.radius));
 
-    oColor.setBlue(0);
-    oColor.setRed(0);
-    oColor.setGreen(0);
+    oColor = this->numberToColor(oAttribRec.getColor());
+    // oColor.setBlue(0);
+    // oColor.setRed(0);
+    // oColor.setGreen(0);
 
     poItemPath->setColor(oColor);
     poItemPath->setPath(*poPath);
@@ -294,9 +295,13 @@ int sstQtDxf01PathConvertCls::WriteItemPathtoCIRCLE(int                    iKey,
   assert(iEleNum == 13);
   QPainterPath::Element oElement;
   oElement = poPath->elementAt(0);
+  QRectF oBBox = poPath->boundingRect();
+  QPointF oQPnt = oBBox.center();
 
-  d2Pnt1.x = oElement.x;
-  d2Pnt1.y = oElement.y;
+//  d2Pnt1.x = oElement.x;
+//  d2Pnt1.y = oElement.y;
+  d2Pnt1.x = oQPnt.x();
+  d2Pnt1.y = oQPnt.y();
   this->Transform_DC_WC(0, &d2Pnt1.x,&d2Pnt1.y);
   poDlCircle->cx = d2Pnt1.x;
   poDlCircle->cy = d2Pnt1.y;
@@ -399,6 +404,25 @@ int sstQtDxf01PathConvertCls::colorToNumber(const QColor& col, int *rgb)
         }
         return num;
     }
+}
+//=============================================================================
+QColor sstQtDxf01PathConvertCls::numberToColor(int iDxfNo)
+{
+  QColor oQtCol;
+  RS_Color oDxfCol; // (iDxfNo);
+  switch (iDxfNo)
+  {
+  case 0: return QColor(Qt::black);break;
+  case 1: return QColor(Qt::red);break;
+  case 2: return QColor(Qt::yellow);break;
+  default:
+  {
+    oDxfCol.fromIntColor(iDxfNo);
+    oQtCol = oDxfCol.toQColor();
+    break;
+  }
+  }
+    return oQtCol;
 }
 //=============================================================================
 int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)

@@ -192,14 +192,14 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>
-     * iStat = oPathStore.numberToColor ( num);
+     * oQtCol = oPathStore.numberToColor ( iDxfNo);
      *
      * @param num  [in] dxf color number
      *
      * @return QColor value
      */
      // ----------------------------------------------------------------------------
-     QColor numberToColor(int num);
+     QColor numberToColor(int iDxfNo);
      //==============================================================================
      /**
      * @brief // transform QColor to dxf color number  <BR>
