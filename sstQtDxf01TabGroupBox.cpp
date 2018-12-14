@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01TabGroupBox.cpp    29.10.18  Re.   11.10.18  Re.
+// sstQtDxf01TabGroupBox.cpp    14.12.18  Re.   11.10.18  Re.
 //
 // Tree View Widget for group of dxf entity view tables
 
@@ -109,8 +109,13 @@ sstQtDxf01TabGroupBoxCls::sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt,
   connect(selectionModel, SIGNAL(selectionChanged (const QItemSelection &, const QItemSelection &)),
           this, SLOT(selectionChangedSlot(const QItemSelection &, const QItemSelection &)));
 
+  // Update tables
   connect(this, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), this->poTabLineView, SLOT(sstSlotUpdateTabLine(sstQt01ShapeItem)));
-  connect(this->poTabLineView, SIGNAL(sstSgnlTabLineChanged(dREC04RECNUMTYP)), this, SLOT(sstSlotUpdateMap(dREC04RECNUMTYP)));
+  connect(this, SIGNAL(sstSgnlTabChanged(sstQt01ShapeItem)), this->poTabCircleView, SLOT(sstSlotUpdateTabCircle(sstQt01ShapeItem)));
+
+  // Update map
+  connect(this->poTabLineView, SIGNAL(sstSgnlTabLineChanged(sstQt01MapSignalCls)), this, SLOT(sstSlotUpdateMap(sstQt01MapSignalCls)));
+  connect(this->poTabCircleView, SIGNAL(sstSgnlTabCircleChanged(sstQt01MapSignalCls)), this, SLOT(sstSlotUpdateMap(sstQt01MapSignalCls)));
 
   // horizontalGroupBox = new QGroupBox(tr("Horizontal layout"));
   QHBoxLayout *layout = new QHBoxLayout;
@@ -170,26 +175,82 @@ void sstQtDxf01TabGroupBoxCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
 {
   if (this->poDxfPathCnvt == 0) return;
 
-  DL_LineData oLineRec(0,0,0,0,0,0);
+  int iStat = 0;
   DL_Attributes oAttrib;
   dREC04RECNUMTYP dRecNo = 0;
   dREC04RECNUMTYP dMainRecNo = 0;
+  std::string oEntTypeStr = oShapeItem.getExternStr();
+  // sstDxf03DbCls oDxfDb;
+  RS2::EntityType eDxfEntTyp =  this->poDxfDb->CnvtTypeString2Enum(oEntTypeStr);
+  switch (eDxfEntTyp)
+  {
+  case RS2::EntityLine:
+{
   // Convert ShapeItem to DxfLineRec
+  DL_LineData oLineRec(0,0,0,0,0,0);
   this->poDxfPathCnvt->WriteItemPathtoLINE ( 0, oShapeItem, &oLineRec);
   dRecNo = oShapeItem.getExternId();
-  this->poDxfDb->WriteLine(0,oLineRec,oAttrib,&dRecNo,&dMainRecNo);
-
+  iStat = this->poDxfDb->WriteLine(0,oLineRec,oAttrib,&dRecNo,&dMainRecNo);
+  assert(iStat == 0);
   emit this->poTabLineView->sstSgnlTabLineUpdated(oShapeItem);
 }
+  break;
+  case RS2::EntityCircle:
+{
+  // Convert ShapeItem to DxfLineRec
+    DL_CircleData oCircleRec(0,0,0,1);    // Entity Circle from dxflib
+  this->poDxfPathCnvt->WriteItemPathtoCIRCLE ( 0, oShapeItem, &oCircleRec);
+  dRecNo = oShapeItem.getExternId();
+  iStat = this->poDxfDb->WriteCircle(0,oCircleRec,oAttrib,&dRecNo,&dMainRecNo);
+  assert(iStat == 0);
+  emit this->poTabCircleView->sstSgnlTabCircleUpdated(oShapeItem);
+}
+  break;
+  default: assert(0); break;
+  }
+
+}
 //=============================================================================
-void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(dREC04RECNUMTYP dLineRecNo)
+// void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(dREC04RECNUMTYP dLineRecNo)
+void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal)
 {
   if (this->poDxfPathCnvt == 0) return;
 
+  sstDxf03EntityTypeCls oDxfEntityCnvt;
+  RS2::EntityType eEntType;
+  eEntType = oDxfEntityCnvt.String2Enum(oMapSignal.getExternTypeStr());
+  dREC04RECNUMTYP dEntRecNo = oMapSignal.getExternTypeTabRecNo();
   sstQt01ShapeItem oShapeItem;
-  // Convert ShapeItem to DxfLineRec
-  this->poDxfPathCnvt->WriteLINEtoItemPath( 0, dLineRecNo, &oShapeItem);
+  dREC04RECNUMTYP dItemNo = 0;
+  dItemNo = this->poDxfDb->getSectEntRecNo(0,eEntType,dEntRecNo);
+  // record number in main table
+  // dItemNo = oMapSignal.getShapeItemListRecNo();
+  dREC04RECNUMTYP dItemNo2 = 0;  // list number of Shape Item
+  // Get ShapeItem List number for main record number
+  dItemNo2 = this->poDxfPathCnvt->getItemListNo( 0, dItemNo);
+  // assert(iStat == 0);
+  oMapSignal.setShapeItemListRecNo(dItemNo2);
 
+  // Convert Dxf Entity to Qt Shape Item for Mapping
+  switch (eEntType)
+  {
+  case (RS2::EntityLine):
+    this->poDxfPathCnvt->WriteLINEtoItemPath( 0, dEntRecNo, &oShapeItem);
+    // this->poDxfDb->
+    break;
+  case (RS2::EntityCircle):
+    this->poDxfPathCnvt->WriteCIRCLEtoItemPath( 0, dEntRecNo, &oShapeItem);
+    break;
+  default: assert(0); break;
+  }
+
+  std::string oTypeStr;
+  oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntType);
+  oShapeItem.setExternStr(oTypeStr);
+  oShapeItem.setExternId(dEntRecNo);
+  oShapeItem.setInternId(dItemNo2);
+
+  // Send to map
   emit this->sstSgnlTabChanged(oShapeItem);
 }
 //=============================================================================

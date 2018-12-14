@@ -62,7 +62,7 @@ private:
     sstDxf03DbCls             *poDxfDb;              /**< sst dxf database */
     sstQt01PathStoreViewCls   *poPathViewStorage;    // sst Painter Path Map View storage
     sstQtDxf01PathConvertCls  *poDxfPathConvert;     // object to convert from dxf to painterpath and back
-
+    std::string                oDxfNamStr;
 };
 
 #endif // WINDOW_H

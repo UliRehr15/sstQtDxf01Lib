@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01PathStorage.cpp    29.10.18  Re.    17.07.17  Re.
+// sstQtDxf01PathStorage.cpp    14.12.18  Re.    17.07.17  Re.
 //
 
 #include <stdio.h>
@@ -79,12 +79,13 @@ sstQtDxf01PathConvertCls::sstQtDxf01PathConvertCls(sstDxf03DbCls *poTmpDxfDb,
   iStat = this->Calc_All( 0, oMbr, 1000000, 200.0);
   assert(iStat >= 0);
 
-  // Create new empty sstDxf database
-  // this->poDxfDb = new sstDxf03DbCls(this->poPrt);
+  int iShapeItemListNr = 0;
+  this->poMainDisplayList = new sstRec04Cls(sizeof(iShapeItemListNr));
 }
 //=============================================================================
 sstQtDxf01PathConvertCls::~sstQtDxf01PathConvertCls()
 {
+  delete this->poMainDisplayList;
 }
 //=============================================================================
 int sstQtDxf01PathConvertCls::WriteLINEtoItemPath(int               iKey,
@@ -438,22 +439,24 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
   RS2::EntityType eEntityType;
   dREC04RECNUMTYP dEntRecNo = 0;
 
+  int iShapeItemRecs = 0;
+  dREC04RECNUMTYP dItemRecNo = 0;
+
   // Count entities of section entities
   dNumRecords = this->poDxfDb->countEntities(0,0);
 
+  // Create empty MainDistplay List
   for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
   {
+    this->poMainDisplayList->WritNew(0,&iShapeItemRecs,&dItemRecNo);
+  }
+
+  for (dREC04RECNUMTYP ii=1; ii <= dNumRecords; ii++)
+    {
     // return type/Tab Rec No of entity in block with main tab no <BR>
     iStat = this->poDxfDb->ReadEntityType ( 0, 0, ii, &eEntityType, &dEntRecNo);
     assert(iStat == 0);
-//    if (iStat < 0)
-//    {
-//      ii = dNumRecords;
-//      break;  // exit for loop
-//    }
 
-//    iStat = this->poDxfDb->ReadMainTable( 0, dNumRecords+ii, &eEntityType, &dEntRecNo);
-//    assert(iStat == 0);
     poItemPath = new sstQt01ShapeItem;
 
     switch (eEntityType) {
@@ -461,28 +464,39 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
     {
       // read next LINE Entity from Dxf database and write into painterpath
       iStat = this->WriteLINEtoItemPath( 0, dEntRecNo, poItemPath);
+      iShapeItemRecs++;
+      this->poMainDisplayList->Writ(0,&iShapeItemRecs, ii);
+      // this->poMainDisplayList->Writ(0, &ii, iShapeItemRecs);
 
-      // if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+      std::string oTypeStr;
+      oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntityType);
+      poItemPath->setExternStr(oTypeStr);
+      poItemPath->setInternId(iShapeItemRecs);
+      if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
       break;
     }
     case RS2::EntityCircle:
     {
       // read next LINE Entity from Dxf database and write into painterpath
       iStat = this->WriteCIRCLEtoItemPath( 0, dEntRecNo, poItemPath);
+      iShapeItemRecs++;
+      this->poMainDisplayList->Writ(0,&iShapeItemRecs, ii);
+      // this->poMainDisplayList->Writ(0, &ii, iShapeItemRecs);
 
-      // if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
+      std::string oTypeStr;
+      oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntityType);
+      poItemPath->setExternStr(oTypeStr);
+      poItemPath->setInternId(iShapeItemRecs);
+      if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
       break;
     }
 
     default:
+      // all other entity type are not displayed and not inserted to Display list
       break;
     }
-    std::string oTypeStr;
-    oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntityType);
-    poItemPath->setExternStr(oTypeStr);
-    if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
     delete poItemPath;
-  }
+    }
 
 //  dNumRecords = this->poDxfDb->EntityCount(RS2::EntityLine);
 
@@ -677,5 +691,14 @@ int sstQtDxf01PathConvertCls::WriteAll2Dxf(int iKey, const std::string oDxfNamSt
     }
 
   return iStat;
+}
+//=============================================================================
+dREC04RECNUMTYP sstQtDxf01PathConvertCls::getItemListNo(int iKey, dREC04RECNUMTYP dRecNo )
+{
+  if ( iKey != 0) return -1;
+  dREC04RECNUMTYP dResultNo = 0;
+  int iStat = this->poMainDisplayList->Read( 0, dRecNo, &dResultNo);
+  assert(iStat == 0);
+  return dResultNo;
 }
 //=============================================================================

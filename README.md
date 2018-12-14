@@ -44,4 +44,8 @@ Structure of coding projects should be:
 06.11.18: Version 1.16: App TabViewTest: Call with dxf file name. <BR>
 16.11.18: Version 1.17: new functions convert path to Circle and viceversa. <BR>
 24.11.18: Version 1.18: Correct Convert function for circle. <BR>
+14.12.18: Version 1.19: Fix problems updating tab from map / map from tab for LINE and CIRCLE. <BR>
+                        New Display list in PathConvertObject, because not all items in main list <BR>
+                        are displayed in map. <BR>
+                        Use MapSignal Class for updating map from tab. <BR>
 

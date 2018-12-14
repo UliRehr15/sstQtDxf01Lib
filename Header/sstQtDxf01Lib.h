@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01Lib.h   22.12.16  Re.   05.07.16  Re.
+// sstQtDxf01Lib.h   14.12.18  Re.   05.07.16  Re.
 //
 // Public Classes and functions for system "sstQtDxf01Lib"
 //
@@ -271,14 +271,16 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      // ----------------------------------------------------------------------------
      int WriteAllPath2Dxf(int iKey);
      //==============================================================================
+     dREC04RECNUMTYP getItemListNo(int iKey, dREC04RECNUMTYP dRecNo );
+     //==============================================================================
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
-     sstDxf03DbCls *poDxfDb;            /**< sst dxf database from outside */
-     sstMisc01PrtFilCls *poPrt;         /**< protocol object from outside */
-     sstQt01PathStoreViewCls *poPathStore; /**< sstPainterPath object from outside */
+    sstDxf03DbCls *poDxfDb;                /**< sst dxf database from outside */
+    sstMisc01PrtFilCls *poPrt;             /**< protocol object from outside */
+    sstQt01PathStoreViewCls *poPathStore;  /**< sstPainterPath Store object from outside */
+    sstRec04Cls *poMainDisplayList;        /**< Order List from ShapeItem List to Main Table   */
 };
-//==============================================================================
 //==============================================================================
 /**
 * @brief View Class for Dxf Entity Table
@@ -294,7 +296,9 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
 // ----------------------------------------------------------------------------
 class sstQtDxf01TabViewCircleCls : public sstQt01TabViewCls
 {
-  public:   // Public functions
+  Q_OBJECT
+
+public:   // Public functions
   //==============================================================================
   /**
   * @brief // Constructor for sstQtDxf01TabViewLineCls <BR>
@@ -307,6 +311,39 @@ class sstQtDxf01TabViewCircleCls : public sstQt01TabViewCls
                               sstDxf03DbCls         *poDxfDb);  // Constructor
      ~sstQtDxf01TabViewCircleCls();  // Destructor
 // ----------------------------------------------------------------------------
+public slots:
+     //==============================================================================
+     /**
+     * @brief // Slot Update Table from Map <BR>
+     *
+     * @param oMapSignal      [in] Send objectdata from Map to GroupBox
+     */
+     // ----------------------------------------------------------------------------
+     void sstSlotChangeTabCircle(sstQt01MapSignalCls oMapSignal);
+     //==============================================================================
+     /**
+     * @brief // Slot Update Table from Map <BR>
+     *
+     * @param oShapeItem       [in] Send ShapeItem from GroupBox to Map
+     */
+     // ----------------------------------------------------------------------------
+     void sstSlotUpdateTabCircle(sstQt01ShapeItem oShapeItem);
+
+signals:
+     //==============================================================================
+     /**
+     * @brief Signal -Table data changed- direction table to map
+     */
+     // ----------------------------------------------------------------------------
+     // void sstSgnlTabCircleChanged(dREC04RECNUMTYP dLineRecNo);
+     void sstSgnlTabCircleChanged(sstQt01MapSignalCls oMapSignal);
+     //==============================================================================
+     /**
+     * @brief Signal -Table data changed- direction table to map
+     */
+     // ----------------------------------------------------------------------------
+     void sstSgnlTabCircleUpdated(sstQt01ShapeItem oShapeItem);
+
 private:  // Private functions
      sstQtDxf01TabMdlCircleCls  *poTabMdl; /**< Table Model Object */
 };
@@ -343,12 +380,12 @@ class sstQtDxf01TabViewLineCls : public sstQt01TabViewCls
 public slots:
      //==============================================================================
      /**
-     * @brief // Slot Update Table from Map <BR>
+     * @brief // Slot Update Map from Table <BR>
      *
-     * @param dLineRecNo       [in] Send Record Number from Map to GroupBox
+     * @param dTypeRecNo       [in] Send Record Number from GroupBox to Map
      */
      // ----------------------------------------------------------------------------
-     void sstSlotChangeTabLine(dREC04RECNUMTYP dLineRecNo);
+     void sstSlotChangeTabLine(sstQt01MapSignalCls oMapSignal);
      //==============================================================================
      /**
      * @brief // Slot Update Table from Map <BR>
@@ -364,7 +401,8 @@ signals:
      * @brief Signal -Table data changed- direction table to map
      */
      // ----------------------------------------------------------------------------
-     void sstSgnlTabLineChanged(dREC04RECNUMTYP dLineRecNo);
+     // void sstSgnlTabLineChanged(dREC04RECNUMTYP dLineRecNo);
+     void sstSgnlTabLineChanged(sstQt01MapSignalCls oMapSignal);
      //==============================================================================
      /**
      * @brief Signal -Table data changed- direction table to map
@@ -506,7 +544,8 @@ public:
 
 private slots:
     void selectionChangedSlot(const QItemSelection & newSelection, const QItemSelection & oldSelection);
-    void sstSlotUpdateMap(dREC04RECNUMTYP dRecNo);
+    // void sstSlotUpdateMap(dREC04RECNUMTYP dRecNo);
+    void sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal);
     void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
 
 signals:

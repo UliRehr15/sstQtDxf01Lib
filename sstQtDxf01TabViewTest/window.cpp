@@ -112,11 +112,12 @@ Window::~Window()
 {
   int iStat = 0;
   // write all path from intern path storage to inter sst sstDxf database
-  iStat = poDxfPathConvert->WriteAllPath2Dxf(0);
-  assert(iStat == 0);
+  // iStat = poDxfPathConvert->WriteAllPath2Dxf(0);
+  // assert(iStat == 0);
 
   // Write intern sst dxf database to dxf file
-  iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  // iStat = poDxfPathConvert->WriteAll2Dxf(0,"sstQtDxf01LibTest.dxf");
+  iStat = poDxfPathConvert->WriteAll2Dxf( 0, oDxfNamStr);
   assert(iStat == 0);
 
   delete poDxfPathConvert;

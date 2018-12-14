@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstQtDxf01TabMdlLine.cpp   25.05.18  Re.   21.03.18  Re.
+//  sstQtDxf01TabMdlLine.cpp   14.12.18  8  Re.   21.03.18  Re.
 //
 //  Functions for Class "sstQtDxf01TabMdlLine"
 //
@@ -160,8 +160,10 @@ if (role == Qt::EditRole)
   DL_Attributes oDLAttributes;
   dREC04RECNUMTYP dMainRecNo = 0;
  
-  dREC04RECNUMTYP dRecNo = index.row() +1;
-  this->poDatabase->ReadLine( 0, this->sstTabVector[index.row()], &oTypRec, &oDLAttributes);
+  dREC04RECNUMTYP dShapeRecNo = 0;  // Not known
+  dREC04RECNUMTYP dTypeRecNo = this->sstTabVector[index.row()];
+
+  this->poDatabase->ReadLine( 0, dTypeRecNo, &oTypRec, &oDLAttributes);
  
   bool bOK = 1;
       switch (index.column())
@@ -192,10 +194,17 @@ if (role == Qt::EditRole)
       }
  
   }
-  if (bOK) this->poDatabase->WriteLine( 0, oTypRec, oDLAttributes, &dRecNo, &dMainRecNo);
+  if (bOK) this->poDatabase->WriteLine( 0, oTypRec, oDLAttributes, &dTypeRecNo, &dMainRecNo);
  
   // For refreshing map
-  emit this->sstSgnlTabLineChanged( dRecNo);
+  sstQt01MapSignalCls oMapSignal;
+  std::string oTypeStr;
+  sstDxf03EntityTypeCls oDxfTypeCnvt;
+  oTypeStr = oDxfTypeCnvt.Enum2String(RS2::EntityLine);
+  oMapSignal.setExternTypeStr(oTypeStr);
+  oMapSignal.setExternTypeTabRecNo(dTypeRecNo);
+  oMapSignal.setShapeItemListRecNo(dShapeRecNo);
+  emit this->sstSgnlTabLineChanged( oMapSignal);
   }
 
 
@@ -256,10 +265,10 @@ bool sstQtDxf01TabMdlLineCls::insertRows(int position, int rows, const QModelInd
 //  Bloc Code Generation End
 }
 //=============================================================================
-void sstQtDxf01TabMdlLineCls::sstSlotChangeTabLine(dREC04RECNUMTYP dRecNo)
+void sstQtDxf01TabMdlLineCls::sstSlotChangeTabLine(sstQt01MapSignalCls oMapSignal)
 {
   // sstQt01ShapeItem oShapeItem;
-  emit this->sstSgnlTabLineChanged( dRecNo);
+  emit this->sstSgnlTabLineChanged( oMapSignal);
 }
 //=============================================================================
 void sstQtDxf01TabMdlLineCls::sstSlotUpdateTabLine(sstQt01ShapeItem oShapeItem)

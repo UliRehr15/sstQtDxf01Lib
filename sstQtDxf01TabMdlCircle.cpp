@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstQtDxf01TabMdlCircle.cpp   25.05.18  Re.   21.03.18  Re.
+//  sstQtDxf01TabMdlCircle.cpp   14.12.18  Re.   21.03.18  Re.
 //
 //  Functions for Class "sstQtDxf01TabMdlCircle"
 //
@@ -66,7 +66,7 @@ sstQtDxf01TabMdlCircleCls::sstQtDxf01TabMdlCircleCls(QObject *parent, sstMisc01P
     this->sstTabVector.push_back(ll);
   }
 
-  connect(this,SIGNAL(sstSgnlTabUpdated(sstQt01ShapeItem)),this,SLOT(sstSlotUpdateTab(sstQt01ShapeItem)));
+  connect(this,SIGNAL(sstSgnlTabCircleUpdated(sstQt01ShapeItem)),this,SLOT(sstSlotUpdateTabCircle(sstQt01ShapeItem)));
 
 }
  
@@ -155,8 +155,9 @@ if (role == Qt::EditRole)
   DL_Attributes oDLAttributes;
   dREC04RECNUMTYP dMainRecNo = 0;
  
-  dREC04RECNUMTYP dRecNo = index.row() +1;
-  this->poDatabase->ReadCircle( 0, this->sstTabVector[index.row()], &oTypRec, &oDLAttributes);
+  dREC04RECNUMTYP dShapeRecNo = 0;  // not known
+  dREC04RECNUMTYP dTypeRecNo = this->sstTabVector[index.row()];
+  this->poDatabase->ReadCircle( 0, dTypeRecNo, &oTypRec, &oDLAttributes);
  
   bool bOK = 1;
       switch (index.column())
@@ -179,7 +180,16 @@ if (role == Qt::EditRole)
       }
  
   }
-  if (bOK) this->poDatabase->WriteCircle( 0, oTypRec, oDLAttributes, &dRecNo, &dMainRecNo);
+  if (bOK) this->poDatabase->WriteCircle( 0, oTypRec, oDLAttributes, &dTypeRecNo, &dMainRecNo);
+  // For refreshing map
+  sstQt01MapSignalCls oMapSignal;
+  std::string oTypeStr;
+  sstDxf03EntityTypeCls oDxfTypeCnvt;
+  oTypeStr = oDxfTypeCnvt.Enum2String(RS2::EntityCircle);
+  oMapSignal.setExternTypeStr(oTypeStr);
+  oMapSignal.setExternTypeTabRecNo(dTypeRecNo);
+  oMapSignal.setShapeItemListRecNo(dShapeRecNo);
+  emit this->sstSgnlTabCircleChanged( oMapSignal);
  
   }
   return true;
@@ -239,7 +249,13 @@ bool sstQtDxf01TabMdlCircleCls::insertRows(int position, int rows, const QModelI
 //  Bloc Code Generation End
 }
 //=============================================================================
-void sstQtDxf01TabMdlCircleCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
+void sstQtDxf01TabMdlCircleCls::sstSlotChangeTabCircle(sstQt01MapSignalCls oMapSignal)
+{
+  // sstQt01ShapeItem oShapeItem;
+  emit this->sstSgnlTabCircleChanged( oMapSignal);
+}
+//=============================================================================
+void sstQtDxf01TabMdlCircleCls::sstSlotUpdateTabCircle(sstQt01ShapeItem oShapeItem)
 {
 
   // Update path storage with shapeitem at index position
