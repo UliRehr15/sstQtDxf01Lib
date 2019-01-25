@@ -48,4 +48,5 @@ Structure of coding projects should be:
                         New Display list in PathConvertObject, because not all items in main list <BR>
                         are displayed in map. <BR>
                         Use MapSignal Class for updating map from tab. <BR>
+25.01.19: Version 1.20: Small Changes in documentation. <BR>
 

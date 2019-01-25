@@ -61,3 +61,6 @@ release{
 
 
 DESTDIR     = ../libs
+
+DISTFILES += \
+    sstQtDxf01Lib.odt

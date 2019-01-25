@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01Lib.h   14.12.18  Re.   05.07.16  Re.
+// sstQtDxf01Lib.h   25.01.19  Re.   05.07.16  Re.
 //
 // Public Classes and functions for system "sstQtDxf01Lib"
 //
@@ -194,7 +194,7 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      * @brief // transform dxf color to QColor  <BR>
      * oQtCol = oPathStore.numberToColor ( iDxfNo);
      *
-     * @param num  [in] dxf color number
+     * @param iDxfNo  [in] dxf color number
      *
      * @return QColor value
      */
@@ -271,6 +271,16 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      // ----------------------------------------------------------------------------
      int WriteAllPath2Dxf(int iKey);
      //==============================================================================
+     /**
+     * @brief // Get position of ShapeItem in Display list <BR>
+     * iStat = oPathDxfDb.getItemListNo ( iKey, dRecNo);
+     *
+     * @param iKey   [in] For the moment 0
+     * @param dRecNo [in] Record number in main list
+     *
+     * @return Record number in ShapeItem display list
+     */
+     // ----------------------------------------------------------------------------
      dREC04RECNUMTYP getItemListNo(int iKey, dREC04RECNUMTYP dRecNo );
      //==============================================================================
 
@@ -382,7 +392,7 @@ public slots:
      /**
      * @brief // Slot Update Map from Table <BR>
      *
-     * @param dTypeRecNo       [in] Send Record Number from GroupBox to Map
+     * @param oMapSignal    [in] Send Record Number/TypeString from GroupBox to Map
      */
      // ----------------------------------------------------------------------------
      void sstSlotChangeTabLine(sstQt01MapSignalCls oMapSignal);
