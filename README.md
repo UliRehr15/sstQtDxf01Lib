@@ -2,7 +2,13 @@
 
 sst Qt/Dxf Classes and functions.
 
-Show dxf data in tables and map at the same time.
+Show and editing of dxf data in Qt tables view and map view at the same time.
+
+Test Apps:
+sstQtDxf01LibTest: General testing of lib classes and functions
+sstQtDxf01TabTest: Testframe for Table View Widget: Editing of Dxf Data in Tables
+sstQtDxf01ViewTest: Testframe for Map Widget: Editing of Dxf Data in PainterPath Mapping Widget
+sstQtDxf01TabViewTest: Testframe for parallel use of Tables and Map Widget
 
 This Library is created with QT 5.9.5, QtCreator 4.5.2 and gcc 7.3.0.
 
@@ -34,7 +40,7 @@ Structure of coding projects should be:
 25.05.18: Version 1.9: Testframe for sst qt dxf entity tables.
 21.09.18: Version 1.10: Updated to QT 5.9.5, QtCreator 4.5.2 and gcc 7.3.0. <BR>
                         Updated to dxflib 3.12.2. Exchange Path Tab Store with Path List Store. <BR>
-23.09.19: Version 1.11: Fix problem backwriting into dxf in View changed PainterPath. <BR>
+23.09.18: Version 1.11: Fix problem backwriting into dxf in View changed PainterPath. <BR>
                         Fix problem with showing tooltip strings. <BR>
 18.10.18: Version 1.12: Grouped Dxf Table Views in DxfTabGroupBoxWidget. <BR>
 23.10.18: Version 1.13: Create new test frame for combined working with dxf map and tables. <BR>
@@ -49,4 +55,5 @@ Structure of coding projects should be:
                         are displayed in map. <BR>
                         Use MapSignal Class for updating map from tab. <BR>
 25.01.19: Version 1.20: Small Changes in documentation. <BR>
+08.02.19: Version 1.21: New App Testframe sstQtDxf01ViewTest for DxfDbMappingViewWidget. <BR>
 

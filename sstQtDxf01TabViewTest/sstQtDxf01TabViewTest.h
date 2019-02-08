@@ -11,10 +11,15 @@
  * See the COPYING file for more information.
  *
  **********************************************************************/
-// window.h   24.09.18  Re.   24.09.18  Re.
+// sstQtDxf01TabViewTest.h   24.09.18  Re.   24.09.18  Re.
+//
+// Testframe for parallel using of
+// Class DxfDbTableViewEditWidget
+// Class DxfDbMapViewEditWidget
+//
 
-#ifndef SST_WINDOW_H
-#define SST_WINDOW_H
+#ifndef SST_QT_DXF01_TABVIEWTEST_HEADER
+#define SST_QT_DXF01_TABVIEWTEST_HEADER
 
 #include <string>
 

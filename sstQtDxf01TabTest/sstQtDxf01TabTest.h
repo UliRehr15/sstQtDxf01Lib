@@ -24,6 +24,8 @@
 **********************************************************************/
 // sstQtDxf01TabTest.h    18.10.18  Re.   25.05.18  Re.
 //
+// Testframe for Class DxfDbTableViewEditWidget
+//
 
 #ifndef SSTQTDXF01TABTEST_H
 #define SSTQTDXF01TABTEST_H

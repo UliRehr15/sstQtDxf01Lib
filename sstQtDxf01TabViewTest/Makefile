@@ -51,10 +51,10 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = sstQtDxf01TabViewTest.cpp \
-		window.cpp moc_window.cpp
+		window.cpp moc_sstQtDxf01TabViewTest.cpp
 OBJECTS       = sstQtDxf01TabViewTest.o \
 		window.o \
-		moc_window.o
+		moc_sstQtDxf01TabViewTest.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -128,7 +128,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		sstQtDxf01TabViewTest.pro window.h sstQtDxf01TabViewTest.cpp \
+		sstQtDxf01TabViewTest.pro sstQtDxf01TabViewTest.h sstQtDxf01TabViewTest.cpp \
 		window.cpp
 QMAKE_TARGET  = sstQtDxf01TabViewTest
 DESTDIR       = 
@@ -311,7 +311,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents window.h $(DISTDIR)/
+	$(COPY_FILE) --parents sstQtDxf01TabViewTest.h $(DISTDIR)/
 	$(COPY_FILE) --parents sstQtDxf01TabViewTest.cpp window.cpp $(DISTDIR)/
 
 
@@ -343,10 +343,10 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_window.cpp
+compiler_moc_header_make_all: moc_sstQtDxf01TabViewTest.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_window.cpp
-moc_window.cpp: ../../dxflib/src/dl_dxf.h \
+	-$(DEL_FILE) moc_sstQtDxf01TabViewTest.cpp
+moc_sstQtDxf01TabViewTest.cpp: ../../dxflib/src/dl_dxf.h \
 		../../dxflib/src/dl_global.h \
 		../../dxflib/src/dl_attributes.h \
 		../../dxflib/src/dl_codes.h \
@@ -369,10 +369,10 @@ moc_window.cpp: ../../dxflib/src/dl_dxf.h \
 		../../sstLibreCAD2Lib/Header/rs_color.h \
 		../../sstLibreCAD2Lib/Header/rs_flags.h \
 		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
-		window.h \
+		sstQtDxf01TabViewTest.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-clang -I/home/uli/Entwicklung/sstQtDxf01Lib/sstQtDxf01TabViewTest -I/home/uli/Entwicklung/sstMath01Lib/Header -I/home/uli/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli/Entwicklung/dxflib/src -I/home/uli/Entwicklung/sst_str01_lib/Header -I/home/uli/Entwicklung/sst_misc01_lib/Header -I/home/uli/Entwicklung/sst_rec04_lib/Header -I/home/uli/Entwicklung/sstQt01Lib/Header -I/home/uli/Entwicklung/sstQtDxf01Lib/Header -I/home/uli/Entwicklung/sst_dxf03_lib/Header -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7.3.0 -I/usr/include/x86_64-linux-gnu/c++/7.3.0 -I/usr/include/c++/7.3.0/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include window.h -o moc_window.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-clang -I/home/uli/Entwicklung/sstQtDxf01Lib/sstQtDxf01TabViewTest -I/home/uli/Entwicklung/sstMath01Lib/Header -I/home/uli/Entwicklung/sstLibreCAD2Lib/Header -I/home/uli/Entwicklung/dxflib/src -I/home/uli/Entwicklung/sst_str01_lib/Header -I/home/uli/Entwicklung/sst_misc01_lib/Header -I/home/uli/Entwicklung/sst_rec04_lib/Header -I/home/uli/Entwicklung/sstQt01Lib/Header -I/home/uli/Entwicklung/sstQtDxf01Lib/Header -I/home/uli/Entwicklung/sst_dxf03_lib/Header -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/7.3.0 -I/usr/include/x86_64-linux-gnu/c++/7.3.0 -I/usr/include/c++/7.3.0/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include sstQtDxf01TabViewTest.h -o moc_sstQtDxf01TabViewTest.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -411,7 +411,7 @@ sstQtDxf01TabViewTest.o: sstQtDxf01TabViewTest.cpp ../../dxflib/src/dl_dxf.h \
 		../../sstLibreCAD2Lib/Header/rs_color.h \
 		../../sstLibreCAD2Lib/Header/rs_flags.h \
 		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
-		window.h
+		sstQtDxf01TabViewTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01TabViewTest.o sstQtDxf01TabViewTest.cpp
 
 window.o: window.cpp ../../dxflib/src/dl_dxf.h \
@@ -437,11 +437,11 @@ window.o: window.cpp ../../dxflib/src/dl_dxf.h \
 		../../sstLibreCAD2Lib/Header/rs_color.h \
 		../../sstLibreCAD2Lib/Header/rs_flags.h \
 		../../sst_str01_lib/Header/sstStr01FixColWidth.h \
-		window.h
+		sstQtDxf01TabViewTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o window.cpp
 
-moc_window.o: moc_window.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp
+moc_sstQtDxf01TabViewTest.o: moc_sstQtDxf01TabViewTest.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sstQtDxf01TabViewTest.o moc_sstQtDxf01TabViewTest.cpp
 
 ####### Install
 

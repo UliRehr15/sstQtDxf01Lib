@@ -38,7 +38,7 @@
 #include <sstQtDxf01QtTab.h>
 #include <sstQtDxf01Lib.h>
 
-#include "window.h"
+#include "sstQtDxf01TabViewTest.h"
 
 int main(int argc, char *argv[])
 {

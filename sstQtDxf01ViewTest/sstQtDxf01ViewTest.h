@@ -22,13 +22,14 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01LibTest.h   02.09.16  Re.   02.09.16  Re.
+// sstQtDxf01ViewTest.h   08.02.19  Re.   08.02.19  Re.
 //
-// Testframe for general testing of lib classes und functions
+// Datastructures and Prototypes for system "sstQtDxf01ViewTest"
 //
+// Testframe for Class DxfDbMapViewEditWidget
 
-#ifndef   _SST_QT_DXF01_LIB_TEST_HEADER
-#define   _SST_QT_DXF01_LIB_TEST_HEADER
+#ifndef   _SST_QT_DXF01_VIEW_TEST_HEADER
+#define   _SST_QT_DXF01_VIEW_TEST_HEADER
 
 // Defines ---------------------------------------------------------------------
 
