@@ -56,4 +56,5 @@ Structure of coding projects should be:
                         Use MapSignal Class for updating map from tab. <BR>
 25.01.19: Version 1.20: Small Changes in documentation. <BR>
 08.02.19: Version 1.21: New App Testframe sstQtDxf01ViewTest for DxfDbMappingViewWidget. <BR>
+17.05.19: Version 1.22: New Show Entity POINT and INSERT in Map as small Circle. <BR>
 

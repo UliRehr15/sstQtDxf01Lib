@@ -153,6 +153,42 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                              DL_LineData            *poDLLine);
      //==============================================================================
      /**
+     * @brief // read INSERT object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dInsertRecNo  [in]  record number of INSERT in sstDxf database
+     * @param poPathItem    [out] sstPath object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteINSERTtoItemPath(int iKey, dREC04RECNUMTYP dInsertRecNo, sstQt01ShapeItem *poPathItem);
+     //==============================================================================
+     /**
+     * @brief // convert sstShapeItem with QPainterPath to INSERT Entity  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param oPathItem   [in]  sstShapeItem object
+     * @param poDLInsert  [out] Dxf INSERT Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteItemPathtoINSERT(int                     iKey,
+                               const sstQt01ShapeItem  oPathItem,
+                               DL_InsertData            *poDLInsert);
+     //==============================================================================
+     /**
      * @brief // read CIRCLE object from sstDxf database and write into sstPath.  <BR>
      *
      * @param iKey          [in]  For the moment 0
@@ -174,6 +210,27 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                                sstQt01ShapeItem *poPathItem);
      //==============================================================================
      /**
+     * @brief // read POINT object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dPointRecNo   [in]  record number of POINT in sstDxf database
+     * @param poPathItem    [out] sstPath object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WritePOINTtoItemPath(int               iKey,
+                               dREC04RECNUMTYP   dPointRecNo,
+                               sstQt01ShapeItem *poPathItem);
+     //==============================================================================
+     /**
      * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
      *
      * @param iKey        [in]  For the moment 0
@@ -189,6 +246,23 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      int WriteItemPathtoCIRCLE(int                     iKey,
                              const sstQt01ShapeItem  oPathItem,
                              DL_CircleData            *poDlCircle);
+     //==============================================================================
+     /**
+     * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param oPathItem   [in]  sstShapeItem object
+     * @param poDlCircle  [out] DxfLib CIRCLE Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteItemPathtoPOINT(int                      iKey,
+                              const sstQt01ShapeItem   oPathItem,
+                              DL_PointData            *poDlPoint);
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>
@@ -286,10 +360,11 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
-    sstDxf03DbCls *poDxfDb;                /**< sst dxf database from outside */
-    sstMisc01PrtFilCls *poPrt;             /**< protocol object from outside */
-    sstQt01PathStoreViewCls *poPathStore;  /**< sstPainterPath Store object from outside */
-    sstRec04Cls *poMainDisplayList;        /**< Order List from ShapeItem List to Main Table   */
+    sstDxf03DbCls           *poDxfDb;             /**< sst dxf database from outside */
+    sstMisc01PrtFilCls      *poPrt;               /**< protocol object from outside */
+    sstQt01PathStoreViewCls *poPathStore;         /**< sstPainterPath Store object from outside */
+    sstRec04Cls             *poMainDisplayList;   /**< Order List from ShapeItem List to Main Table   */
+    sstDxf03EntityTypeCls    oEntStrCnvt;         /**< convert EntityType to EntityString */
 };
 //==============================================================================
 /**

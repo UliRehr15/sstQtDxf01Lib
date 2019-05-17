@@ -211,7 +211,6 @@ void sstQtDxf01TabGroupBoxCls::sstSlotUpdateTab(sstQt01ShapeItem oShapeItem)
 
 }
 //=============================================================================
-// void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(dREC04RECNUMTYP dLineRecNo)
 void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal)
 {
   if (this->poDxfPathCnvt == 0) return;

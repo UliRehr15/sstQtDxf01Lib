@@ -61,18 +61,26 @@ Dialog::Dialog()
 {
   int iStat = 0;
 
-  int my_argc = qApp->arguments().count();
-  if (my_argc != 2) assert(0);
-  QString my_argv_1 = qApp->arguments().at(1);
-
-  this->oDxfFilNamStr = my_argv_1.toStdString();
-  // std::string oDxfNamStr = "sstQtDxf01LibTest.dxf";
   // open protocol system
   this->poPrt = new sstMisc01PrtFilCls;
   this->poPrt->SST_PrtAuf(1,(char*)"sstQtDxf01LibTest.log");
 
+  int my_argc = qApp->arguments().count();
+  if (my_argc != 2)
+  {
+    this->poPrt->SST_PrtWrt (1,(char*)"Error: No Dxf File given! ");
+    this->poPrt->SST_PrtZu(1);
+    delete this->poPrt;
+    // exit app.exec();
+    assert(0);
+  }
+  QString my_argv_1 = qApp->arguments().at(1);
+
+  this->oDxfFilNamStr = my_argv_1.toStdString();
+
   // Create new empty sstDxf database
   this->poDxfDb = new sstDxf03DbCls(this->poPrt);
+
   // Load Dxf Data from file
   iStat = this->poDxfDb->ReadAllFromDxf( 0, this->oDxfFilNamStr);
 
