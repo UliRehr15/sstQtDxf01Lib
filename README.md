@@ -57,4 +57,8 @@ Structure of coding projects should be:
 25.01.19: Version 1.20: Small Changes in documentation. <BR>
 08.02.19: Version 1.21: New App Testframe sstQtDxf01ViewTest for DxfDbMappingViewWidget. <BR>
 17.05.19: Version 1.22: New Show Entity POINT and INSERT in Map as small Circle. <BR>
+13.06.19: Version 1.23: First works for showing Block objects as inserts in map. <BR>
+17.06.19: Version 1.24: Next works for showing block objects as inserts in map. <BR>
+05.07.19: Version 1.25: New functions for showing PolyLine objects in map. <BR>
+                        Reorganize showing entity functions in map.  <BR>
 

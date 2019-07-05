@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstQtDxf01TabGroupBox.cpp    14.12.18  Re.   11.10.18  Re.
+// sstQtDxf01TabGroupBox.cpp    05.07.19  Re.   11.10.18  Re.
 //
 // Tree View Widget for group of dxf entity view tables
 
@@ -220,6 +220,7 @@ void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal)
   eEntType = oDxfEntityCnvt.String2Enum(oMapSignal.getExternTypeStr());
   dREC04RECNUMTYP dEntRecNo = oMapSignal.getExternTypeTabRecNo();
   sstQt01ShapeItem oShapeItem;
+  QPainterPath     oPath;
   dREC04RECNUMTYP dItemNo = 0;
   dItemNo = this->poDxfDb->getSectEntRecNo(0,eEntType,dEntRecNo);
   // record number in main table
@@ -234,17 +235,18 @@ void sstQtDxf01TabGroupBoxCls::sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal)
   switch (eEntType)
   {
   case (RS2::EntityLine):
-    this->poDxfPathCnvt->WriteLINEtoItemPath( 0, dEntRecNo, &oShapeItem);
+    this->poDxfPathCnvt->WriteLINEtoQtPath( 0, dEntRecNo, &oPath);
     // this->poDxfDb->
     break;
   case (RS2::EntityCircle):
-    this->poDxfPathCnvt->WriteCIRCLEtoItemPath( 0, dEntRecNo, &oShapeItem);
+    this->poDxfPathCnvt->WriteCIRCLEtoQtPath( 0, dEntRecNo, &oPath);
     break;
   default: assert(0); break;
   }
 
   std::string oTypeStr;
   oTypeStr = this->poDxfDb->CnvtTypeEnum2String(eEntType);
+  oShapeItem.setPath(oPath);
   oShapeItem.setExternStr(oTypeStr);
   oShapeItem.setExternId(dEntRecNo);
   oShapeItem.setInternId(dItemNo2);
