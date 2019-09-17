@@ -76,7 +76,7 @@ sstQtDxf01PathConvertCls::sstQtDxf01PathConvertCls(sstDxf03DbCls *poTmpDxfDb,
   int iStat = oMbr.OK2(0);
   if (iStat != 0)
   {
-    this->poPrt->SST_PrtWrtChar(1,(char*)"Calculate Mbr from block Paperspace",(char*)"Error: ");
+    this->poPrt->SST_PrtWrtChar(1,(char*)"Calculate Mbr from block Modelspace",(char*)"Error: ");
     this->poPrt->SST_PrtZu(1);
     assert(0);
   }
@@ -201,6 +201,223 @@ int sstQtDxf01PathConvertCls::WriteLINEtoQtPathBlk(int               iKey,
   return iRet;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::WritePOLYLINEtoQtPathBlk(int               iKey,
+                                                       dREC04RECNUMTYP   dPLineRecNo,
+                                                       QPainterPath      *poPath)
+{
+  QColor oColor;
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityPolyline);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dPLineRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert all model LINE entities
+  DL_PolylineData  	  oPolylineRec(0,0,0,0);
+  DL_Attributes 	oAttribRec;
+
+  iStat = this->poDxfDb->ReadPolyline( 0, dPLineRecNo, &oPolylineRec, &oAttribRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() >= 0)
+  {
+    oColor = this->numberToColor(oAttribRec.getColor());
+    this->dGrpRecNum = oPolylineRec.number;
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteHATCHtoQtPathBlk(int               iKey,
+                                                    dREC04RECNUMTYP   dEntityRecNo,
+                                                    QPainterPath      *poPath)
+{
+  QColor oColor;
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityPolyline);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dEntityRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert all model LINE entities
+  //DL_PolylineData  	  oPolylineRec(0,0,0,0);
+  DL_HatchData    oHatchRec(1,1,1,0,"SOLID");
+  DL_Attributes 	oAttribRec;
+
+  iStat = this->poDxfDb->ReadHatch( 0, dEntityRecNo, &oHatchRec, &oAttribRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() >= 0)
+  {
+    oColor = this->numberToColor(oAttribRec.getColor());
+    this->dGrpRecNum = dEntityRecNo;
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteHATCHLOOPtoQtPathBlk(int               iKey,
+                                                        dREC04RECNUMTYP   dEntityRecNo,
+                                                        QPainterPath      *poPath)
+{
+  QColor oColor;
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityPolyline);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dEntityRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert all model LINE entities
+  //DL_PolylineData  	  oPolylineRec(0,0,0,0);
+  DL_HatchLoopData    oHatchLoopRec;
+  // DL_Attributes 	oAttribRec;
+
+  iStat = this->poDxfDb->ReadHatchLoop( 0, dEntityRecNo, &oHatchLoopRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() >= 0)
+  {
+    oColor = this->numberToColor(oAttribRec.getColor());
+    this->dGrpRecNum = dEntityRecNo;
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteVERTEXtoQtPathBlk(int               iKey,
+                                                     dREC04RECNUMTYP   dVertexRecNo,
+                                                     sstMath01TrnCls   oBlkTrn,
+                                                     QPainterPath      *poPath)
+{
+  sstMath01dPnt2Cls d2Pnt1;  // local double point
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityVertex);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dVertexRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert model VERTEX entity
+  DL_VertexData  	  oVertexRec;
+
+  iStat = this->poDxfDb->ReadVertex( 0, dVertexRecNo, &oVertexRec);
+
+  d2Pnt1.x = oVertexRec.x;
+  d2Pnt1.y = oVertexRec.y;
+  oBlkTrn.CalcPntX2(0,&d2Pnt1);
+  this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+
+  if (this->dGrpRecPos < 2) assert(0);
+
+  if (this->dGrpRecPos == 2)
+  {
+    poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
+  }
+  else
+  {
+    poPath->lineTo(d2Pnt1.x,d2Pnt1.y);
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteHATCHEDGEtoQtPathBlk(int               iKey,
+                                                        dREC04RECNUMTYP   dEntityRecNo,
+                                                        sstMath01TrnCls   oBlkTrn,
+                                                        QPainterPath      *poPath)
+{
+  sstMath01dPnt2Cls d2Pnt1;  // local double point
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityVertex);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dEntityRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert model VERTEX entity
+//  DL_VertexData  	  oVertexRec;
+  DL_HatchEdgeData oHatchEdgeRec(0,0,0,0);  // area border point
+
+  iStat = this->poDxfDb->ReadHatchEdge( 0, dEntityRecNo, &oHatchEdgeRec);
+
+  d2Pnt1.x = oHatchEdgeRec.cx;
+  d2Pnt1.y = oHatchEdgeRec.cy;
+
+  oBlkTrn.CalcPntX2(0,&d2Pnt1);
+  this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+
+  if (this->dGrpRecPos < 2) assert(0);
+
+  if (this->dGrpRecPos == 2)
+  {
+    poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
+  }
+  else
+  {
+    poPath->lineTo(d2Pnt1.x,d2Pnt1.y);
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
 int sstQtDxf01PathConvertCls::WriteItemPathtoLINE(int                      iKey,
                                                   const sstQt01ShapeItem   oItemPath,
                                                   DL_LineData             *poDLLine)
@@ -297,11 +514,27 @@ int sstQtDxf01PathConvertCls::WriteINSERTtoQtPath(int               iKey,
     // return start of entities of actual block in Main table
     dREC04RECNUMTYP dStartBlkMainTab = this->poDxfDb->getBlkStartMainTab (0, dBlkNo);
     assert(dStartBlkMainTab > 0);
+
+    // int iGrpEntCount = 0;
+    this->dGrpRecPos = 0;
+
     // Loop over all entities of actual block
     for (dREC04RECNUMTYP kk = dStartBlkMainTab; kk <= dStartBlkMainTab+dNumEntities-1; kk++)
     {
       iStat = this->poDxfDb->ReadMainTable( 0, kk, &eEntityType, &dEntRecNo);
       assert(iStat >= 0);
+
+      // Group or Subgroup?
+      if (eEntityType == RS2::EntityVertex ||
+          // eEntityType == RS2::EntityHatchLoop ||
+          eEntityType == RS2::EntityHatchEdge)
+      {  // Subgroup
+        this->dGrpRecPos++;
+      }
+      else
+      {  // Group
+        this->dGrpRecPos = 1;
+      }
       switch (eEntityType) {
       case RS2::EntityCircle:
       {
@@ -329,6 +562,18 @@ int sstQtDxf01PathConvertCls::WriteINSERTtoQtPath(int               iKey,
       {
         // read LINE Entity from Dxf database and write into painterpath
         iStat = this->WriteLINEtoQtPathBlk( 0, dEntRecNo, oBlkTrn, poPath);
+        break;
+      }
+      case RS2::EntityPolyline:
+      {
+        // read POLYLINE Entity from Dxf database and write into painterpath
+        iStat = this->WritePOLYLINEtoQtPathBlk( 0, dEntRecNo, poPath);
+        break;
+      }
+      case RS2::EntityVertex:
+      {
+        // read POLYLINE Entity from Dxf database and write into painterpath
+        iStat = this->WriteVERTEXtoQtPathBlk( 0, dEntRecNo, oBlkTrn, poPath);
         break;
       }
       case RS2::EntityUnknown:
@@ -574,6 +819,71 @@ int sstQtDxf01PathConvertCls::WritePOLYLINEtoQtPath(int               iKey,
   return iStat;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::WriteHATCHtoQtPath(int               iKey,
+                                                 dREC04RECNUMTYP   dEntityRecNo)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dEntRecs = 0;
+  dEntRecs = this->poDxfDb->EntityCount( RS2::EntityHatch);
+  if (dEntRecs <= 0) return -2;  // Entity Table is empty
+
+  if (dEntityRecNo > dEntRecs) return -3;  // Read position after end of table?
+
+  this->eGrpEntType = RS2::EntityHatch;     /**< Group Entity Type like POLYLINE / HATCH */
+  this->dGrpMainID = 0;                     /**< Group Main ID/RecNo */
+  this->dGrpSubID = 0;                      /**< Sub Group ID/RecNo like HatchLoop */
+  this->dGrpRecNum = 0;                     /**< Number of entities of actual group */
+  this->dGrpRecPos = 0;                     /**< Position of group element */
+
+  // DL_HatchData    oHatchRec(0,0,0,0);
+  DL_HatchData    oHatchRec(1,1,1,0,"SOLID");
+
+  DL_Attributes 	oAttrib;
+
+  // Read HATCH Entity from Table
+  iStat = this->poDxfDb->ReadHatch( 0, dEntityRecNo, &oHatchRec, &oAttrib);
+  assert(iStat >= 0);
+  this->dGrpRecNum = 0;
+  this->oAttribRec = oAttrib;
+  this->dGrpMainID = dEntityRecNo;
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteHATCHLOOPtoQtPath(int               iKey,
+                                                     dREC04RECNUMTYP   dEntityRecNo)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dEntRecs = 0;
+  dEntRecs = this->poDxfDb->EntityCount( RS2::EntityHatch);
+  if (dEntRecs <= 0) return -2;  // Entity Table is empty
+
+  if (dEntityRecNo > dEntRecs) return -3;  // Read position after end of table?
+
+  this->eGrpEntType = RS2::EntityHatch;     /**< Group Entity Type like POLYLINE / HATCH */
+  this->dGrpMainID = 0;                     /**< Group Main ID/RecNo */
+  this->dGrpSubID = 0;                      /**< Sub Group ID/RecNo like HatchLoop */
+  this->dGrpRecNum = 0;                     /**< Number of entities of actual group */
+  this->dGrpRecPos = 0;                     /**< Position of group element */
+
+  DL_HatchLoopData    oHatchLoopRec;
+
+  // DL_Attributes 	oAttrib;
+
+  // Read HATCH Entity from Table
+  iStat = this->poDxfDb->ReadHatchLoop( 0, dEntityRecNo, &oHatchLoopRec);
+  assert(iStat >= 0);
+  this->dGrpRecNum = oHatchLoopRec.numEdges;
+
+  return iStat;
+}
+//=============================================================================
 int sstQtDxf01PathConvertCls::WriteVERTEXtoQtPath(int               iKey,
                                                   dREC04RECNUMTYP   dEntityRecNo,
                                                   QPainterPath     *poPath)
@@ -612,9 +922,96 @@ int sstQtDxf01PathConvertCls::WriteVERTEXtoQtPath(int               iKey,
   return iStat;
 }
 //=============================================================================
-int sstQtDxf01PathConvertCls::WriteItemPathtoCIRCLE(int                    iKey,
-                                                  const sstQt01ShapeItem   oItemPath,
-                                                  DL_CircleData           *poDlCircle)
+int sstQtDxf01PathConvertCls::WriteHATCHEDGEtoQtPath(int               iKey,
+                                                     dREC04RECNUMTYP   dEntityRecNo,
+                                                     QPainterPath     *poPath)
+{
+  sstMath01dPnt2Cls d2Pnt1;  // local point 1
+  sstMath01dPnt2Cls d2Pnt2;  // local point 2
+  sstMath01dPnt2Cls d2PntC;  // local point Circle
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityHatchEdge);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  if (dEntityRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert HATCH EDGE entitiy
+  DL_HatchEdgeData oHatchEdgeRec(0,0,0,0);
+
+  iStat = this->poDxfDb->ReadHatchEdge( 0, dEntityRecNo, &oHatchEdgeRec);
+
+  d2Pnt1.x = oHatchEdgeRec.x1;
+  d2Pnt1.y = oHatchEdgeRec.y1;
+  d2Pnt2.x = oHatchEdgeRec.x2;
+  d2Pnt2.y = oHatchEdgeRec.y2;
+  d2PntC.x = oHatchEdgeRec.cx;
+  d2PntC.y = oHatchEdgeRec.cy;
+  this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+  this->Transform_WC_DC(0, &d2Pnt2.x,&d2Pnt2.y);
+  this->Transform_WC_DC(0, &d2PntC.x,&d2PntC.y);
+  double dLocRadius = 0.0;
+  dLocRadius = this->Transform_WC_DC_Dist(oHatchEdgeRec.radius);
+  double dLocAng1 = oHatchEdgeRec.angle1 / dSSTMATH01_PI * 180.0;  // from rad to degrees
+
+  this->dGrpRecPos++;  // EDGE position in HATCH Entity
+
+  if (this->dGrpRecPos == 1)
+  {  // first element in group
+
+    if (this->dGrpRecNum == 1 && oHatchEdgeRec.type == 2)
+    {
+      // Circle
+      poPath->moveTo(d2PntC.getX()+ dLocRadius, d2PntC.getY());
+      poPath->arcTo(d2PntC.getX() - dLocRadius, d2PntC.getY() - dLocRadius,
+                    dLocRadius*2, dLocRadius*2,
+                    0.0, 360.0);
+      // return iStat;
+
+    }
+    else
+    {
+      // First Edge move to new coordinate position
+      poPath->moveTo(d2Pnt1.x,d2Pnt1.y);
+      poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
+    }
+
+
+//    if (oHatchEdgeRec.type == 2)
+//      poPath->arcTo(d2PntC.getX()-dLocRadius,d2PntC.getY() - dLocRadius,
+//                    dLocRadius * 2,
+//                    dLocRadius * 2,
+//                    60.0, 240);
+//    else
+  }
+  else
+  {  // next element in group
+    if (oHatchEdgeRec.type == 2)
+    {
+      double dSweepLength = 0.0;
+      sstMath01AngCalcCls oAngCalc;
+      oAngCalc.AngleDiff(0,oHatchEdgeRec.angle1,oHatchEdgeRec.angle2, &dSweepLength);
+      dSweepLength = dSweepLength / M_PI * 180.0;   // Delta Angle in degrees
+      poPath->lineTo(d2PntC.getX(),d2PntC.getX());  // Move back to center
+      poPath->arcTo(d2PntC.getX() - dLocRadius,
+                    d2PntC.getY() - dLocRadius,
+                    dLocRadius * 2.0,
+                    dLocRadius * 2.0,
+                    dLocAng1, dSweepLength);
+    }
+    else
+      poPath->lineTo(d2Pnt2.x,d2Pnt2.y);
+  }
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WriteItemPathtoCIRCLE(int                      iKey,
+                                                    const sstQt01ShapeItem   oItemPath,
+                                                    DL_CircleData           *poDlCircle)
 {
   QPainterPath *poPath = new QPainterPath;
   QColor oColor;
@@ -730,6 +1127,44 @@ int sstQtDxf01PathConvertCls::WriteItemPathtoPOLYLINE(int                      i
   return iStat;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::WriteItemPathtoHATCH(int                      iKey,
+                                                   const sstQt01ShapeItem   oItemPath,
+                                                   DL_HatchData    *poHatch)
+//                                                   DL_PolylineData         *poDlPolyline)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  int iPathIndex = 0;
+  QPainterPath oPath;
+  oPath = oItemPath.getPath();
+
+  // Get Main Record from entity record
+  dREC04RECNUMTYP dMainRecNo =  this->poDxfDb->getMainTabRecNo(0,RS2::EntityPolyline,oItemPath.getExternId());
+
+  // Next record in maintable should by Entity type Vertex
+  // loop over all vertex records after polyline record in main table
+  // for (dREC04RECNUMTYP ll = dMainRecNo+1; ll <= dMainRecNo+poDlPolyline->number;ll++)
+  for (dREC04RECNUMTYP ll = dMainRecNo+1; ll <= dMainRecNo;ll++)
+  {  // loop in maintable
+    RS2::EntityType eEntTyp = RS2::EntityUnknown;
+    dREC04RECNUMTYP dEntRecNo = 0;
+    iStat = this->poDxfDb->ReadMainTable( 0, ll, &eEntTyp, &dEntRecNo);
+    assert(iStat >= 0);
+    assert(eEntTyp == RS2::EntityHatchEdge);
+    // DL_VertexData oDlVertex(0,0,0,0);
+    DL_HatchEdgeData oDlHatchEdge(0,0,0,0);
+    iStat = this->poDxfDb->ReadHatchEdge( 0, dEntRecNo, &oDlHatchEdge);
+    iPathIndex++;
+    // Convert path element to vertex and coordinate transformation from Device to World
+    this->WritePathElementToHATCHEDGE(0,oPath.elementAt(iPathIndex-1),&oDlHatchEdge);
+    iStat = this->poDxfDb->WriteHatchEdge( 0, oDlHatchEdge, &dEntRecNo, &dMainRecNo);
+  }
+
+  return iStat;
+}
+//=============================================================================
 int sstQtDxf01PathConvertCls::WritePathElementToVERTEX(int                      iKey,
                                                     const   QPainterPath::Element oElement,
                                                     DL_VertexData            *poDlVertex)
@@ -745,6 +1180,26 @@ int sstQtDxf01PathConvertCls::WritePathElementToVERTEX(int                      
   iStat = this->Transform_DC_WC(0, &d2Pnt1.x,&d2Pnt1.y);
   poDlVertex->x = d2Pnt1.x;
   poDlVertex->y = d2Pnt1.y;
+
+  return iStat;
+}
+//=============================================================================
+int sstQtDxf01PathConvertCls::WritePathElementToHATCHEDGE(int                      iKey,
+                                                          const   QPainterPath::Element oElement,
+                                                          DL_HatchEdgeData *poHatchEdge)
+//                                                          DL_VertexData          *poDlVertex)
+{
+  sstMath01dPnt2Cls d2Pnt1;  // local double points
+
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  d2Pnt1.x = oElement.x;
+  d2Pnt1.y = oElement.y;
+  iStat = this->Transform_DC_WC(0, &d2Pnt1.x,&d2Pnt1.y);
+  poHatchEdge->cx = d2Pnt1.x;
+  poHatchEdge->cy = d2Pnt1.y;
 
   return iStat;
 }
@@ -842,7 +1297,7 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
         poItemPath = new sstQt01ShapeItem;
 
         // Fill open sst Path Item <BR>
-        iStat = this->FillPathItem( iKey, poPath, dEntRecNo, iShapeItemRecs, poItemPath);
+        iStat = this->FillPathItem( iKey, poPath, iShapeItemRecs, poItemPath);
 
         if(iStat >= 0) iStat = this->poPathStore->appendShapeItem(*poItemPath);
 
@@ -895,6 +1350,24 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
       iStat = this->WriteVERTEXtoQtPath( 0, dEntRecNo, poPath);
       break;
     }
+    case RS2::EntityHatch:
+    {
+      // read next HATCH Entity from Dxf database and write into painterpath
+      iStat = this->WriteHATCHtoQtPath( 0, dEntRecNo);
+      break;
+    }
+    case RS2::EntityHatchLoop:
+    {
+      // read next HATCHLOOP Entity from Dxf database and write into painterpath
+      iStat = this->WriteHATCHLOOPtoQtPath( 0, dEntRecNo);
+      break;
+    }
+    case RS2::EntityHatchEdge:
+    {
+      // read next HATCHEDGE Entity from Dxf database and write into painterpath
+      iStat = this->WriteHATCHEDGEtoQtPath( 0, dEntRecNo, poPath);
+      break;
+    }
 
     default:
       assert(0);
@@ -914,7 +1387,7 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
     // Fill open sst Path Item <BR>
     iStat = this->FillPathItem( iKey,
                                 poPath,
-                                this->dGrpMainID,  // dEntRecNo,
+                                // this->dGrpMainID,  // dEntRecNo,
                                 iShapeItemRecs,
                                 // this->eGrpEntType,  // eEntityType,
                                 poItemPath);
@@ -1146,7 +1619,7 @@ dREC04RECNUMTYP sstQtDxf01PathConvertCls::getItemListNo(int iKey, dREC04RECNUMTY
 //=============================================================================
 int sstQtDxf01PathConvertCls::FillPathItem (int               iKey,
                                             QPainterPath     *poPath,
-                                            dREC04RECNUMTYP   dEntRecNo,
+                                            // dREC04RECNUMTYP   dEntRecNo,
                                             dREC04RECNUMTYP   dItemListNo,
                                             // RS2::EntityType   eEntityType,
                                             sstQt01ShapeItem *poItemPath)
@@ -1192,7 +1665,7 @@ int sstQtDxf01PathConvertCls::FillPathItem (int               iKey,
     break;
   }
   poItemPath->setShapeType(eItemPathTyp);
-  poItemPath->setExternId(dEntRecNo);  // Set DXF Entity ID to Path object
+  poItemPath->setExternId(this->dGrpMainID);  // Set DXF Entity ID to Path object
 
   std::string oTypeStr;
   oTypeStr = this->poDxfDb->CnvtTypeEnum2String(this->eGrpEntType);
@@ -1202,7 +1675,7 @@ int sstQtDxf01PathConvertCls::FillPathItem (int               iKey,
   sstStr01Cls oStrCnvt;
   oStrCnvt.SetSeparator(0,(char*) "_");
   std::string oTooltipStr = "ID";
-  oStrCnvt.Csv_UInt4_2String(0,dEntRecNo,&oTooltipStr);
+  oStrCnvt.Csv_UInt4_2String(0,this->dGrpMainID,&oTooltipStr);
   oStrCnvt.Csv_Str_2String(0,oTypeStr,&oTooltipStr);
   poItemPath->setToolTip( oTooltipStr);
 

@@ -159,6 +159,116 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                                 QPainterPath      *poPath);
      //==============================================================================
      /**
+     * @brief // read POLYLINE from sstDxf DB, transform to Devices and write into open sstPath.  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param dEntityRecNo  [in]  record number of LINE in sstDxf database
+     * @param poPath      [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WritePOLYLINEtoQtPathBlk(int iKey,
+                                  dREC04RECNUMTYP   dEntityRecNo,
+                                  // sstMath01TrnCls   oBlkTrn,
+                                  QPainterPath      *poPath);
+     //==============================================================================
+     /**
+     * @brief // read HATCH from sstDxf DB, transform to Devices and write into open sstPath.  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param dEntityRecNo  [in]  record number of LINE in sstDxf database
+     * @param poPath      [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHtoQtPathBlk(int iKey,
+                               dREC04RECNUMTYP   dEntityRecNo,
+                               QPainterPath      *poPath);
+     //==============================================================================
+     /**
+     * @brief // read HATCHLOOP from sstDxf DB, transform to Devices and write into open sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dEntityRecNo  [in]  record number of LINE in sstDxf database
+     * @param poPath        [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHLOOPtoQtPathBlk(int iKey,
+                                   dREC04RECNUMTYP   dEntityRecNo,
+                                   QPainterPath      *poPath);
+     //==============================================================================
+     /**
+     * @brief // read VERTEX from sstDxf DB, transform to Devices and write into open sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dEntityRecNo  [in]  record number of VERTEX in sstDxf database
+     * @param oBlkTrn       [in]  Transformation object from block to world
+     * @param poPath        [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteVERTEXtoQtPathBlk(int iKey,
+                                dREC04RECNUMTYP   dEntityRecNo,
+                                sstMath01TrnCls   oBlkTrn,
+                                QPainterPath      *poPath);
+     //==============================================================================
+     /**
+     * @brief // read HATCHEDGE from sstDxf DB, transform to Devices and write into open sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dEntityRecNo  [in]  record number of VERTEX in sstDxf database
+     * @param oBlkTrn       [in]  Transformation object from block to world
+     * @param poPath        [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHEDGEtoQtPathBlk(int iKey,
+                                   dREC04RECNUMTYP   dEntityRecNo,
+                                   sstMath01TrnCls   oBlkTrn,
+                                   QPainterPath      *poPath);
+     //==============================================================================
+     /**
      * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
      *
      * @param iKey        [in]  For the moment 0
@@ -296,6 +406,44 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                                  dREC04RECNUMTYP   dPolylineRecNo);
      //==============================================================================
      /**
+     * @brief // read HATCH object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey           [in]  For the moment 0
+     * @param dEntityRecNo   [in]  record number of Entity in sstDxf database
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHtoQtPath(int               iKey,
+                            dREC04RECNUMTYP   dEntityRecNo);
+     //==============================================================================
+     /**
+     * @brief // read HATCHLOOP object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey           [in]  For the moment 0
+     * @param dEntityRecNo   [in]  record number of Entity in sstDxf database
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHLOOPtoQtPath(int               iKey,
+                                dREC04RECNUMTYP   dEntityRecNo);
+     //==============================================================================
+     /**
      * @brief // read VERTEX from sstDxf database and write into sstPath.  <BR>
      *
      * @param iKey           [in]  For the moment 0
@@ -315,8 +463,27 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      int WriteVERTEXtoQtPath(int               iKey,
                                dREC04RECNUMTYP   dVertexRecNo,
                                QPainterPath     *poPath);
-
-//                               sstQt01ShapeItem *poPathItem);
+     //==============================================================================
+     /**
+     * @brief // read HATCHEDGE from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey           [in]  For the moment 0
+     * @param dEntityRecNo   [in]  record number of Entity in sstDxf database
+     * @param poPath         [in out] qt Path object
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: No Entities found
+     * @retval   = -3: Found end of list
+     * @retval   = -4: Layer name empty
+     * @retval   <  0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHATCHEDGEtoQtPath(int               iKey,
+                                dREC04RECNUMTYP   dEntityRecNo,
+                                QPainterPath     *poPath);
      //==============================================================================
      /**
      * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
@@ -370,6 +537,23 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                                  DL_PolylineData         *poDlPolyline);
      //==============================================================================
      /**
+     * @brief // convert sstShapeItem with QPainterPath to HATCH Entity  <BR>
+     *
+     * @param iKey         [in]  For the moment 0
+     * @param oPathItem    [in]  sstShapeItem object
+     * @param poDlHatch    [out] DxfLib HATCH Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteItemPathtoHATCH(int                      iKey,
+                              const sstQt01ShapeItem   oPathItem,
+                              DL_HatchData            *poDlHatch);
+     //==============================================================================
+     /**
      * @brief // convert QtPainterPath Element to VERTEX, Coordinate Transformation Device to World <BR>
      * iStat = oDxfPathConvert.WritePathElementToVERTEX( iKey, oPathElement, &poDlVertex);
      *
@@ -386,6 +570,24 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      int WritePathElementToVERTEX(int                          iKey,
                                   const QPainterPath::Element  oPathElement,
                                   DL_VertexData               *poDlVertex);
+     //==============================================================================
+     /**
+     * @brief // convert QtPainterPath Element to HATCHEDGE, Coordinate Transformation Device to World <BR>
+     * iStat = oDxfPathConvert.WritePathElementToVERTEX( iKey, oPathElement, &poDlVertex);
+     *
+     * @param iKey         [in]  For the moment 0
+     * @param oPathElement [in]  Qt Painter Path Element
+     * @param poHatchEdge  [out] DxfLib HATCHEDGE Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WritePathElementToHATCHEDGE(int                          iKey,
+                                     const QPainterPath::Element  oPathElement,
+                                     DL_HatchEdgeData *poHatchEdge);
      //==============================================================================
      /**
      * @brief // transform dxf color to QColor  <BR>
@@ -482,11 +684,10 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      //==============================================================================
      /**
      * @brief // Fill open sst Path Item <BR>
-     * iStat = oPathCnvt.FillPathItem( iKey, poPath, dEntRecNo, dItemListNo, eEntityTyp, poItemPath);
+     * iStat = oPathCnvt.FillPathItem( iKey, poPath, dItemListNo, poItemPath);
      *
      * @param iKey        [in] For the moment 0
      * @param poPath      [in] Add PainterPath to Item Path
-     * @param dEntRecNo   [in] For Tooltip
      * @param dItemListNo [in] For Display List
      * @param poItemPath  [in out] return filled Item Path
      *
@@ -498,9 +699,7 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      //==============================================================================
      int FillPathItem (int               iKey,
                        QPainterPath     *poPath,
-                       dREC04RECNUMTYP   dEntRecNo,
                        dREC04RECNUMTYP   dItemListNo,
-                       // RS2::EntityType   eEntityType,
                        sstQt01ShapeItem *poItemPath);
      //==============================================================================
 

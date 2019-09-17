@@ -61,4 +61,5 @@ Structure of coding projects should be:
 17.06.19: Version 1.24: Next works for showing block objects as inserts in map. <BR>
 05.07.19: Version 1.25: New functions for showing PolyLine objects in map. <BR>
                         Reorganize showing entity functions in map.  <BR>
+17.09.19: Version 1.26: New functions for showing hatch objects in map.  <BR>
 
