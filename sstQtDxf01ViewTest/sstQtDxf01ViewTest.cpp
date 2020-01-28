@@ -101,6 +101,9 @@ Dialog::Dialog()
   iStat = poDxfPathConvert->WritAlltoPathStorage( 0);
   assert(iStat == 0);
 
+  // store all painter path objects to csv file
+  // this->poPathStorage->StoreAllPathToFile(0,"sstQtDxf01ViewTest.Csv");
+
   this->poPathWidget = new sstQt01PathPaintWidgetCls(this->poPrt, this->poPathStorage);
 
   createMenu();
@@ -137,8 +140,8 @@ Dialog::~Dialog()
   int iStat = poDxfPathConvert->WriteAllPath2Dxf(0);
   assert(iStat == 0);
 
-  // Write intern sst dxf database to dxf file
-  iStat = poDxfPathConvert->WriteAll2Dxf( 0, this->oDxfFilNamStr);
+  // Write intern sst dxf database to dxf file with protocol in csv
+  iStat = poDxfPathConvert->WriteAll2Dxf( 1, this->oDxfFilNamStr);
   assert(iStat == 0);
 
   delete poDxfPathConvert;
