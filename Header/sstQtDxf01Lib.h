@@ -700,10 +700,30 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                        dREC04RECNUMTYP   dItemListNo,
                        sstQt01ShapeItem *poItemPath);
      //==============================================================================
+     /**
+     * @brief // Fill open sst Path Item <BR>
+     * iStat = oPathCnvt.FillPathItem( iKey, poPath, dItemListNo, poItemPath);
+     *
+     * @param dShapeItemRecs [in] dShapeItemRecs
+     * @param pdItemRecNo    [in out] pdItemRecNo
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     int AddDisplayList( dREC04RECNUMTYP dShapeItemRecs, dREC04RECNUMTYP *pdItemRecNo);
+     //==============================================================================
 
 // ----------------------------------------------------------------------------
-  private:  // Private functions
-    sstDxf03DbCls           *poDxfDb;             /**< sst dxf database from outside */
+     RS2::EntityType getGrpEntType() const;
+     void setGrpEntType(const RS2::EntityType &value);
+
+     dREC04RECNUMTYP getGrpMainID() const;
+     void setGrpMainID(const dREC04RECNUMTYP &value);
+
+private:  // Private functions
+     sstDxf03DbCls           *poDxfDb;             /**< sst dxf database from outside */
     sstMisc01PrtFilCls      *poPrt;               /**< protocol object from outside */
     sstQt01PathStoreViewCls *poPathStore;         /**< sstPainterPath Store object from outside */
     sstRec04Cls             *poMainDisplayList;   /**< Order List from ShapeItem List to Main Table   */
@@ -1014,6 +1034,63 @@ private:
     QStandardItem *tabItem5;
 
 };
+
+//==============================================================================
+/**
+* @brief Definition Class sstQtDxf01CnvtCls
+*
+* More Comment
+*
+* Changed: 02.05.20  Re.
+*
+* @ingroup sstQtDxf01Lib
+*
+* @author Re.
+*
+* @date 02.05.20
+*/
+// ----------------------------------------------------------------------------
+class sstQtDxf01CnvtCls
+{
+  public:   // Public functions
+     sstQtDxf01CnvtCls();   // Constructor
+    // ~X();   // Destructor
+     //==============================================================================
+     /**
+     * @brief // colorToNumber <BR>
+     * iStat = oTest.colorToNumber( col, rgb);
+     *
+     * @param col [in]  Qt Color
+     * @param rgb [out] Result Dxf Rgb Color
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int colorToNumber(const QColor& col, int *rgb);
+     //==============================================================================
+     /**
+     * @brief // numberToColor <BR>
+     * iStat = oTest.numberToColor( iDxfCol);
+     *
+     * @param iDxfNo [in]  Dxf Color No
+     *
+     * @return Qt Color
+     */
+     // ----------------------------------------------------------------------------
+     QColor numberToColor(int iDxfNo);
+
+// ----------------------------------------------------------------------------
+  // int Dum2;       /**< Dummy2 */
+  private:  // Private functions
+  // int Dum;        /**< Dummy */
+};
+//-----------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
 
 
 

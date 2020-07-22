@@ -53,3 +53,23 @@
 //SstQtDxf01Lib::SstQtDxf01Lib()
 //{
 //}
+
+RS2::EntityType sstQtDxf01PathConvertCls::getEGrpEntType() const
+{
+  return eGrpEntType;
+}
+
+void sstQtDxf01PathConvertCls::setEGrpEntType(const RS2::EntityType &value)
+{
+  eGrpEntType = value;
+}
+
+dREC04RECNUMTYP sstQtDxf01PathConvertCls::getDGrpMainID() const
+{
+  return dGrpMainID;
+}
+
+void sstQtDxf01PathConvertCls::setDGrpMainID(const dREC04RECNUMTYP &value)
+{
+  dGrpMainID = value;
+}

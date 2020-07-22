@@ -63,4 +63,5 @@ Structure of coding projects should be:
                         Reorganize showing entity functions in map.  <BR>
 17.09.19: Version 1.26: New functions for showing hatch objects in map.  <BR>
 28.01.20: Version 1.27: Next functions for moving hatch objects in map. <BR>
+22.07.20: Version 1.28: Some new functions for extended painterpath drawing. <BR>
 

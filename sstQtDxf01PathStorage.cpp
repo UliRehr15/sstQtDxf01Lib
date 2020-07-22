@@ -1713,3 +1713,29 @@ int sstQtDxf01PathConvertCls::FillPathItem (int               iKey,
   return iRet;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::AddDisplayList( dREC04RECNUMTYP dShapeItemRecs, dREC04RECNUMTYP *pdItemRecNo)
+{
+  int iStat = this->poMainDisplayList->WritNew( 0, &dShapeItemRecs, pdItemRecNo);
+  return iStat;
+}
+//=============================================================================
+RS2::EntityType sstQtDxf01PathConvertCls::getGrpEntType() const
+{
+  return this->eGrpEntType;
+}
+//=============================================================================
+void sstQtDxf01PathConvertCls::setGrpEntType(const RS2::EntityType &value)
+{
+  this->eGrpEntType = value;
+}
+//=============================================================================
+dREC04RECNUMTYP sstQtDxf01PathConvertCls::getGrpMainID() const
+{
+  return this->dGrpMainID;
+}
+//=============================================================================
+void sstQtDxf01PathConvertCls::setGrpMainID(const dREC04RECNUMTYP &value)
+{
+  this->dGrpMainID = value;
+}
+//=============================================================================

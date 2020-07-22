@@ -54,7 +54,8 @@ SOURCES       = sstQtDxf01PathStorage.cpp \
 		sstQtDxf01TabMdlPoint.cpp \
 		sstQtDxf01TabMdlText.cpp \
 		sstQtDxf01TabViewAll.cpp \
-		sstQtDxf01TabGroupBox.cpp moc_sstQtDxf01Lib.cpp \
+		sstQtDxf01TabGroupBox.cpp \
+		sstQtDxf01Convert.cpp moc_sstQtDxf01Lib.cpp \
 		moc_sstQtDxf01QtTab.cpp
 OBJECTS       = sstQtDxf01PathStorage.o \
 		sstQtDxf01TabMdlCircle.o \
@@ -64,6 +65,7 @@ OBJECTS       = sstQtDxf01PathStorage.o \
 		sstQtDxf01TabMdlText.o \
 		sstQtDxf01TabViewAll.o \
 		sstQtDxf01TabGroupBox.o \
+		sstQtDxf01Convert.o \
 		moc_sstQtDxf01Lib.o \
 		moc_sstQtDxf01QtTab.o
 DIST          = sstQtDxf01Lib.odt \
@@ -148,7 +150,8 @@ DIST          = sstQtDxf01Lib.odt \
 		sstQtDxf01TabMdlPoint.cpp \
 		sstQtDxf01TabMdlText.cpp \
 		sstQtDxf01TabViewAll.cpp \
-		sstQtDxf01TabGroupBox.cpp
+		sstQtDxf01TabGroupBox.cpp \
+		sstQtDxf01Convert.cpp
 QMAKE_TARGET  = sstQtDxf01Lib_d
 DESTDIR       = ../libs/
 TARGET        = libsstQtDxf01Lib_d.a
@@ -336,7 +339,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents Header/sstQtDxf01Lib.h Header/sstQtDxf01QtTab.h $(DISTDIR)/
-	$(COPY_FILE) --parents sstQtDxf01PathStorage.cpp sstQtDxf01TabMdlCircle.cpp sstQtDxf01TabMdlLine.cpp sstQtDxf01TabMdlMText.cpp sstQtDxf01TabMdlPoint.cpp sstQtDxf01TabMdlText.cpp sstQtDxf01TabViewAll.cpp sstQtDxf01TabGroupBox.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents sstQtDxf01PathStorage.cpp sstQtDxf01TabMdlCircle.cpp sstQtDxf01TabMdlLine.cpp sstQtDxf01TabMdlMText.cpp sstQtDxf01TabMdlPoint.cpp sstQtDxf01TabMdlText.cpp sstQtDxf01TabViewAll.cpp sstQtDxf01TabGroupBox.cpp sstQtDxf01Convert.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -634,6 +637,31 @@ sstQtDxf01TabGroupBox.o: sstQtDxf01TabGroupBox.cpp ../dxflib/src/dl_dxf.h \
 		Header/sstQtDxf01Lib.h \
 		../sst_str01_lib/Header/sstStr01FixColWidth.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01TabGroupBox.o sstQtDxf01TabGroupBox.cpp
+
+sstQtDxf01Convert.o: sstQtDxf01Convert.cpp ../dxflib/src/dl_dxf.h \
+		../dxflib/src/dl_global.h \
+		../dxflib/src/dl_attributes.h \
+		../dxflib/src/dl_codes.h \
+		../dxflib/src/dl_entities.h \
+		../dxflib/src/dl_writer_ascii.h \
+		../dxflib/src/dl_writer.h \
+		../dxflib/src/dl_creationadapter.h \
+		../dxflib/src/dl_creationinterface.h \
+		../dxflib/src/dl_extrusion.h \
+		../sstLibreCAD2Lib/Header/rs_color.h \
+		../sstLibreCAD2Lib/Header/rs.h \
+		../sstLibreCAD2Lib/Header/rs_flags.h \
+		../sstLibreCAD2Lib/Header/rs_vector.h \
+		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sst_str01_lib/Header/sstStr01FixColWidth.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
+		../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../sst_rec04_lib/Header/sstRec04Lib.h \
+		../sstQt01Lib/Header/sstQt01Lib.h \
+		../sst_dxf03_lib/Header/sstDxf03Lib.h \
+		Header/sstQtDxf01QtTab.h \
+		Header/sstQtDxf01Lib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstQtDxf01Convert.o sstQtDxf01Convert.cpp
 
 moc_sstQtDxf01Lib.o: moc_sstQtDxf01Lib.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sstQtDxf01Lib.o moc_sstQtDxf01Lib.cpp

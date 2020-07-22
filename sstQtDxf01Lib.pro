@@ -39,7 +39,8 @@ SOURCES += \
     sstQtDxf01TabMdlPoint.cpp \
     sstQtDxf01TabMdlText.cpp \
     sstQtDxf01TabViewAll.cpp \
-    sstQtDxf01TabGroupBox.cpp
+    sstQtDxf01TabGroupBox.cpp \
+    sstQtDxf01Convert.cpp
 
 
 HEADERS += ./Header/sstQtDxf01Lib.h \
