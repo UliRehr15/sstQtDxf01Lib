@@ -595,6 +595,72 @@ int sstQtDxf01PathConvertCls::WriteItemPathtoINSERT(int                      iKe
   return iRet;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::WriteARCtoQtPath(int               iKey,
+                                               dREC04RECNUMTYP   dArcRecNo,
+                                               QPainterPath     *poPath)
+{
+  sstMath01dPnt2Cls d2Pnt1;  // local double points
+  sstMath01dPnt2Cls d2PntC;  // local point Circle Center
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  dREC04RECNUMTYP dMainRecs = 0;
+  dMainRecs = this->poDxfDb->EntityCount( RS2::EntityArc);
+  if (dMainRecs <= 0) return -2;  // sstDxf Database is empty
+
+  // if (dCircleRecNo > dMainRecs) return -3;  // Read position after end of table?
+  if (dArcRecNo > dMainRecs) return -3;  // Read position after end of table?
+
+  // Insert all model CIRCLE entities
+  // DL_CircleData   oCircleRec(0,0,0,0);
+  // DL_ArcData   oArcRec(0,0,0,0);
+  DL_ArcData oArcRec(0.0,0.0,0.0,0.0,0.0,0.0);
+  DL_Attributes 	oAttribRec;
+
+  // iStat = this->poDxfDb->ReadCircle( 0, dCircleRecNo, &oCircleRec, &oAttribRec);
+  iStat = this->poDxfDb->ReadArc( 0, dArcRecNo, &oArcRec, &oAttribRec);
+  std::string oLayStr = oAttribRec.getLayer();
+  // if (oLayStr.length() == 0) return -4;
+  if (oLayStr.length() > 0)
+  {
+
+    d2Pnt1.x = oArcRec.cx;
+    d2Pnt1.y = oArcRec.cy;
+    this->Transform_WC_DC(0, &d2Pnt1.x,&d2Pnt1.y);
+
+    d2PntC.x = oArcRec.cx;
+    d2PntC.y = oArcRec.cy;
+
+    this->Transform_WC_DC(0, &d2PntC.x,&d2PntC.y);
+    double dLocRadius = 0.0;
+    dLocRadius = this->Transform_WC_DC_Dist(oArcRec.radius);
+    double dLocAng1 = oArcRec.angle1 / 180.0 * dSSTMATH01_PI;  // from degrees to rad
+    double dLocAng2 = oArcRec.angle2 / 180.0 * dSSTMATH01_PI;  // from degrees to rad
+
+    double dSweepLength = 0.0;
+    sstMath01AngCalcCls oAngCalc;
+    oAngCalc.AngleDiff( 0, dLocAng1, dLocAng2, &dSweepLength);
+    dSweepLength = dSweepLength / M_PI * 180.0;   // Delta Angle in degrees
+    poPath->moveTo(d2PntC.getX(),d2PntC.getY());  // Move back to center
+    poPath->arcTo(d2PntC.getX() - dLocRadius,
+                  d2PntC.getY() - dLocRadius,
+                  dLocRadius * 2.0,  // width
+                  dLocRadius * 2.0,  // heigth
+                  oArcRec.angle1, dSweepLength);
+
+  }
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
 int sstQtDxf01PathConvertCls::WriteCIRCLEtoQtPath(int               iKey,
                                                   dREC04RECNUMTYP   dCircleRecNo,
                                                   QPainterPath     *poPath)
@@ -1043,6 +1109,49 @@ int sstQtDxf01PathConvertCls::WriteHATCHEDGEtoQtPathBlk(int               iKey,
   return iStat;
 }
 //=============================================================================
+int sstQtDxf01PathConvertCls::WriteItemPathtoARC(int                      iKey,
+                                                 const sstQt01ShapeItem   oItemPath,
+                                                 DL_ArcData              *poDlArc)
+{
+  QPainterPath *poPath = new QPainterPath;
+  // QColor oColor;
+
+  sstMath01dPnt2Cls d2Pnt1;  // local double point
+  // sstMath01dPnt2Cls d2Pnt2;
+
+  int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  *poPath = oItemPath.getPath();
+
+  int iEleNum = poPath->elementCount();
+  // assert(iEleNum == 8);
+  assert(iEleNum >= 0);
+
+  QPainterPath::Element oElement;
+  oElement = poPath->elementAt(0);
+  QRectF oBBox = poPath->boundingRect();
+  QPointF oQPnt = oBBox.center();
+
+  d2Pnt1.x = oQPnt.x();
+  d2Pnt1.y = oQPnt.y();
+  this->Transform_DC_WC(0, &d2Pnt1.x,&d2Pnt1.y);
+  poDlArc->cx = d2Pnt1.x;
+  poDlArc->cy = d2Pnt1.y;
+
+  delete poPath;
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
 int sstQtDxf01PathConvertCls::WriteItemPathtoCIRCLE(int                      iKey,
                                                     const sstQt01ShapeItem   oItemPath,
                                                     DL_CircleData           *poDlCircle)
@@ -1418,6 +1527,12 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
     }
 
     switch (eEntityType) {
+    case RS2::EntityArc:
+    {
+      // read next ARC Entity from Dxf database and write into painterpath
+      iStat = this->WriteARCtoQtPath( 0, dEntRecNo, poPath);
+      break;
+    }
     case RS2::EntityCircle:
     {
       // read next CIRCLE Entity from Dxf database and write into painterpath
@@ -1446,6 +1561,18 @@ int sstQtDxf01PathConvertCls::WritAlltoPathStorage(int iKey)
     {
       // read next POLYLINE Entity from Dxf database and write header
       iStat = this->WritePOLYLINEtoQtPath( 0, dEntRecNo);
+      break;
+    }
+    case RS2::EntityMText:
+    {
+      // read next VERTEX Entity from Dxf database and write into painterpath
+      // iStat = this->WriteMTEXTtoQtPath( 0, dEntRecNo, poPath);
+      break;
+    }
+    case RS2::EntityText:
+    {
+      // read next VERTEX Entity from Dxf database and write into painterpath
+      // iStat = this->WriteTEXTtoQtPath( 0, dEntRecNo, poPath);
       break;
     }
     case RS2::EntityVertex:
@@ -1512,6 +1639,7 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
   if ( iKey != 0) return -1;
   int iStat = 0;
   // RS2::EntityType eEntType = RS2::EntityUnknown;
+  DL_ArcData oDL_Arc(0.0,0.0,0.0,0.0,0.0,0.0);
   DL_CircleData oDL_Circle(0,0,0,0);
   DL_PointData oDL_Point(0,0,0);
   DL_HatchData oDL_Hatch(0,0,0.0,0.0,"pattern",0.0,0.0);
@@ -1546,6 +1674,14 @@ int sstQtDxf01PathConvertCls::WriteAllPath2Dxf(int iKey)
 
     switch (eEntType)
     {
+    case (RS2::EntityArc):
+    {
+      iStat = poDxfDb->ReadArc( 0, dDxfEntNo, &oDL_Arc, &oDL_Attributes);
+      // Update dxf entity CIRCLE with data from Itempath
+      iStat = this->WriteItemPathtoARC( 0, *poShapeItem, &oDL_Arc);
+      iStat = poDxfDb->WriteArc( 0, oDL_Arc, oDL_Attributes, &dDxfEntNo, &dDxfMainNo);
+      break;
+    }
     case (RS2::EntityCircle):
     {
       iStat = poDxfDb->ReadCircle( 0, dDxfEntNo, &oDL_Circle, &oDL_Attributes);

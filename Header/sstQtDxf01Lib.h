@@ -56,7 +56,7 @@
 #include <sstQt01Lib.h>
 #include <sstDxf03Lib.h>
 #include "sstQtDxf01QtTab.h"
-#include "sstQtDxf01Lib.h"
+// #include "sstQtDxf01Lib.h"
 
 
 
@@ -96,8 +96,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int LoadAllPathFromFile (int iKey, std::string oFilNam);
@@ -110,8 +110,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int StoreAllPathToFile (int iKey, std::string oFilNam);
@@ -125,12 +125,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteLINEtoQtPath(int iKey, dREC04RECNUMTYP dLineRecNo, QPainterPath *poPath);
@@ -145,12 +145,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteLINEtoQtPathBlk(int iKey,
@@ -166,12 +166,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePOLYLINEtoQtPathBlk(int iKey,
@@ -185,12 +185,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHtoQtPathBlk(int iKey,
@@ -204,12 +204,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHLOOPtoQtPathBlk(int iKey,
@@ -225,12 +225,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteVERTEXtoQtPathBlk(int iKey,
@@ -247,8 +247,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoLINE(int                     iKey,
@@ -264,12 +264,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteINSERTtoQtPath(int iKey, dREC04RECNUMTYP dInsertRecNo, QPainterPath *poPath);
@@ -283,13 +283,34 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoINSERT(int                     iKey,
                                const sstQt01ShapeItem  oPathItem,
                                DL_InsertData            *poDLInsert);
+     //==============================================================================
+     /**
+     * @brief // read ARC object from sstDxf database and write into sstPath.  <BR>
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dCircleRecNo  [in]  record number of CIRCLE in sstDxf database
+     * @param poPath        [in out] Qt PainterPath object
+     *
+     * @return Errorstate
+     *
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteARCtoQtPath(int               iKey,
+                          dREC04RECNUMTYP   dCircleRecNo,
+                          QPainterPath     *poPath);
      //==============================================================================
      /**
      * @brief // read CIRCLE object from sstDxf database and write into sstPath.  <BR>
@@ -300,12 +321,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteCIRCLEtoQtPath(int               iKey,
@@ -322,12 +343,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteCIRCLEtoQtPathBlk(int               iKey,
@@ -344,12 +365,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePOINTtoQtPath(int               iKey,
@@ -364,12 +385,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePOLYLINEtoQtPath(int               iKey,
@@ -383,12 +404,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHtoQtPath(int               iKey,
@@ -402,12 +423,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHLOOPtoQtPath(int               iKey,
@@ -422,12 +443,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteVERTEXtoQtPath(int               iKey,
@@ -443,12 +464,12 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHEDGEtoQtPath(int               iKey,
@@ -465,18 +486,35 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: No Entities found
-     * @retval   = -3: Found end of list
-     * @retval   = -4: Layer name empty
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: No Entities found
+     * @retval   =-3: Found end of list
+     * @retval   =-4: Layer name empty
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHATCHEDGEtoQtPathBlk(int               iKey,
                                    dREC04RECNUMTYP   dEntityRecNo,
                                    sstMath01TrnCls   oBlkTrn,
                                    QPainterPath     *poPath);
+     //==============================================================================
+     /**
+     * @brief // convert sstShapeItem with QPainterPath to ARC Entity  <BR>
+     *
+     * @param iKey        [in]  For the moment 0
+     * @param oPathItem   [in]  sstShapeItem object
+     * @param poDlArc     [out] DxfLib ARC Entity
+     *
+     * @return Errorstate
+     *
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteItemPathtoARC(int                      iKey,
+                             const sstQt01ShapeItem  oPathItem,
+                             DL_ArcData             *poDlArc);
      //==============================================================================
      /**
      * @brief // convert sstShapeItem with QPainterPath to LINE Entity  <BR>
@@ -487,8 +525,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoCIRCLE(int                     iKey,
@@ -504,8 +542,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoPOINT(int                      iKey,
@@ -521,8 +559,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoPOLYLINE(int                      iKey,
@@ -537,8 +575,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteItemPathtoHATCH(int                      iKey,
@@ -554,8 +592,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePathElementToVERTEX(int                          iKey,
@@ -573,8 +611,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePathElementToHATCHEDGE(int                          iKey,
@@ -592,8 +630,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int HATCHEDGE_Trn(int               iKey,
@@ -631,8 +669,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritAlltoPathStorage(int               iKey);
@@ -648,8 +686,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteAll2Dxf(int iKey, const std::string oDxfFilNamStr);
@@ -662,8 +700,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteAllPath2Dxf(int iKey);
@@ -691,8 +729,8 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      //==============================================================================
      int FillPathItem (int               iKey,
@@ -701,26 +739,56 @@ class sstQtDxf01PathConvertCls: public sstMath01CoorTrnCls
                        sstQt01ShapeItem *poItemPath);
      //==============================================================================
      /**
-     * @brief // Fill open sst Path Item <BR>
-     * iStat = oPathCnvt.FillPathItem( iKey, poPath, dItemListNo, poItemPath);
+     * @brief // AddDisplayList <BR>
+     * iStat = oPathCnvt.AddDisplayList( dShapeItemRecs, pdItemRecNo);
      *
      * @param dShapeItemRecs [in] dShapeItemRecs
      * @param pdItemRecNo    [in out] pdItemRecNo
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
+     //==============================================================================
      int AddDisplayList( dREC04RECNUMTYP dShapeItemRecs, dREC04RECNUMTYP *pdItemRecNo);
      //==============================================================================
-
-// ----------------------------------------------------------------------------
+     /**
+     * @brief // getGrpEntType <BR>
+     * iStat = oPathCnvt.getGrpEntType();
+     *
+     * @return EntityType
+     */
+     // ----------------------------------------------------------------------------
      RS2::EntityType getGrpEntType() const;
+     //==============================================================================
+     /**
+     * @brief // setGrpEntType <BR>
+     * iStat = oPathCnvt.setGrpEntType(value);
+     *
+     * @param value [in] Set Entity Type
+     */
+     // ----------------------------------------------------------------------------
      void setGrpEntType(const RS2::EntityType &value);
-
+     //==============================================================================
+     /**
+     * @brief // getGrpMainID <BR>
+     * iStat = oPathCnvt.getGrpMainID();
+     *
+     * @return Group Main ID
+     */
+     // ----------------------------------------------------------------------------
      dREC04RECNUMTYP getGrpMainID() const;
+     //==============================================================================
+     /**
+     * @brief // setGrpMainID <BR>
+     * iStat = oPathCnvt.setGrpMainID();
+     *
+     * @param value [in] Set Group Main ID
+     */
+     // ----------------------------------------------------------------------------
      void setGrpMainID(const dREC04RECNUMTYP &value);
+     //==============================================================================
 
 private:  // Private functions
      sstDxf03DbCls           *poDxfDb;             /**< sst dxf database from outside */
@@ -990,7 +1058,6 @@ public:
   * @param poDxfPathConvert [in] Adress of sst Dxf PainterPath Coordinates Convert object
   */
   // ----------------------------------------------------------------------------
-  // sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls *poPrt, sstDxf03DbCls *poDxfDb);
   sstQtDxf01TabGroupBoxCls(sstMisc01PrtFilCls        *poPrt,
                            sstDxf03DbCls             *poDxfDb,
                            sstQtDxf01PathConvertCls  *poDxfPathConvert);
@@ -998,7 +1065,6 @@ public:
 
 private slots:
     void selectionChangedSlot(const QItemSelection & newSelection, const QItemSelection & oldSelection);
-    // void sstSlotUpdateMap(dREC04RECNUMTYP dRecNo);
     void sstSlotUpdateMap(sstQt01MapSignalCls oMapSignal);
     void sstSlotUpdateTab(sstQt01ShapeItem oShapeItem);
 
@@ -1065,8 +1131,8 @@ class sstQtDxf01CnvtCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int colorToNumber(const QColor& col, int *rgb);
@@ -1081,9 +1147,7 @@ class sstQtDxf01CnvtCls
      */
      // ----------------------------------------------------------------------------
      QColor numberToColor(int iDxfNo);
-
 // ----------------------------------------------------------------------------
-  // int Dum2;       /**< Dummy2 */
   private:  // Private functions
   // int Dum;        /**< Dummy */
 };

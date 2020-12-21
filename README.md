@@ -64,4 +64,6 @@ Structure of coding projects should be:
 17.09.19: Version 1.26: New functions for showing hatch objects in map.  <BR>
 28.01.20: Version 1.27: Next functions for moving hatch objects in map. <BR>
 22.07.20: Version 1.28: Some new functions for extended painterpath drawing. <BR>
+21.12.20: Version 1.29: Fixed some warnings of doxygen. <BR>
+                        More Support for Entity ARC. <BR>
 
